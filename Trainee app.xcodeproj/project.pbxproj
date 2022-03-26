@@ -14,6 +14,7 @@
 		84362D7527EEFD98007D2234 /* Trainee_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84362D7327EEFD98007D2234 /* Trainee_app.xcdatamodeld */; };
 		84362D7727EEFDB3007D2234 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84362D7627EEFDB3007D2234 /* Assets.xcassets */; };
 		84362D7A27EEFDB3007D2234 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84362D7827EEFDB3007D2234 /* LaunchScreen.storyboard */; };
+		84362D8227EF1BFB007D2234 /* SavingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84362D8127EF1BFB007D2234 /* SavingData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		84362D7627EEFDB3007D2234 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84362D7927EEFDB3007D2234 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84362D7B27EEFDB3007D2234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84362D8127EF1BFB007D2234 /* SavingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			children = (
 				84362D6A27EEFD98007D2234 /* AppDelegate.swift */,
 				84362D6C27EEFD98007D2234 /* SceneDelegate.swift */,
+				84362D8127EF1BFB007D2234 /* SavingData.swift */,
 				84362D6E27EEFD98007D2234 /* ViewController.swift */,
 				84362D7027EEFD98007D2234 /* Main.storyboard */,
 				84362D7627EEFDB3007D2234 /* Assets.xcassets */,
@@ -141,6 +144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84362D8227EF1BFB007D2234 /* SavingData.swift in Sources */,
 				84362D7527EEFD98007D2234 /* Trainee_app.xcdatamodeld in Sources */,
 				84362D6F27EEFD98007D2234 /* ViewController.swift in Sources */,
 				84362D6B27EEFD98007D2234 /* AppDelegate.swift in Sources */,
