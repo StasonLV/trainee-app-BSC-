@@ -9,20 +9,6 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
     
-    let saveButton: UIButton = {
-        
-        let button = UIButton()
-            button.setTitle("Save", for: .normal)
-            button.backgroundColor = .systemBrown
-            button.layer.cornerRadius = 5
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.addTarget(self,
-                             action: #selector(saveData),
-                             for: .touchUpInside)
-        
-        return button
-    }()
-    
     let titleField: UITextField = {
             
             let field = UITextField()
@@ -54,21 +40,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         override func viewDidLoad() {
             
             super.viewDidLoad()
+            title = "NotePad"
             titleField.delegate = self
-            titleField.text = TextFieldData.titleData
-            noteText.text = TextFieldData.noteData
+            getNoteData()
             noteText.becomeFirstResponder()
             view.backgroundColor = .systemGray4
             setupMainView()
-            
-    }
-    
-        @objc func saveData() {
-            
-            noteText.resignFirstResponder()
-            titleField.resignFirstResponder()
-            TextFieldData.titleData = titleField.text
-            TextFieldData.noteData = noteText.text
+            let saveButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.save,
+                                             target: self,
+                                             action: #selector(saveNoteData))
+            navigationItem.rightBarButtonItem = saveButton
             
     }
                 
@@ -83,23 +64,42 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
             view.addSubview(noteText)
             view.addSubview(titleField)
-            view.addSubview(saveButton)
             
             NSLayoutConstraint.activate([
-                titleField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-                titleField.topAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: 20),
+                titleField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+                titleField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
                 titleField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
                 
                 noteText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
                 noteText.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 20),
                 noteText.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
                 
-                saveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-                saveButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-                saveButton.heightAnchor.constraint(equalToConstant: 20),
-                saveButton.widthAnchor.constraint(equalToConstant: 70)                
         ])
     }
+    
+    let defaults = UserDefaults.standard
+    
+    enum noteDataKeys {
+        
+        static let titleData = "noteName"
+        static let noteData = "noteText"
+    }
+    
+    @objc func saveNoteData() {
+        
+        noteText.resignFirstResponder()
+        titleField.resignFirstResponder()
+        defaults.set(titleField.text, forKey: noteDataKeys.titleData)
+        defaults.set(noteText.text, forKey: noteDataKeys.noteData)
+        print("zna4enie \(String(describing: defaults.value(forKey: "noteName")))")
+        print("zna4enie \(String(describing: defaults.value(forKey: "noteText")))")
+    }
+    
+    func getNoteData() {
+        titleField.text = defaults.string(forKey: noteDataKeys.titleData)
+        noteText.text = defaults.string(forKey: noteDataKeys.noteData)
+    }
+    
 }
 
 extension ViewController: UITextViewDelegate {
