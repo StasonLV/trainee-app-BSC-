@@ -58,7 +58,7 @@ class NoteViewController: UIViewController, UITextFieldDelegate {
     }
     
     func setupMainView() {
-        getNoteData()
+        getViewData()
         
         view.addSubview(noteText)
         view.addSubview(titleField)
@@ -78,7 +78,7 @@ class NoteViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    @objc func saveNoteData() {
+    @objc func saveViewData() {
         resignResponders()
         defaults.set(titleField.text, forKey: Constants.titleData)
         defaults.set(noteText.text, forKey: Constants.noteData)
@@ -91,7 +91,7 @@ class NoteViewController: UIViewController, UITextFieldDelegate {
         titleField.resignFirstResponder()
     }
     
-    func getNoteData() {
+    func getViewData() {
         titleField.text = defaults.string(forKey: Constants.titleData)
         noteText.text = defaults.string(forKey: Constants.noteData)
     }
@@ -100,7 +100,7 @@ class NoteViewController: UIViewController, UITextFieldDelegate {
         let saveButton = UIBarButtonItem(
             barButtonSystemItem:UIBarButtonItem.SystemItem.save,
             target: self,
-            action: #selector(saveNoteData)
+            action: #selector(saveViewData)
         )
         navigationItem.rightBarButtonItem = saveButton
     }
