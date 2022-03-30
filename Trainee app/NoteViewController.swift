@@ -8,9 +8,8 @@
 import UIKit
 
 class NoteViewController: UIViewController, UITextFieldDelegate {
-    
     let defaults = UserDefaults.standard
-    
+
     struct Constants {
         static let titleData = "noteName"
         static let noteData = "noteText"
@@ -18,7 +17,7 @@ class NoteViewController: UIViewController, UITextFieldDelegate {
         static let noteFont: UIFont = .systemFont(ofSize: 14, weight: .regular)
         static let navBarTitle: String = "NotePad"
     }
-    
+
     lazy var titleField: UITextField = {
         let field = UITextField()
         field.placeholder = "Name your note..."
@@ -26,10 +25,9 @@ class NoteViewController: UIViewController, UITextFieldDelegate {
         field.textColor = UIColor.white
         field.font = Constants.titleFont
         field.translatesAutoresizingMaskIntoConstraints = false
-        
         return field
     }()
-    
+
     lazy var noteText: UITextView = {
         let text = UITextView()
         text.backgroundColor = .systemGray3
@@ -40,10 +38,9 @@ class NoteViewController: UIViewController, UITextFieldDelegate {
         text.textColor = UIColor.white
         text.font = Constants.noteFont
         text.translatesAutoresizingMaskIntoConstraints = false
-        
         return text
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         titleField.delegate = self
@@ -51,33 +48,32 @@ class NoteViewController: UIViewController, UITextFieldDelegate {
         setupMainView()
         setupNavBar()
     }
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
-        super.touchesBegan(touches, with : event)
+        super.touchesBegan(
+            touches,
+            with: event
+        )
     }
-    
+
     func setupMainView() {
         getViewData()
-        
         view.addSubview(noteText)
         view.addSubview(titleField)
         view.backgroundColor = .systemGray4
         title = Constants.navBarTitle
-        
+
         NSLayoutConstraint.activate([
             titleField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             titleField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            
             noteText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             noteText.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 20),
             noteText.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             noteText.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
-    
     @objc func saveViewData() {
         resignResponders()
         defaults.set(titleField.text, forKey: Constants.titleData)
@@ -85,20 +81,20 @@ class NoteViewController: UIViewController, UITextFieldDelegate {
         print("zna4enie \(String(describing: defaults.value(forKey: "noteName")))")
         print("zna4enie \(String(describing: defaults.value(forKey: "noteText")))")
     }
-    
+
     func resignResponders() {
         noteText.resignFirstResponder()
         titleField.resignFirstResponder()
     }
-    
+
     func getViewData() {
         titleField.text = defaults.string(forKey: Constants.titleData)
         noteText.text = defaults.string(forKey: Constants.noteData)
     }
-    
+
     func setupNavBar() {
         let saveButton = UIBarButtonItem(
-            barButtonSystemItem:UIBarButtonItem.SystemItem.save,
+            barButtonSystemItem: UIBarButtonItem.SystemItem.save,
             target: self,
             action: #selector(saveViewData)
         )
@@ -109,7 +105,6 @@ class NoteViewController: UIViewController, UITextFieldDelegate {
 extension NoteViewController: UITextViewDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         titleField.resignFirstResponder()
-        
         return true
     }
 }
