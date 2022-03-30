@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NoteViewController: UIViewController, UITextFieldDelegate {
+final class NoteViewController: UIViewController, UITextFieldDelegate {
     let defaults = UserDefaults.standard
 
     struct Constants {
