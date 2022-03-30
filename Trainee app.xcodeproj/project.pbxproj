@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		84362D6B27EEFD98007D2234 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84362D6A27EEFD98007D2234 /* AppDelegate.swift */; };
 		84362D6D27EEFD98007D2234 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84362D6C27EEFD98007D2234 /* SceneDelegate.swift */; };
-		84362D6F27EEFD98007D2234 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84362D6E27EEFD98007D2234 /* ViewController.swift */; };
+		84362D6F27EEFD98007D2234 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84362D6E27EEFD98007D2234 /* NoteViewController.swift */; };
 		84362D7227EEFD98007D2234 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84362D7027EEFD98007D2234 /* Main.storyboard */; };
 		84362D7527EEFD98007D2234 /* Trainee_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84362D7327EEFD98007D2234 /* Trainee_app.xcdatamodeld */; };
 		84362D7727EEFDB3007D2234 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84362D7627EEFDB3007D2234 /* Assets.xcassets */; };
@@ -20,7 +20,7 @@
 		84362D6727EEFD98007D2234 /* Trainee app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Trainee app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84362D6A27EEFD98007D2234 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84362D6C27EEFD98007D2234 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		84362D6E27EEFD98007D2234 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		84362D6E27EEFD98007D2234 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		84362D7127EEFD98007D2234 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		84362D7427EEFD98007D2234 /* Trainee_app.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Trainee_app.xcdatamodel; sourceTree = "<group>"; };
 		84362D7627EEFDB3007D2234 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 			children = (
 				84362D6A27EEFD98007D2234 /* AppDelegate.swift */,
 				84362D6C27EEFD98007D2234 /* SceneDelegate.swift */,
-				84362D6E27EEFD98007D2234 /* ViewController.swift */,
+				84362D6E27EEFD98007D2234 /* NoteViewController.swift */,
 				84362D7027EEFD98007D2234 /* Main.storyboard */,
 				84362D7627EEFDB3007D2234 /* Assets.xcassets */,
 				84362D7827EEFDB3007D2234 /* LaunchScreen.storyboard */,
@@ -77,6 +77,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84362D7E27EEFDB3007D2234 /* Build configuration list for PBXNativeTarget "Trainee app" */;
 			buildPhases = (
+				843A71AF27F45A34009DF245 /* Lint */,
 				84362D6327EEFD98007D2234 /* Sources */,
 				84362D6427EEFD98007D2234 /* Frameworks */,
 				84362D6527EEFD98007D2234 /* Resources */,
@@ -136,13 +137,34 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		843A71AF27F45A34009DF245 /* Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Lint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:\"\nexport PATH+=~/\nexport PATH+=\"portable_swiftlint\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		84362D6327EEFD98007D2234 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				84362D7527EEFD98007D2234 /* Trainee_app.xcdatamodeld in Sources */,
-				84362D6F27EEFD98007D2234 /* ViewController.swift in Sources */,
+				84362D6F27EEFD98007D2234 /* NoteViewController.swift in Sources */,
 				84362D6B27EEFD98007D2234 /* AppDelegate.swift in Sources */,
 				84362D6D27EEFD98007D2234 /* SceneDelegate.swift in Sources */,
 			);
