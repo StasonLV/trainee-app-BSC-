@@ -18,8 +18,26 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         static let navBarTitle: String = "NotePad"
     }
 
+    lazy var dateField: UITextField = {
+        let field = UITextField()
+        field.backgroundColor = .systemGray3
+        field.layer.cornerCurve = .circular
+        field.layer.cornerRadius = 5
+        field.placeholder = ""
+        field.inputView = datePicker
+        field.translatesAutoresizingMaskIntoConstraints = false
+        return field
+    }()
+
     lazy var datePicker: UIDatePicker = {
         let date = UIDatePicker()
+        date.datePickerMode = .date
+        date.preferredDatePickerStyle = .wheels
+        date.addTarget(
+            self,
+            action: #selector(self.dateChanged),
+            for: .allEvents
+        )
         date.translatesAutoresizingMaskIntoConstraints = false
         return date
     }()
@@ -65,7 +83,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
 
     func setupMainView() {
         getViewData()
-        view.addSubview(datePicker)
+        view.addSubview(dateField)
         view.addSubview(noteText)
         view.addSubview(titleField)
         view.backgroundColor = .systemGray4
@@ -76,14 +94,19 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
             titleField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             noteText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            noteText.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 20),
+            noteText.topAnchor.constraint(equalTo: dateField.bottomAnchor, constant: 10),
             noteText.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             noteText.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            datePicker.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 10),
-            datePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
+            dateField.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 10),
+            dateField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            dateField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
         ])
     }
+
+    @objc func dateChanged() {
+        dateField.text = "\(datePicker.date)"
+    }
+
     @objc func saveViewData() {
         resignResponders()
         defaults.set(titleField.text, forKey: Constants.titleData)
