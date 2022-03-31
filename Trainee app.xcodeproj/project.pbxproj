@@ -58,16 +58,32 @@
 		84362D6927EEFD98007D2234 /* Trainee app */ = {
 			isa = PBXGroup;
 			children = (
-				84362D6A27EEFD98007D2234 /* AppDelegate.swift */,
-				84362D6C27EEFD98007D2234 /* SceneDelegate.swift */,
+				84D42E8527F6213E00ED7405 /* Delegates */,
+				84D42E8427F6210800ED7405 /* BoardsAndAssets */,
 				84362D6E27EEFD98007D2234 /* NoteViewController.swift */,
-				84362D7027EEFD98007D2234 /* Main.storyboard */,
-				84362D7627EEFDB3007D2234 /* Assets.xcassets */,
-				84362D7827EEFDB3007D2234 /* LaunchScreen.storyboard */,
 				84362D7B27EEFDB3007D2234 /* Info.plist */,
 				84362D7327EEFD98007D2234 /* Trainee_app.xcdatamodeld */,
 			);
 			path = "Trainee app";
+			sourceTree = "<group>";
+		};
+		84D42E8427F6210800ED7405 /* BoardsAndAssets */ = {
+			isa = PBXGroup;
+			children = (
+				84362D7627EEFDB3007D2234 /* Assets.xcassets */,
+				84362D7827EEFDB3007D2234 /* LaunchScreen.storyboard */,
+				84362D7027EEFD98007D2234 /* Main.storyboard */,
+			);
+			path = BoardsAndAssets;
+			sourceTree = "<group>";
+		};
+		84D42E8527F6213E00ED7405 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				84362D6C27EEFD98007D2234 /* SceneDelegate.swift */,
+				84362D6A27EEFD98007D2234 /* AppDelegate.swift */,
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
