@@ -18,6 +18,12 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         static let navBarTitle: String = "NotePad"
     }
 
+    lazy var datePicker: UIDatePicker = {
+        let date = UIDatePicker()
+        date.translatesAutoresizingMaskIntoConstraints = false
+        return date
+    }()
+
     lazy var titleField: UITextField = {
         let field = UITextField()
         field.placeholder = "Name your note..."
@@ -59,6 +65,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
 
     func setupMainView() {
         getViewData()
+        view.addSubview(datePicker)
         view.addSubview(noteText)
         view.addSubview(titleField)
         view.backgroundColor = .systemGray4
@@ -69,9 +76,12 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
             titleField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             noteText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            noteText.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 20),
+            noteText.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 20),
             noteText.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            noteText.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            noteText.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            datePicker.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 10),
+            datePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
         ])
     }
     @objc func saveViewData() {

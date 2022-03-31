@@ -14,6 +14,7 @@
 		84362D7527EEFD98007D2234 /* Trainee_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84362D7327EEFD98007D2234 /* Trainee_app.xcdatamodeld */; };
 		84362D7727EEFDB3007D2234 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84362D7627EEFDB3007D2234 /* Assets.xcassets */; };
 		84362D7A27EEFDB3007D2234 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84362D7827EEFDB3007D2234 /* LaunchScreen.storyboard */; };
+		84D42E8827F6224C00ED7405 /* NoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D42E8727F6224C00ED7405 /* NoteModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		84362D7627EEFDB3007D2234 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84362D7927EEFDB3007D2234 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84362D7B27EEFDB3007D2234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84D42E8727F6224C00ED7405 /* NoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,9 +60,10 @@
 		84362D6927EEFD98007D2234 /* Trainee app */ = {
 			isa = PBXGroup;
 			children = (
+				84362D6E27EEFD98007D2234 /* NoteViewController.swift */,
+				84D42E8627F6222400ED7405 /* NoteModel */,
 				84D42E8527F6213E00ED7405 /* Delegates */,
 				84D42E8427F6210800ED7405 /* BoardsAndAssets */,
-				84362D6E27EEFD98007D2234 /* NoteViewController.swift */,
 				84362D7B27EEFDB3007D2234 /* Info.plist */,
 				84362D7327EEFD98007D2234 /* Trainee_app.xcdatamodeld */,
 			);
@@ -84,6 +87,14 @@
 				84362D6A27EEFD98007D2234 /* AppDelegate.swift */,
 			);
 			path = Delegates;
+			sourceTree = "<group>";
+		};
+		84D42E8627F6222400ED7405 /* NoteModel */ = {
+			isa = PBXGroup;
+			children = (
+				84D42E8727F6224C00ED7405 /* NoteModel.swift */,
+			);
+			path = NoteModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,6 +190,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84D42E8827F6224C00ED7405 /* NoteModel.swift in Sources */,
 				84362D7527EEFD98007D2234 /* Trainee_app.xcdatamodeld in Sources */,
 				84362D6F27EEFD98007D2234 /* NoteViewController.swift in Sources */,
 				84362D6B27EEFD98007D2234 /* AppDelegate.swift in Sources */,
