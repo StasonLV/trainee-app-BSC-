@@ -11,6 +11,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
     let defaults = UserDefaults.standard
 
     struct Constants {
+        static let noteModelKeys = [1...100]
         static let titleData = "noteName"
         static let noteData = "noteText"
         static let titleFont: UIFont = .systemFont(ofSize: 22, weight: .bold)
@@ -23,7 +24,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         field.backgroundColor = .systemGray3
         field.layer.cornerCurve = .circular
         field.layer.cornerRadius = 5
-        field.placeholder = ""
+        field.placeholder = Date().toString(format: "Дата: dd MMMM yyyy")
         field.inputView = datePicker
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
@@ -64,7 +65,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
-
+// MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         titleField.delegate = self
@@ -72,7 +73,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         setupMainView()
         setupNavBar()
     }
-
+// MARK: Methods
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(
@@ -104,15 +105,17 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func dateChanged() {
-        dateField.text = "\(datePicker.date)"
+        dateField.text = "\(datePicker.date.toString(format: "Дата: dd MMMM yyyy"))"
     }
 
     @objc func saveViewData() {
         resignResponders()
-        defaults.set(titleField.text, forKey: Constants.titleData)
-        defaults.set(noteText.text, forKey: Constants.noteData)
-        print("zna4enie \(String(describing: defaults.value(forKey: "noteName")))")
-        print("zna4enie \(String(describing: defaults.value(forKey: "noteText")))")
+        let model = NoteModel(title: titleField.text, noteText: noteText.text, date: dateField.text)
+        model.checkEmptyNote(model: model)
+        // defaults.set(titleField.text, forKey: Constants.titleData)
+        // defaults.set(noteText.text, forKey: Constants.noteData)
+        // print("zna4enie \(String(describing: defaults.value(forKey: "noteName")))")
+        // print("zna4enie \(String(describing: defaults.value(forKey: "noteText")))")
     }
 
     func resignResponders() {
@@ -132,6 +135,15 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
             action: #selector(saveViewData)
         )
         navigationItem.rightBarButtonItem = saveButton
+    }
+}
+// MARK: Extensions
+extension Date {
+    func toString(format: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        dateFormatter.locale = Locale(identifier: "ru")
+        return dateFormatter.string(from: self)
     }
 }
 
