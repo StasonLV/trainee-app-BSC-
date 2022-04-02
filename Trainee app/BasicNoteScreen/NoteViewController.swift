@@ -8,22 +8,20 @@
 import UIKit
 
 final class NoteViewController: UIViewController, UITextFieldDelegate {
-    let defaults = UserDefaults.standard
-
     struct Constants {
-        static let noteModelKeys = [1...100]
-        static let titleData = "noteName"
-        static let noteData = "noteText"
         static let titleFont: UIFont = .systemFont(ofSize: 22, weight: .bold)
         static let noteFont: UIFont = .systemFont(ofSize: 14, weight: .regular)
         static let navBarTitle: String = "NotePad"
+        static let cornerRadius: CGFloat = 5
     }
 
     lazy var dateField: UITextField = {
         let field = UITextField()
+        field.font = Constants.noteFont
+        field.sizeToFit()
         field.backgroundColor = .systemGray3
         field.layer.cornerCurve = .circular
-        field.layer.cornerRadius = 5
+        field.layer.cornerRadius = Constants.cornerRadius
         field.placeholder = Date().toString(format: "Дата: dd MMMM yyyy")
         field.inputView = datePicker
         field.translatesAutoresizingMaskIntoConstraints = false
@@ -57,7 +55,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         let text = UITextView()
         text.backgroundColor = .systemGray3
         text.layer.cornerCurve = .circular
-        text.layer.cornerRadius = 5
+        text.layer.cornerRadius = Constants.cornerRadius
         text.sizeToFit()
         text.isEditable = true
         text.textColor = UIColor.white
@@ -91,16 +89,16 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         title = Constants.navBarTitle
 
         NSLayoutConstraint.activate([
-            titleField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            titleField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             titleField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             noteText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            noteText.topAnchor.constraint(equalTo: dateField.bottomAnchor, constant: 10),
+            noteText.topAnchor.constraint(equalTo: dateField.bottomAnchor, constant: 5),
             noteText.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             noteText.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             dateField.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 10),
             dateField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            dateField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+            dateField.heightAnchor.constraint(equalToConstant: 28)
         ])
     }
 
@@ -111,26 +109,29 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
     @objc func saveViewData() {
         resignResponders()
         let model = NoteModel(title: titleField.text, noteText: noteText.text, date: dateField.text)
-        model.checkEmptyNote(model: model)
-        // defaults.set(titleField.text, forKey: Constants.titleData)
-        // defaults.set(noteText.text, forKey: Constants.noteData)
-        // print("zna4enie \(String(describing: defaults.value(forKey: "noteName")))")
-        // print("zna4enie \(String(describing: defaults.value(forKey: "noteText")))")
+        model.checkEmptyNoteAndAlert(model: model, rootVC: self)
     }
 
     func resignResponders() {
         noteText.resignFirstResponder()
         titleField.resignFirstResponder()
+        dateField.resignFirstResponder()
     }
 
     func getViewData() {
-        titleField.text = defaults.string(forKey: Constants.titleData)
-        noteText.text = defaults.string(forKey: Constants.noteData)
+        if let decodedNote = UserDefaults.standard.object(forKey: "first") as? Data {
+            if let noteData = try? JSONDecoder().decode(NoteModel.self, from: decodedNote) {
+                titleField.text = noteData.title
+                noteText.text = noteData.noteText
+                dateField.text = noteData.date
+            }
+        }
     }
 
     func setupNavBar() {
         let saveButton = UIBarButtonItem(
-            barButtonSystemItem: UIBarButtonItem.SystemItem.save,
+            title: "Готово",
+            style: .done,
             target: self,
             action: #selector(saveViewData)
         )
@@ -152,4 +153,4 @@ extension NoteViewController: UITextViewDelegate {
         titleField.resignFirstResponder()
         return true
     }
-}
+ }
