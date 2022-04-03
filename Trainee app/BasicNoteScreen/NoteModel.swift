@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 struct NoteModel: Codable {
+
     var title: String?
     var noteText: String?
     var date: String?
@@ -19,7 +20,7 @@ struct NoteModel: Codable {
 }
 
 extension NoteModel {
-    func checkEmptyNoteAndAlert(model: NoteModel, rootVC: UIViewController) {
+    func saveNoteOrAlert(model: NoteModel, rootVC: UIViewController) {
         if model.isEmpty == true {
             rootVC.present(alert, animated: true)
         } else {
@@ -30,14 +31,3 @@ extension NoteModel {
         }
     }
 }
-
-let alert: UIAlertController = {
-    let alert = UIAlertController(
-        title: "Заметка пуста!",
-        message: "Невозможно сохранить пустую заметку",
-        preferredStyle: .alert
-    )
-    let actionOK = UIAlertAction(title: "Окей", style: .default)
-    alert.addAction(actionOK)
-    return alert
-}()
