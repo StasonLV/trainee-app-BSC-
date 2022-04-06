@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NoteView: UIView {
+final class NoteView: UIView {
 
     struct Constants {
         static let titleFont: UIFont = .systemFont(ofSize: 22, weight: .bold)
@@ -26,6 +26,17 @@ class NoteView: UIView {
         field.inputView = datePicker
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
+    }()
+
+    static let alert: UIAlertController = {
+        let alert = UIAlertController(
+            title: "Заметка пуста",
+            message: "Ты не заполнил ни одного текстового поля!",
+            preferredStyle: .alert
+        )
+        let actionOK = UIAlertAction(title: "Окей", style: .default)
+        alert.addAction(actionOK)
+        return alert
     }()
 
     lazy var datePicker: UIDatePicker = {
@@ -107,20 +118,8 @@ class NoteView: UIView {
 
 }
 
-// MARK: Alert on empty note view
-let alert: UIAlertController = {
-    let alert = UIAlertController(
-        title: "Заметка пуста",
-        message: "Ты не заполнил ни одного текстового поля!",
-        preferredStyle: .alert
-    )
-    let actionOK = UIAlertAction(title: "Окей", style: .default)
-    alert.addAction(actionOK)
-    return alert
-}()
-
 // MARK: Extensions
-extension Date {
+private extension Date {
     func toString(format: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format

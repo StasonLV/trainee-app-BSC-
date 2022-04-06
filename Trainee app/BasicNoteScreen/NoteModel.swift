@@ -22,7 +22,7 @@ struct NoteModel: Codable {
 extension NoteModel {
     func saveNoteOrAlert(model: NoteModel, rootVC: UIViewController) {
         if model.isEmpty == true {
-            rootVC.present(alert, animated: true)
+            rootVC.present(NoteView.alert, animated: true)
         } else {
             if let encodedNote = try?
                 JSONEncoder().encode(self) {
