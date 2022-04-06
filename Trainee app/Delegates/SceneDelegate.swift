@@ -14,7 +14,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        window?.windowScene = windowScene
+        window = UIWindow(windowScene: windowScene)
+        window?.rootViewController = NoteViewController()
         let rootVC = NoteViewController()
         let navVC = UINavigationController(rootViewController: rootVC)
         navVC.navigationBar.barStyle = .black
