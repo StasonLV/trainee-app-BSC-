@@ -10,18 +10,17 @@ import UIKit
 final class NoteView: UIView {
 
     struct Constants {
-        static let titleFont: UIFont = .systemFont(ofSize: 22, weight: .bold)
-        static let noteFont: UIFont = .systemFont(ofSize: 14, weight: .regular)
-        static let cornerRadius: CGFloat = 5
+        static let titleFont: UIFont = .systemFont(ofSize: 24, weight: .bold)
+        static let noteFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
+        static let dateFont: UIFont = .systemFont(ofSize: 14, weight: .medium)
+        static let dateFontColor: UIColor = UIColor(red: 0.675, green: 0.675, blue: 0.675, alpha: 1)
     }
 
     lazy var dateField: UITextField = {
         let field = UITextField()
-        field.font = Constants.noteFont
-        field.sizeToFit()
-        field.backgroundColor = .systemGray3
-        field.layer.cornerCurve = .circular
-        field.layer.cornerRadius = Constants.cornerRadius
+        field.font = Constants.dateFont
+        field.textColor = Constants.dateFontColor
+        field.textAlignment = .center
         field.placeholder = Date().toString(format: "Дата: dd MMMM yyyy")
         field.inputView = datePicker
         field.translatesAutoresizingMaskIntoConstraints = false
@@ -56,7 +55,7 @@ final class NoteView: UIView {
         let field = UITextField()
         field.placeholder = "Name your note..."
         field.sizeToFit()
-        field.textColor = UIColor.white
+        field.textColor = .none
         field.font = Constants.titleFont
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
@@ -64,12 +63,10 @@ final class NoteView: UIView {
 
     lazy var noteText: UITextView = {
         let text = UITextView()
-        text.backgroundColor = .systemGray3
-        text.layer.cornerCurve = .circular
-        text.layer.cornerRadius = Constants.cornerRadius
+        text.backgroundColor = .clear
         text.sizeToFit()
         text.isEditable = true
-        text.textColor = UIColor.white
+        text.textColor = .none
         text.font = Constants.noteFont
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
@@ -90,17 +87,19 @@ final class NoteView: UIView {
         addSubview(dateField)
         addSubview(noteText)
         addSubview(titleField)
-        backgroundColor = .systemGray4
+        backgroundColor = .systemBackground
 
         NSLayoutConstraint.activate([
-            titleField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            titleField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
-            titleField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            dateField.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 10),
+            dateField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 21),
             dateField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            dateField.heightAnchor.constraint(equalToConstant: 28),
+            dateField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            dateField.heightAnchor.constraint(equalToConstant: 16),
+            dateField.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+            titleField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            titleField.topAnchor.constraint(equalTo: dateField.bottomAnchor, constant: 20),
+            titleField.widthAnchor.constraint(equalToConstant: 300),
             noteText.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            noteText.topAnchor.constraint(equalTo: dateField.bottomAnchor, constant: 5),
+            noteText.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 28),
             noteText.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
             noteText.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])

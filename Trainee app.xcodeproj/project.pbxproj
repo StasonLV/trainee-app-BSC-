@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		842DB30427FF66C800592C61 /* NoteSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842DB30327FF66C800592C61 /* NoteSelectionView.swift */; };
 		84362D6B27EEFD98007D2234 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84362D6A27EEFD98007D2234 /* AppDelegate.swift */; };
 		84362D6D27EEFD98007D2234 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84362D6C27EEFD98007D2234 /* SceneDelegate.swift */; };
 		84362D6F27EEFD98007D2234 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84362D6E27EEFD98007D2234 /* NoteViewController.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		842DB30327FF66C800592C61 /* NoteSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteSelectionView.swift; sourceTree = "<group>"; };
 		84362D6727EEFD98007D2234 /* Trainee app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Trainee app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84362D6A27EEFD98007D2234 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84362D6C27EEFD98007D2234 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,6 +43,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		842DB30227FF669300592C61 /* NoteSelectionScreen */ = {
+			isa = PBXGroup;
+			children = (
+				842DB30327FF66C800592C61 /* NoteSelectionView.swift */,
+			);
+			path = NoteSelectionScreen;
+			sourceTree = "<group>";
+		};
 		84362D5E27EEFD97007D2234 = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +70,7 @@
 		84362D6927EEFD98007D2234 /* Trainee app */ = {
 			isa = PBXGroup;
 			children = (
+				842DB30227FF669300592C61 /* NoteSelectionScreen */,
 				84D42E8627F6222400ED7405 /* BasicNoteScreen */,
 				84D42E8527F6213E00ED7405 /* Delegates */,
 				84D42E8427F6210800ED7405 /* BoardsAndAssets */,
@@ -190,6 +201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84D42E8827F6224C00ED7405 /* NoteModel.swift in Sources */,
+				842DB30427FF66C800592C61 /* NoteSelectionView.swift in Sources */,
 				84362D7527EEFD98007D2234 /* Trainee_app.xcdatamodeld in Sources */,
 				843DA06D27F979DE0057F8CC /* NoteView.swift in Sources */,
 				84362D6F27EEFD98007D2234 /* NoteViewController.swift in Sources */,
