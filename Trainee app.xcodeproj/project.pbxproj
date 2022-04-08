@@ -15,6 +15,7 @@
 		84362D7727EEFDB3007D2234 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84362D7627EEFDB3007D2234 /* Assets.xcassets */; };
 		84362D7A27EEFDB3007D2234 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84362D7827EEFDB3007D2234 /* LaunchScreen.storyboard */; };
 		843DA06D27F979DE0057F8CC /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843DA06C27F979DE0057F8CC /* NoteView.swift */; };
+		84A680FF2800A97A00388A1E /* NoteSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A680FE2800A97A00388A1E /* NoteSelectionViewController.swift */; };
 		84D42E8827F6224C00ED7405 /* NoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D42E8727F6224C00ED7405 /* NoteModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		84362D7927EEFDB3007D2234 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84362D7B27EEFDB3007D2234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		843DA06C27F979DE0057F8CC /* NoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
+		84A680FE2800A97A00388A1E /* NoteSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteSelectionViewController.swift; sourceTree = "<group>"; };
 		84D42E8727F6224C00ED7405 /* NoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -47,6 +49,7 @@
 			isa = PBXGroup;
 			children = (
 				842DB30327FF66C800592C61 /* NoteSelectionView.swift */,
+				84A680FE2800A97A00388A1E /* NoteSelectionViewController.swift */,
 			);
 			path = NoteSelectionScreen;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 				84362D7527EEFD98007D2234 /* Trainee_app.xcdatamodeld in Sources */,
 				843DA06D27F979DE0057F8CC /* NoteView.swift in Sources */,
 				84362D6F27EEFD98007D2234 /* NoteViewController.swift in Sources */,
+				84A680FF2800A97A00388A1E /* NoteSelectionViewController.swift in Sources */,
 				84362D6B27EEFD98007D2234 /* AppDelegate.swift in Sources */,
 				84362D6D27EEFD98007D2234 /* SceneDelegate.swift in Sources */,
 			);

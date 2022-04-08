@@ -8,22 +8,23 @@
 import UIKit
 
 class NoteSelectionViewController: UIViewController {
+    
+    let addNoteButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 321, y: 704, width: 50, height: 50))
+        button.backgroundColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.view.addSubview(addNoteButton)
+        view.backgroundColor = .cyan
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @objc func createNewNote() {
+        
     }
-    */
+    
 
 }
