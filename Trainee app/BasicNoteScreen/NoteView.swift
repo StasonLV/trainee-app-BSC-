@@ -118,7 +118,7 @@ final class NoteView: UIView {
 }
 
 // MARK: Extensions
-private extension Date {
+extension Date {
     func toString(format: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format

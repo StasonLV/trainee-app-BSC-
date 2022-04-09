@@ -17,7 +17,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         noteView.titleField.delegate = self
         noteView.noteText.becomeFirstResponder()
-        getViewData()
+        // getViewData()
         setupNavBar()
         notificationSetup()
         view.addSubview(noteView)
@@ -58,10 +58,12 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
             noteText: noteView.noteText.text,
             date: noteView.dateField.text
         )
+        arrayOfNotes.append(model)
         model.saveNoteOrAlert(model: model, rootVC: self)
+        print(arrayOfNotes)
     }
 
-    func getViewData() {
+    @objc func getViewData() {
         if let decodedNote = UserDefaults.standard.object(forKey: "first") as? Data {
             if let noteData = try? JSONDecoder().decode(NoteModel.self, from: decodedNote) {
                 noteView.titleField.text = noteData.title
@@ -79,7 +81,6 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
             action: #selector(saveViewData)
         )
         navigationItem.rightBarButtonItem = saveButton
-        title = "Note Pad"
     }
 
     @objc func keyboardWasShown(notification: NSNotification) {

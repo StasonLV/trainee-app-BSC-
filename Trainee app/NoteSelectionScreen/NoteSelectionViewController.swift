@@ -8,23 +8,21 @@
 import UIKit
 
 class NoteSelectionViewController: UIViewController {
-    
-    let addNoteButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 321, y: 704, width: 50, height: 50))
-        button.backgroundColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let noteSelectionView = NoteSelectionView().self
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(addNoteButton)
-        view.backgroundColor = .cyan
+        view.addSubview(noteSelectionView)
+        self.title = "Заметки"
     }
-    
-    @objc func createNewNote() {
-        
-    }
-    
 
+    override func viewWillLayoutSubviews() {
+        noteSelectionView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
+    }
+
+    @objc func createNewNote() {
+        let newNoteVC = NoteViewController()
+        newNoteVC.title = "Note Pad"
+        self.navigationController?.pushViewController(newNoteVC, animated: true)
+    }
 }
