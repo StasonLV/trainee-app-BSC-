@@ -11,6 +11,14 @@ final class NoteSelectionView: UIView {
 
     static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
     static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
+    
+    let stackViewForContainers: UIStackView = {
+        let stack = UIStackView()
+        for value in arrayOfNotes {
+            stack.addArrangedSubview(contentContainer)
+        }
+        return stack
+    }()
 
     let scrollViewForContainers: UIScrollView = {
         let scroll = UIScrollView()
@@ -76,6 +84,8 @@ final class NoteSelectionView: UIView {
         super.init(frame: frame)
         setupNoteListView()
         getPreviewData()
+        addPlusButton()
+        addNoteContainers(toView: self, count: arrayOfNotes.count)
     }
 
     required init?(coder: NSCoder) {
@@ -84,7 +94,6 @@ final class NoteSelectionView: UIView {
 
     func setupNoteListView() {
         addSubview(scrollViewForContainers)
-        scrollViewForContainers.addSubview(addNoteButton)
         scrollViewForContainers.addSubview(contentContainer)
         contentContainer.addSubview(noteNameLabel)
         contentContainer.addSubview(noteTextLabel)
@@ -112,10 +121,23 @@ final class NoteSelectionView: UIView {
 
             noteDateLabel.topAnchor.constraint(equalTo: noteTextLabel.bottomAnchor, constant: 24),
             noteDateLabel.leadingAnchor.constraint(equalTo: contentContainer.leadingAnchor, constant: 16),
-            noteDateLabel.heightAnchor.constraint(equalToConstant: 10),
+            noteDateLabel.heightAnchor.constraint(equalToConstant: 10)
+        ])
+    }
 
-            addNoteButton.trailingAnchor.constraint(equalTo: scrollViewForContainers.trailingAnchor, constant: -19),
-            addNoteButton.bottomAnchor.constraint(equalTo: scrollViewForContainers.bottomAnchor, constant: -60),
+    func addNoteContainers(toView: NoteSelectionView, count: Int) {
+        for notes in arrayOfNotes {
+            scrollViewForContainers.addSubview(contentContainer)
+
+        }
+    }
+    
+    func addPlusButton() {
+        addSubview(addNoteButton)
+        
+        NSLayoutConstraint.activate([
+            addNoteButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -19),
+            addNoteButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -60),
             addNoteButton.heightAnchor.constraint(equalToConstant: 50),
             addNoteButton.widthAnchor.constraint(equalToConstant: 50)
         ])

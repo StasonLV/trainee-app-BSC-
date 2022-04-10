@@ -23,6 +23,7 @@ final class NoteView: UIView {
         field.textAlignment = .center
         field.placeholder = Date().toString(format: "Дата: dd MMMM yyyy")
         field.inputView = datePicker
+        field.isUserInteractionEnabled = false
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
