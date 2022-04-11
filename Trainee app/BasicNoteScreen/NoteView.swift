@@ -20,6 +20,7 @@ final class NoteView: UIView {
         let field = UITextField()
         field.font = Constants.dateFont
         field.textColor = Constants.dateFontColor
+        field.isUserInteractionEnabled = false
         field.textAlignment = .center
         field.placeholder = Date().toString(format: "Дата: dd MMMM yyyy")
         field.inputView = datePicker

@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol MyDataSendingDelegateProtocol {
+    func sendDatatoFirstViewController (note: NoteModel) -> NoteContainerView
+}
+
 final class NoteViewController: UIViewController, UITextFieldDelegate {
 
+    var delegate: MyDataSendingDelegateProtocol?
     let noteView = NoteView(frame: .zero)
     var keyboardHeight: CGFloat = 0.0
 
@@ -21,6 +26,22 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         setupNavBar()
         notificationSetup()
         view.addSubview(noteView)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if self.isMovingFromParent {
+            print("rabotaet")
+            if self.delegate != nil {
+                let modelToBeSent = NoteModel(
+                    title: noteView.titleField.text,
+                    noteText: noteView.noteText.text,
+                    date: noteView.dateField.text
+                    )
+                self.delegate?.sendDatatoFirstViewController(note: modelToBeSent)
+            }
+        }
     }
     // MARK: Methods
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -58,9 +79,9 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
             noteText: noteView.noteText.text,
             date: noteView.dateField.text
         )
-        arrayOfNotes.append(model)
+//        notes.append(model)
         model.saveNoteOrAlert(model: model, rootVC: self)
-        print(arrayOfNotes)
+//        print(notes)
     }
 
     @objc func getViewData() {
