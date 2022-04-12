@@ -15,15 +15,15 @@ final class ListView: UIView {
     let stackViewForContainers: UIStackView = {
         let stack = UIStackView()
         stack.backgroundColor = .black
-        stack.axis = .horizontal
-        stack.spacing = 4
+        stack.axis = .vertical
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
 
     let scrollViewForStack: UIScrollView = {
         let scroll = UIScrollView()
-        scroll.isScrollEnabled = false
+        scroll.isScrollEnabled = true
+        scroll.alwaysBounceVertical = true
         scroll.backgroundColor = .cyan
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
@@ -50,12 +50,13 @@ final class ListView: UIView {
         setupNoteListView()
         getPreviewData()
         addPlusButton()
+        scrollViewForStack.resizeScrollViewContentSize()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+
     func addNewContainer (note: NoteModel) -> NoteContainerView {
         let container = NoteContainerView()
         container.noteNameLabel.text = note.title
@@ -74,11 +75,13 @@ final class ListView: UIView {
             scrollViewForStack.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             scrollViewForStack.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             scrollViewForStack.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-
+            
             stackViewForContainers.topAnchor.constraint(equalTo: scrollViewForStack.topAnchor),
             stackViewForContainers.leadingAnchor.constraint(equalTo: scrollViewForStack.leadingAnchor),
             stackViewForContainers.trailingAnchor.constraint(equalTo: scrollViewForStack.trailingAnchor),
-            stackViewForContainers.bottomAnchor.constraint(equalTo: scrollViewForStack.bottomAnchor)
+            // stackViewForContainers.bottomAnchor.constraint(equalTo: scrollViewForStack.bottomAnchor),
+            stackViewForContainers.widthAnchor.constraint(equalTo: scrollViewForStack.widthAnchor),
+            stackViewForContainers.heightAnchor.constraint(greaterThanOrEqualTo: scrollViewForStack.heightAnchor)
         ])
     }
 
@@ -101,5 +104,16 @@ final class ListView: UIView {
                 NoteContainerView().noteDateLabel.text = noteData.date
             }
         }
+    }
+}
+
+extension UIScrollView {
+
+    func resizeScrollViewContentSize() {
+        var contentRect = CGRect.zero
+        for view in self.subviews {
+            contentRect = contentRect.union(view.frame)
+        }
+        self.contentSize = contentRect.size
     }
 }

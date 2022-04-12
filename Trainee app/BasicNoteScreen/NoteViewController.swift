@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol MyDataSendingDelegateProtocol {
+protocol MyDataSendingDelegateProtocol: AnyObject {
     func sendDatatoFirstViewController (note: NoteModel) -> NoteContainerView
 }
 
 final class NoteViewController: UIViewController, UITextFieldDelegate {
 
-    var delegate: MyDataSendingDelegateProtocol?
+    weak var delegate: MyDataSendingDelegateProtocol?
     let noteView = NoteView(frame: .zero)
     var keyboardHeight: CGFloat = 0.0
 
@@ -33,14 +33,12 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
 
         if self.isMovingFromParent {
             print("rabotaet")
-            if self.delegate != nil {
                 let modelToBeSent = NoteModel(
                     title: noteView.titleField.text,
                     noteText: noteView.noteText.text,
                     date: noteView.dateField.text
                     )
                 self.delegate?.sendDatatoFirstViewController(note: modelToBeSent)
-            }
         }
     }
     // MARK: Methods

@@ -11,16 +11,17 @@ class ListViewController: UIViewController, MyDataSendingDelegateProtocol {
 
     let listView = ListView().self
     var notes = [NoteModel]()
+    var containerViews = [NoteContainerView]()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        fillStackView()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(listView)
         self.title = "Заметки"
-        NoteViewController().delegate = self
     }
 
     override func viewWillLayoutSubviews() {
@@ -33,12 +34,21 @@ class ListViewController: UIViewController, MyDataSendingDelegateProtocol {
         container.noteTextLabel.text = note.noteText
         container.noteDateLabel.text = note.date
         notes.append(note)
-        listView.stackViewForContainers.addArrangedSubview(container)
+        containerViews.append(container)
         return container
+    }
+
+    func fillStackView () {
+        for item in containerViews {
+            listView.stackViewForContainers.addArrangedSubview(item)
+            listView.stackViewForContainers.distribution = .equalCentering
+            listView.stackViewForContainers.layoutSubviews()
+        }
     }
 
     @objc func createNewNote() {
         let newNoteVC = NoteViewController()
+        newNoteVC.delegate = self
         newNoteVC.title = "Note Pad"
         self.navigationController?.pushViewController(newNoteVC, animated: true)
     }
