@@ -22,7 +22,8 @@ final class NoteView: UIView {
         field.textColor = Constants.dateFontColor
         field.isUserInteractionEnabled = false
         field.textAlignment = .center
-        field.placeholder = Date().toString(format: "Дата: dd MMMM yyyy")
+        field.text = Date().toString(format: "Дата: dd MMMM yyyy")
+        // field.placeholder = Date().toString(format: "Дата: dd MMMM yyyy")
         field.inputView = datePicker
         field.isUserInteractionEnabled = false
         field.translatesAutoresizingMaskIntoConstraints = false

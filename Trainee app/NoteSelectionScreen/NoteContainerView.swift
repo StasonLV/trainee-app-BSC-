@@ -23,7 +23,6 @@ final class NoteContainerView: UIView {
         label.font = .systemFont(ofSize: 16, weight: .bold)
         label.textColor = .black
         label.contentMode = .scaleAspectFit
-        label.text = "Какое то название заметки"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -33,7 +32,6 @@ final class NoteContainerView: UIView {
         label.font = .systemFont(ofSize: 10, weight: .light)
         label.textColor = .placeholderText
         label.contentMode = .scaleAspectFit
-        label.text = "Какой то текст заметки очень дилнный Какой то текст заметки очень дилнный Какой то текст заметки очень дилнный"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
