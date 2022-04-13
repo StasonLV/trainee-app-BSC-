@@ -12,7 +12,10 @@ final class NoteContainerView: UIView {
     let contentContainer: UIView = {
         let content = UIView()
         content.backgroundColor = .white
+        content.sizeToFit()
+        content.layoutIfNeeded()
         content.layer.cornerRadius = 15
+        content.clipsToBounds = true
         content.layer.masksToBounds = true
         content.translatesAutoresizingMaskIntoConstraints = false
         return content

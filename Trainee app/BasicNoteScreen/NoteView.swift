@@ -85,7 +85,7 @@ final class NoteView: UIView {
         setupMainView()
     }
 
-// MARK: Methods
+    // MARK: Methods
     func setupMainView() {
         addSubview(dateField)
         addSubview(noteText)
@@ -117,7 +117,6 @@ final class NoteView: UIView {
         titleField.resignFirstResponder()
         dateField.resignFirstResponder()
     }
-
 }
 
 // MARK: Extensions

@@ -14,8 +14,9 @@ final class ListView: UIView {
 
     let stackViewForContainers: UIStackView = {
         let stack = UIStackView()
-        stack.backgroundColor = .black
+        stack.spacing = 4
         stack.axis = .vertical
+        stack.distribution = .equalSpacing
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -24,7 +25,6 @@ final class ListView: UIView {
         let scroll = UIScrollView()
         scroll.isScrollEnabled = true
         scroll.alwaysBounceVertical = true
-        scroll.backgroundColor = .cyan
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
@@ -48,9 +48,7 @@ final class ListView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupNoteListView()
-        getPreviewData()
         addPlusButton()
-        scrollViewForStack.resizeScrollViewContentSize()
     }
 
     required init?(coder: NSCoder) {
@@ -75,13 +73,13 @@ final class ListView: UIView {
             scrollViewForStack.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             scrollViewForStack.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             scrollViewForStack.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            
+
             stackViewForContainers.topAnchor.constraint(equalTo: scrollViewForStack.topAnchor),
             stackViewForContainers.leadingAnchor.constraint(equalTo: scrollViewForStack.leadingAnchor),
             stackViewForContainers.trailingAnchor.constraint(equalTo: scrollViewForStack.trailingAnchor),
             // stackViewForContainers.bottomAnchor.constraint(equalTo: scrollViewForStack.bottomAnchor),
             stackViewForContainers.widthAnchor.constraint(equalTo: scrollViewForStack.widthAnchor),
-            stackViewForContainers.heightAnchor.constraint(greaterThanOrEqualTo: scrollViewForStack.heightAnchor)
+            stackViewForContainers.heightAnchor.constraint(greaterThanOrEqualToConstant: 200)
         ])
     }
 
@@ -94,26 +92,5 @@ final class ListView: UIView {
             addNoteButton.heightAnchor.constraint(equalToConstant: 50),
             addNoteButton.widthAnchor.constraint(equalToConstant: 50)
         ])
-    }
-
-    func getPreviewData() {
-        if let decodedNote = UserDefaults.standard.object(forKey: "first") as? Data {
-            if let noteData = try? JSONDecoder().decode(NoteModel.self, from: decodedNote) {
-                NoteContainerView().noteNameLabel.text = noteData.title
-                NoteContainerView().noteTextLabel.text = noteData.noteText
-                NoteContainerView().noteDateLabel.text = noteData.date
-            }
-        }
-    }
-}
-
-extension UIScrollView {
-
-    func resizeScrollViewContentSize() {
-        var contentRect = CGRect.zero
-        for view in self.subviews {
-            contentRect = contentRect.union(view.frame)
-        }
-        self.contentSize = contentRect.size
     }
 }

@@ -17,12 +17,20 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
     let noteView = NoteView(frame: .zero)
     var keyboardHeight: CGFloat = 0.0
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        ListViewController().completionHandler = { model in
+            self.noteView.noteText.text = model.noteText
+            self.noteView.titleField.text = model.title
+            self.noteView.dateField.text = model.date
+        }
+    }
+
     // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         noteView.titleField.delegate = self
         noteView.noteText.becomeFirstResponder()
-        // getViewData()
         setupNavBar()
         notificationSetup()
         view.addSubview(noteView)
@@ -30,9 +38,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
         if self.isMovingFromParent {
-            print("rabotaet")
                 let modelToBeSent = NoteModel(
                     title: noteView.titleField.text,
                     noteText: noteView.noteText.text,
@@ -41,6 +47,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
                 self.delegate?.sendDatatoFirstViewController(note: modelToBeSent)
         }
     }
+
     // MARK: Methods
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -77,19 +84,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
             noteText: noteView.noteText.text,
             date: noteView.dateField.text
         )
-//        notes.append(model)
         model.saveNoteOrAlert(model: model, rootVC: self)
-//        print(notes)
-    }
-
-    @objc func getViewData() {
-        if let decodedNote = UserDefaults.standard.object(forKey: "first") as? Data {
-            if let noteData = try? JSONDecoder().decode(NoteModel.self, from: decodedNote) {
-                noteView.titleField.text = noteData.title
-                noteView.noteText.text = noteData.noteText
-                noteView.dateField.text = noteData.date
-            }
-        }
     }
 
     func setupNavBar() {
@@ -101,8 +96,10 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         )
         navigationItem.rightBarButtonItem = saveButton
     }
-
+    // MARK: Keyboard Notifications
     @objc func keyboardWasShown(notification: NSNotification) {
+        navigationItem.rightBarButtonItem?.isEnabled = true
+        navigationItem.rightBarButtonItem?.tintColor = .systemBlue
         let info = notification.userInfo
         if let keyboardRect = info?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
 
@@ -112,7 +109,10 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
             noteView.noteText.scrollIndicatorInsets = noteView.noteText.contentInset
         }
     }
+
     @objc func keyboardWillBeHidden(notification: NSNotification) {
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        navigationItem.rightBarButtonItem?.tintColor = .clear
         noteView.noteText.contentInset = UIEdgeInsets(top: 0, left: 0,
             bottom: 0, right: 0)
         noteView.noteText.scrollIndicatorInsets = noteView.noteText.contentInset
