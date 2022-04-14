@@ -64,12 +64,9 @@ final class NoteContainerView: UIView {
         contentContainer.addSubview(noteDateLabel)
 
         NSLayoutConstraint.activate([
-
             contentContainer.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
             contentContainer.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            contentContainer.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 26),
             contentContainer.heightAnchor.constraint(equalToConstant: 90),
-            contentContainer.widthAnchor.constraint(greaterThanOrEqualToConstant: 358),
 
             noteNameLabel.topAnchor.constraint(equalTo: contentContainer.topAnchor, constant: 10),
             noteNameLabel.leadingAnchor.constraint(equalTo: contentContainer.leadingAnchor, constant: 16),

@@ -16,7 +16,6 @@ final class ListView: UIView {
         let stack = UIStackView()
         stack.spacing = 4
         stack.axis = .vertical
-        stack.distribution = .equalSpacing
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -55,15 +54,6 @@ final class ListView: UIView {
         super.init(coder: coder)
     }
 
-    func addNewContainer (note: NoteModel) -> NoteContainerView {
-        let container = NoteContainerView()
-        container.noteNameLabel.text = note.title
-        container.noteTextLabel.text = note.noteText
-        container.noteDateLabel.text = note.date
-        stackViewForContainers.addArrangedSubview(container)
-        return container
-    }
-
     func setupNoteListView() {
         addSubview(scrollViewForStack)
         scrollViewForStack.addSubview(stackViewForContainers)
@@ -77,9 +67,8 @@ final class ListView: UIView {
             stackViewForContainers.topAnchor.constraint(equalTo: scrollViewForStack.topAnchor),
             stackViewForContainers.leadingAnchor.constraint(equalTo: scrollViewForStack.leadingAnchor),
             stackViewForContainers.trailingAnchor.constraint(equalTo: scrollViewForStack.trailingAnchor),
-            // stackViewForContainers.bottomAnchor.constraint(equalTo: scrollViewForStack.bottomAnchor),
             stackViewForContainers.widthAnchor.constraint(equalTo: scrollViewForStack.widthAnchor),
-            stackViewForContainers.heightAnchor.constraint(greaterThanOrEqualToConstant: 200)
+            stackViewForContainers.bottomAnchor.constraint(equalTo: scrollViewForStack.bottomAnchor)
         ])
     }
 

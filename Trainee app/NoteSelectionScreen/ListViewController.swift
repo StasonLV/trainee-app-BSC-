@@ -16,8 +16,9 @@ class ListViewController: UIViewController, MyDataSendingDelegateProtocol {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        fillStackView()
-        listView.stackViewForContainers.layoutIfNeeded()
+        listView.scrollViewForStack.layoutIfNeeded()
+        listView.scrollViewForStack.translatesAutoresizingMaskIntoConstraints = false
+        listView.stackViewForContainers.translatesAutoresizingMaskIntoConstraints = false
     }
 
     override func viewDidLoad() {
@@ -37,6 +38,7 @@ class ListViewController: UIViewController, MyDataSendingDelegateProtocol {
         container.noteDateLabel.text = note.date
         notes.append(note)
         containerViews.append(container)
+        updateStackView()
         return container
     }
 
@@ -51,12 +53,25 @@ class ListViewController: UIViewController, MyDataSendingDelegateProtocol {
         listView.stackViewForContainers.addGestureRecognizer(tapGesture)
     }
 
-    func fillStackView () {
-        for item in containerViews {
-            item.isUserInteractionEnabled = true
+    func updateStackView() {
+        listView.stackViewForContainers.arrangedSubviews.forEach {
+                    $0.removeFromSuperview()
+                }
+        containerViews.forEach { item in
             listView.stackViewForContainers.addArrangedSubview(item)
-        }
+            listView.stackViewForContainers.sizeToFit()
+                }
+        listView.stackViewForContainers.distribution = .fill
     }
+
+//        let stackHeight = containerViews.count * 90
+//        listView.stackViewForContainers.heightAnchor.constraint(equalToConstant: CGFloat(stackHeight))
+//        listView.stackViewForContainers.distribution = .fill
+//    }
+//        for item in containerViews {
+//            item.isUserInteractionEnabled = true
+//            listView.stackViewForContainers.addArrangedSubview(item)
+//        }
 
     @objc func createNewNote() {
         let newNoteVC = NoteViewController()
