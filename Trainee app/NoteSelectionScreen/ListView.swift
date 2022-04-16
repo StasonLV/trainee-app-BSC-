@@ -12,10 +12,12 @@ final class ListView: UIView {
     static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
     static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
 
-    let stackViewForContainers: UIStackView = {
+    var stackViewForContainers: UIStackView = {
         let stack = UIStackView()
         stack.spacing = 4
         stack.axis = .vertical
+        stack.distribution = .equalSpacing
+        stack.alignment = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -67,8 +69,7 @@ final class ListView: UIView {
             stackViewForContainers.topAnchor.constraint(equalTo: scrollViewForStack.topAnchor),
             stackViewForContainers.leadingAnchor.constraint(equalTo: scrollViewForStack.leadingAnchor),
             stackViewForContainers.trailingAnchor.constraint(equalTo: scrollViewForStack.trailingAnchor),
-            stackViewForContainers.widthAnchor.constraint(equalTo: scrollViewForStack.widthAnchor),
-            stackViewForContainers.bottomAnchor.constraint(equalTo: scrollViewForStack.bottomAnchor)
+            stackViewForContainers.widthAnchor.constraint(equalTo: scrollViewForStack.widthAnchor)
         ])
     }
 

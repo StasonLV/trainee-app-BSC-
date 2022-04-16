@@ -16,6 +16,8 @@ class ListViewController: UIViewController, MyDataSendingDelegateProtocol {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        setupVC()
+        updateStackView()
         listView.scrollViewForStack.layoutIfNeeded()
         listView.scrollViewForStack.translatesAutoresizingMaskIntoConstraints = false
         listView.stackViewForContainers.translatesAutoresizingMaskIntoConstraints = false
@@ -23,12 +25,15 @@ class ListViewController: UIViewController, MyDataSendingDelegateProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupVC()
     }
 
     override func viewWillLayoutSubviews() {
         listView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
         listView.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+
+        let hiddenContainer = NoteContainerView()
+        hiddenContainer.isHidden = true
+        listView.stackViewForContainers.addArrangedSubview(hiddenContainer)
     }
 
     func sendDatatoFirstViewController(note: NoteModel) -> NoteContainerView {
@@ -38,13 +43,13 @@ class ListViewController: UIViewController, MyDataSendingDelegateProtocol {
         container.noteDateLabel.text = note.date
         notes.append(note)
         containerViews.append(container)
-        updateStackView()
         return container
     }
 
     func setupVC() {
         view.backgroundColor = .systemBackground
         view.addSubview(listView)
+        listView.stackViewForContainers.distribution = .fill
         self.title = "Заметки"
         let tapGesture = UITapGestureRecognizer(
             target: self,
@@ -59,21 +64,14 @@ class ListViewController: UIViewController, MyDataSendingDelegateProtocol {
                 }
         containerViews.forEach { item in
             listView.stackViewForContainers.addArrangedSubview(item)
-            listView.stackViewForContainers.sizeToFit()
-                }
-        listView.stackViewForContainers.distribution = .fill
     }
-
-//        let stackHeight = containerViews.count * 90
-//        listView.stackViewForContainers.heightAnchor.constraint(equalToConstant: CGFloat(stackHeight))
-//        listView.stackViewForContainers.distribution = .fill
-//    }
-//        for item in containerViews {
-//            item.isUserInteractionEnabled = true
-//            listView.stackViewForContainers.addArrangedSubview(item)
-//        }
+}
 
     @objc func createNewNote() {
+        let hiddenContainer = NoteContainerView()
+        hiddenContainer.isHidden = true
+        listView.stackViewForContainers.addArrangedSubview(hiddenContainer)
+
         let newNoteVC = NoteViewController()
         newNoteVC.delegate = self
         newNoteVC.title = "Note Pad"
