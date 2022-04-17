@@ -9,6 +9,8 @@ import UIKit
 
 final class NotePreviewCell: UITableViewCell {
 
+    var completion: ((NoteModel) -> Void)?
+
     struct Constants {
 
     }

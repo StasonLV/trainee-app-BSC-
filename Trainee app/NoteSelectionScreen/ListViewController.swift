@@ -8,21 +8,40 @@
 import UIKit
 
 class ListViewController: UIViewController, UITableViewDelegate {
+    static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
+    static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
     let notesTable = UITableView(frame: .zero, style: .insetGrouped)
-    var safeArea: UILayoutGuide!
     var notes = [NoteModel]()
+    let plusButton: UIButton = {
+            let button = UIButton()
+            button.backgroundColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
+            button.layer.cornerRadius = 25
+            button.setImage(buttonSymbol, for: .normal)
+            button.tintColor = .white
+            button.layer.masksToBounds = true
+            button.addTarget(
+                NoteViewController(),
+                action: #selector(createNewNote),
+                for: .touchUpInside
+            )
+            button.translatesAutoresizingMaskIntoConstraints = false
+            return button
+        }()
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        notesTable.reloadData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        createNoteArray()
         setupNotesTable()
-        notesTable.dataSource = self
-        notesTable.delegate = self
     }
 
     func setupNotesTable () {
+        notesTable.dataSource = self
+        notesTable.delegate = self
         view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
-        safeArea = view.layoutMarginsGuide
         view.addSubview(notesTable)
         view.addSubview(plusButton)
         view.bringSubviewToFront(plusButton)
@@ -31,10 +50,16 @@ class ListViewController: UIViewController, UITableViewDelegate {
         notesTable.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            notesTable.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            notesTable.topAnchor.constraint(equalTo: view.topAnchor),
             notesTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             notesTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             notesTable.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            plusButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 761),
+            plusButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 250),
+            plusButton.widthAnchor.constraint(equalToConstant: 50),
+            plusButton.heightAnchor.constraint(equalTo: plusButton.widthAnchor)
         ])
         notesTable.register(NotePreviewCell.self, forCellReuseIdentifier: "cell")
     }
@@ -45,12 +70,6 @@ class ListViewController: UIViewController, UITableViewDelegate {
         newNoteVC.title = "Note Pad"
         self.navigationController?.pushViewController(newNoteVC, animated: true)
     }
-
-    func createNoteArray() {
-        notes.append(NoteModel(title: "Privet", noteText: "dliinyy text ghbasdasdasfaf ", date: "17.01.2022"))
-        notes.append(NoteModel(title: "Poka", noteText: "dliinyy text ghbasdasdasfaf ", date: "17.01.2022"))
-        notes.append(NoteModel(title: "Privet", noteText: "dliinyy text ghbasdasdasfaf ", date: "17.01.2022"))
-    }
 }
 
 extension ListViewController: UITableViewDataSource {
@@ -60,21 +79,21 @@ extension ListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = notesTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? NotePreviewCell
-        let currentLastNote = notes[indexPath.row]
-        cell!.note = currentLastNote
-        return cell!
+        let currentNotes = notes[indexPath.row]
+        cell?.note = currentNotes
+        return cell ?? NotePreviewCell()
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = notes[indexPath.row]
+        let noteVC = NoteViewController()
+        self.navigationController?.pushViewController(noteVC, animated: true)
+        print(model)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
     }
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        let spacing: CGFloat = 10
-//        let maskLayer = CALayer()
-//        maskLayer.cornerRadius = 15
-//        maskLayer.backgroundColor = UIColor.white.cgColor
-//        maskLayer.frame = CGRect(origin: cell.bounds.origin, size: <#T##CGSize#>)
-//    }
 }
 
  extension ListViewController: MyDataSendingDelegateProtocol {

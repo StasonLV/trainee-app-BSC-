@@ -18,13 +18,29 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
     var keyboadrdHeight: CGFloat = 0.0
 
     // MARK: ViewDidLoad
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         noteView.titleField.delegate = self
         noteView.noteText.becomeFirstResponder()
-        getViewData()
+        // getViewData()
         setupNavBar()
         view.addSubview(noteView)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.isMovingFromParent {
+                let modelToBeSent = NoteModel(
+                    title: noteView.titleField.text,
+                    noteText: noteView.noteText.text,
+                    date: noteView.dateField.text
+                    )
+                self.delegate?.sendDataToFirstViewController(note: modelToBeSent)
+        }
     }
 
 //    override func viewWillDisappear(_ animated: Bool) {
@@ -66,6 +82,12 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
                 object: nil
             )
         }
+
+    func viewWithDataFromPreview(with model: NoteModel) {
+        noteView.titleField.text = model.title
+        noteView.noteText.text = model.noteText
+        noteView.dateField.text = model.date
+    }
 
     @objc func saveViewData() {
         noteView.resignResponders()

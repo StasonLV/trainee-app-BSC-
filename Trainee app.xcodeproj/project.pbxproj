@@ -16,7 +16,6 @@
 		843DA06D27F979DE0057F8CC /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843DA06C27F979DE0057F8CC /* NoteView.swift */; };
 		84B059C0280C03B30065D27A /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B059BF280C03B30065D27A /* ListViewController.swift */; };
 		84B059C2280C04460065D27A /* NotePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B059C1280C04460065D27A /* NotePreviewCell.swift */; };
-		84B059C4280C6D630065D27A /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B059C3280C6D620065D27A /* PlusButton.swift */; };
 		84D42E8827F6224C00ED7405 /* NoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D42E8727F6224C00ED7405 /* NoteModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +31,6 @@
 		843DA06C27F979DE0057F8CC /* NoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
 		84B059BF280C03B30065D27A /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		84B059C1280C04460065D27A /* NotePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotePreviewCell.swift; sourceTree = "<group>"; };
-		84B059C3280C6D620065D27A /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		84D42E8727F6224C00ED7405 /* NoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,7 +79,6 @@
 			children = (
 				84B059BF280C03B30065D27A /* ListViewController.swift */,
 				84B059C1280C04460065D27A /* NotePreviewCell.swift */,
-				84B059C3280C6D620065D27A /* PlusButton.swift */,
 			);
 			path = NoteSelectionScreen;
 			sourceTree = "<group>";
@@ -214,7 +211,6 @@
 				84362D6B27EEFD98007D2234 /* AppDelegate.swift in Sources */,
 				84362D6D27EEFD98007D2234 /* SceneDelegate.swift in Sources */,
 				84B059C0280C03B30065D27A /* ListViewController.swift in Sources */,
-				84B059C4280C6D630065D27A /* PlusButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
