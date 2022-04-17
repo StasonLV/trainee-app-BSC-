@@ -15,8 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = NoteViewController()
-        let rootVC = NoteViewController()
+        window?.rootViewController = ListViewController()
+        let rootVC = ListViewController()
         let navVC = UINavigationController(rootViewController: rootVC)
         navVC.navigationBar.barStyle = .black
         window?.rootViewController = navVC
