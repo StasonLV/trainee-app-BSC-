@@ -69,7 +69,8 @@ final class ListView: UIView {
             stackViewForContainers.topAnchor.constraint(equalTo: scrollViewForStack.topAnchor),
             stackViewForContainers.leadingAnchor.constraint(equalTo: scrollViewForStack.leadingAnchor),
             stackViewForContainers.trailingAnchor.constraint(equalTo: scrollViewForStack.trailingAnchor),
-            stackViewForContainers.widthAnchor.constraint(equalTo: scrollViewForStack.widthAnchor)
+            stackViewForContainers.widthAnchor.constraint(equalTo: scrollViewForStack.widthAnchor),
+            stackViewForContainers.bottomAnchor.constraint(equalTo: scrollViewForStack.bottomAnchor)
         ])
     }
 
