@@ -9,6 +9,24 @@ import UIKit
 
 final class NoteContainerView: UIView {
 
+    struct Constants {
+        let titleFont: UIFont = .systemFont(ofSize: 16, weight: .bold)
+        let noteFont: UIFont = .systemFont(ofSize: 10, weight: .light)
+        let dateFont: UIFont = .systemFont(ofSize: 10, weight: .regular)
+    }
+
+    var callback: ((NoteModel) -> Void)?
+
+    var model: NoteModel? {
+        didSet {
+            guard let model = model else { return }
+            noteNameLabel.text = model.title
+            noteTextLabel.text = model.noteText
+            noteDateLabel.text = model.date
+        }
+    }
+
+    // MARK: создание элементов
     let contentContainer: UIView = {
         let content = UIView()
         content.backgroundColor = .white
@@ -23,7 +41,7 @@ final class NoteContainerView: UIView {
 
     let noteNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = Constants().titleFont
         label.textColor = .black
         label.contentMode = .scaleAspectFit
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +50,7 @@ final class NoteContainerView: UIView {
 
     let noteTextLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 10, weight: .light)
+        label.font = Constants().noteFont
         label.textColor = .placeholderText
         label.contentMode = .scaleAspectFit
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -41,23 +59,28 @@ final class NoteContainerView: UIView {
 
     let noteDateLabel: UITextField = {
         let label = UITextField()
-        label.font = .systemFont(ofSize: 10, weight: .regular)
+        label.font = Constants().dateFont
         label.textColor = .black
-        label.text = Date().toString(format: "dd MMMM yyyy")
+        label.isUserInteractionEnabled = false
+        label.text = Date().toString(format: "dd.MM.yyyy")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
+    // MARK: инициализаторы
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupContainerView()
+        addTapToContainer()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    func setupContainerView() {
+    // MARK: констрейнты контейнера
+    private func setupContainerView() {
+        self.heightAnchor.constraint(equalToConstant: 90).isActive = true
         addSubview(contentContainer)
         contentContainer.addSubview(noteNameLabel)
         contentContainer.addSubview(noteTextLabel)
@@ -81,5 +104,21 @@ final class NoteContainerView: UIView {
             noteDateLabel.leadingAnchor.constraint(equalTo: contentContainer.leadingAnchor, constant: 16),
             noteDateLabel.heightAnchor.constraint(equalToConstant: 10)
         ])
+    }
+
+    // MARK: создание жеста "тап"
+    private func addTapToContainer() {
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(pushExistingNote)
+        )
+        contentContainer.addGestureRecognizer(tapGesture)
+    }
+
+    // MARK: метод для жеста "тап"
+    @objc private func pushExistingNote() {
+        print("tap")
+        guard let model = model else { return }
+        callback?(model)
     }
 }

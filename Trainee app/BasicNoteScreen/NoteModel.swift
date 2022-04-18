@@ -14,7 +14,7 @@ struct NoteModel: Codable {
     var noteText: String?
     var date: String?
     var isEmpty: Bool {
-        let isEmpty = (title!.isEmpty ) && (noteText!.isEmpty) // && ((date?.isEmpty) != nil)
+        let isEmpty = (title!.isEmpty ) && (noteText!.isEmpty)
         return isEmpty
     }
 }

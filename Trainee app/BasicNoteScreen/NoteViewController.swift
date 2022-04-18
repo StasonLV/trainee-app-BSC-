@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MyDataSendingDelegateProtocol: AnyObject {
-    func sendDatatoFirstViewController (note: NoteModel) -> NoteContainerView
+    func sendDatatoFirstViewController (note: NoteModel)
 }
 
 final class NoteViewController: UIViewController, UITextFieldDelegate {
@@ -16,17 +16,9 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
     weak var delegate: MyDataSendingDelegateProtocol?
     let noteView = NoteView(frame: .zero)
     var keyboardHeight: CGFloat = 0.0
+    var completion: ((NoteModel) -> Void)?
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        ListViewController().completionHandler = { model in
-            self.noteView.noteText.text = model.noteText
-            self.noteView.titleField.text = model.title
-            self.noteView.dateField.text = model.date
-        }
-    }
-
-    // MARK: ViewDidLoad
+    // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         noteView.titleField.delegate = self
@@ -34,18 +26,6 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         setupNavBar()
         notificationSetup()
         view.addSubview(noteView)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if self.isMovingFromParent {
-                let modelToBeSent = NoteModel(
-                    title: noteView.titleField.text,
-                    noteText: noteView.noteText.text,
-                    date: noteView.dateField.text
-                    )
-                self.delegate?.sendDatatoFirstViewController(note: modelToBeSent)
-        }
     }
 
     // MARK: Methods
@@ -61,7 +41,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         noteView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
     }
 
-    func notificationSetup() {
+    private func notificationSetup() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(
             self,
@@ -77,17 +57,18 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         )
     }
 
-    @objc func saveViewData() {
+    @objc private func saveViewData() {
         noteView.resignResponders()
-        let model = NoteModel(
+        let modelToBeSent = NoteModel(
             title: noteView.titleField.text,
             noteText: noteView.noteText.text,
             date: noteView.dateField.text
-        )
-        model.saveNoteOrAlert(model: model, rootVC: self)
+            )
+        self.delegate?.sendDatatoFirstViewController(note: modelToBeSent)
+        modelToBeSent.saveNoteOrAlert(model: modelToBeSent, rootVC: self)
     }
 
-    func setupNavBar() {
+    private func setupNavBar() {
         let saveButton = UIBarButtonItem(
             title: "Готово",
             style: .done,
@@ -96,8 +77,15 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         )
         navigationItem.rightBarButtonItem = saveButton
     }
+
+    func configureNoteView (with model: NoteModel) {
+        noteView.titleField.text = model.title
+        noteView.noteText.text = model.noteText
+        noteView.dateField.text = model.date
+    }
+
     // MARK: Keyboard Notifications
-    @objc func keyboardWasShown(notification: NSNotification) {
+    @objc private func keyboardWasShown(notification: NSNotification) {
         navigationItem.rightBarButtonItem?.isEnabled = true
         navigationItem.rightBarButtonItem?.tintColor = .systemBlue
         let info = notification.userInfo
@@ -110,7 +98,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    @objc func keyboardWillBeHidden(notification: NSNotification) {
+    @objc private func keyboardWillBeHidden(notification: NSNotification) {
         navigationItem.rightBarButtonItem?.isEnabled = false
         navigationItem.rightBarButtonItem?.tintColor = .clear
         noteView.noteText.contentInset = UIEdgeInsets(top: 0, left: 0,

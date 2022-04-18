@@ -12,7 +12,8 @@ final class ListView: UIView {
     static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
     static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
 
-    var stackViewForContainers: UIStackView = {
+    // MARK: создание элементов
+    let stackViewForContainers: UIStackView = {
         let stack = UIStackView()
         stack.spacing = 4
         stack.axis = .vertical
@@ -46,6 +47,7 @@ final class ListView: UIView {
         return button
     }()
 
+    // MARK: инициализаторы
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupNoteListView()
@@ -56,10 +58,10 @@ final class ListView: UIView {
         super.init(coder: coder)
     }
 
-    func setupNoteListView() {
+    // MARK: констрейнты основного вью
+    private func setupNoteListView() {
         addSubview(scrollViewForStack)
         scrollViewForStack.addSubview(stackViewForContainers)
-
         NSLayoutConstraint.activate([
             scrollViewForStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             scrollViewForStack.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
@@ -74,9 +76,9 @@ final class ListView: UIView {
         ])
     }
 
-    func addPlusButton() {
+    // MARK: констрейнты для кнопки "плюс"
+    private func addPlusButton() {
         addSubview(addNoteButton)
-
         NSLayoutConstraint.activate([
             addNoteButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -19),
             addNoteButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -60),
