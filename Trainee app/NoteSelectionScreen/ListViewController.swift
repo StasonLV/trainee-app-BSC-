@@ -17,18 +17,19 @@ class ListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         setupVC()
-        updateStackView()
         listView.scrollViewForStack.layoutIfNeeded()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateStackView()
     }
 
     override func viewWillLayoutSubviews() {
         listView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
         listView.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
     }
+
     // MARK: установка интерфейса
     private func setupVC() {
         view.backgroundColor = .systemBackground
@@ -57,8 +58,8 @@ class ListViewController: UIViewController {
                 noteVC.configureNoteView(with: model)
                 self?.navigationController?.pushViewController(noteVC, animated: true)
             }
-            container.translatesAutoresizingMaskIntoConstraints = false
             container.model = item
+            container.translatesAutoresizingMaskIntoConstraints = false
             listView.stackViewForContainers.addArrangedSubview(container)
         }
     }
@@ -68,5 +69,7 @@ class ListViewController: UIViewController {
 extension ListViewController: MyDataSendingDelegateProtocol {
     func sendDatatoFirstViewController(note: NoteModel) {
         notes.append(note)
+        updateStackView()
+        print(notes)
     }
 }

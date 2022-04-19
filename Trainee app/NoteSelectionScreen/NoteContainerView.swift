@@ -117,7 +117,6 @@ final class NoteContainerView: UIView {
 
     // MARK: метод для жеста "тап"
     @objc private func pushExistingNote() {
-        print("tap")
         guard let model = model else { return }
         callback?(model)
     }

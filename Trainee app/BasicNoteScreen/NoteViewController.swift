@@ -16,7 +16,6 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
     weak var delegate: MyDataSendingDelegateProtocol?
     let noteView = NoteView(frame: .zero)
     var keyboardHeight: CGFloat = 0.0
-    var completion: ((NoteModel) -> Void)?
 
     // MARK: Lifecycle
     override func viewDidLoad() {
@@ -26,6 +25,10 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         setupNavBar()
         notificationSetup()
         view.addSubview(noteView)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
 
     // MARK: Methods
@@ -57,7 +60,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         )
     }
 
-    @objc private func saveViewData() {
+    @objc func saveViewData() {
         noteView.resignResponders()
         let modelToBeSent = NoteModel(
             title: noteView.titleField.text,
