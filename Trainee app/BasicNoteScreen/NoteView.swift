@@ -9,21 +9,36 @@ import UIKit
 
 final class NoteView: UIView {
 
+    // MARK: - константы
     struct Constants {
-        static let titleFont: UIFont = .systemFont(ofSize: 22, weight: .bold)
-        static let noteFont: UIFont = .systemFont(ofSize: 14, weight: .regular)
-        static let cornerRadius: CGFloat = 5
+        let titleFont: UIFont = .systemFont(ofSize: 24, weight: .bold)
+        let noteFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
+        let dateFont: UIFont = .systemFont(ofSize: 14, weight: .medium)
+        let dateFontColor: UIColor = UIColor(
+            red: 0.675,
+            green: 0.675,
+            blue: 0.675,
+            alpha: 1
+        )
+        let backColor: UIColor = UIColor(
+            red: 0.898,
+            green: 0.898,
+            blue: 0.898,
+            alpha: 1
+        )
     }
 
+    // MARK: - создание эл-тов вью
     lazy var dateField: UITextField = {
         let field = UITextField()
-        field.font = Constants.noteFont
-        field.sizeToFit()
-        field.backgroundColor = .systemGray3
-        field.layer.cornerCurve = .circular
-        field.layer.cornerRadius = Constants.cornerRadius
-        field.placeholder = Date().toString(format: "Дата: dd MMMM yyyy")
+        field.font = Constants().dateFont
+        field.backgroundColor = Constants().backColor
+        field.textColor = Constants().dateFontColor
+        field.isUserInteractionEnabled = false
+        field.textAlignment = .center
+        field.text = "Дата: \(Date().toString(format: "dd.MM.yyyy"))"
         field.inputView = datePicker
+        field.isUserInteractionEnabled = false
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -56,25 +71,26 @@ final class NoteView: UIView {
         let field = UITextField()
         field.placeholder = "Name your note..."
         field.sizeToFit()
-        field.textColor = UIColor.white
-        field.font = Constants.titleFont
+        field.textColor = .none
+        field.backgroundColor = Constants().backColor
+        field.font = Constants().titleFont
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
 
     lazy var noteText: UITextView = {
         let text = UITextView()
-        text.backgroundColor = .systemGray3
-        text.layer.cornerCurve = .circular
-        text.layer.cornerRadius = Constants.cornerRadius
+        text.backgroundColor = .clear
         text.sizeToFit()
         text.isEditable = true
-        text.textColor = UIColor.white
-        text.font = Constants.noteFont
+        text.textColor = .none
+        text.backgroundColor = Constants().backColor
+        text.font = Constants().noteFont
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
 
+    // MARK: - инициализаторы
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupMainView()
@@ -85,29 +101,32 @@ final class NoteView: UIView {
         setupMainView()
     }
 
-// MARK: Methods
+    // MARK: - сетап вью заметки
     func setupMainView() {
         addSubview(dateField)
         addSubview(noteText)
         addSubview(titleField)
-        backgroundColor = .systemGray4
+        backgroundColor = Constants().backColor
 
         NSLayoutConstraint.activate([
-            titleField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            titleField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
-            titleField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            dateField.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 10),
+            dateField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 21),
             dateField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            dateField.heightAnchor.constraint(equalToConstant: 28),
+            dateField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            dateField.heightAnchor.constraint(equalToConstant: 16),
+            dateField.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+            titleField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            titleField.topAnchor.constraint(equalTo: dateField.bottomAnchor, constant: 20),
+            titleField.widthAnchor.constraint(equalToConstant: 300),
             noteText.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            noteText.topAnchor.constraint(equalTo: dateField.bottomAnchor, constant: 5),
+            noteText.topAnchor.constraint(equalTo: titleField.bottomAnchor, constant: 28),
             noteText.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
             noteText.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 
+    // MARK: - методы для формата даты и скрытия клавиатуры
     @objc func dateChanged() {
-        dateField.text = "\(datePicker.date.toString(format: "Дата: dd MMMM yyyy"))"
+        dateField.text = "\(datePicker.date.toString(format: "dd.MM.yyyy"))"
     }
 
     func resignResponders() {
@@ -115,10 +134,9 @@ final class NoteView: UIView {
         titleField.resignFirstResponder()
         dateField.resignFirstResponder()
     }
-
 }
 
-// MARK: Extensions
+// MARK: - расширения для даты и текствью
 extension Date {
     func toString(format: String) -> String {
         let dateFormatter = DateFormatter()
