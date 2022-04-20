@@ -90,7 +90,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
     }
 
     // MARK: - настройка навигейшн бара
-    func setupNavBar() {
+    private func setupNavBar() {
         let saveButton = UIBarButtonItem(
             title: "Готово",
             style: .done,

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListViewController: UIViewController {
+final class ListViewController: UIViewController {
 
     let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     var notes = [NoteModel]()
@@ -37,7 +37,7 @@ class ListViewController: UIViewController {
     }
 
     // MARK: - сетап таблицы
-    func setupNotesTable () {
+    private func setupNotesTable () {
         title = "Заметки"
         self.notesTable.separatorStyle = .none
         notesTable.dataSource = self
@@ -65,7 +65,7 @@ class ListViewController: UIViewController {
     }
 
     // MARK: - метод для кнопки "плюс"
-    @objc func createNewNote() {
+    @objc private func createNewNote() {
         let newNoteVC = NoteViewController()
         DispatchQueue.main.async {
             newNoteVC.completion = { [weak self] model in
