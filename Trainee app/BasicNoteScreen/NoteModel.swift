@@ -22,11 +22,6 @@ extension NoteModel {
     func saveNoteOrAlert(model: NoteModel, rootVC: UIViewController) {
         if model.isEmpty == true {
             rootVC.present(NoteView.alert, animated: true)
-        } else {
-            if let encodedNote = try?
-                JSONEncoder().encode(self) {
-                UserDefaults.standard.set(encodedNote, forKey: "first")
-            }
         }
     }
 }

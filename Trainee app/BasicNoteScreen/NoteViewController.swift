@@ -9,6 +9,7 @@ import UIKit
 
 final class NoteViewController: UIViewController, UITextFieldDelegate {
 
+    // MARK: - константы
     let noteView = NoteView(frame: .zero)
     var keyboadrdHeight: CGFloat = 0.0
 

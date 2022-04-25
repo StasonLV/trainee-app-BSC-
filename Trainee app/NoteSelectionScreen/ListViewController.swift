@@ -9,12 +9,14 @@ import UIKit
 
 final class ListViewController: UIViewController {
 
-    let notesTable = UITableView(frame: .zero, style: .insetGrouped)
+    // MARK: - константы
+    private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
+    private let savedNotesKey = "My Key"
     var notes = [NoteModel]()
     static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
     static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
 
-    let plusButton: UIButton = {
+    private let plusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
         button.layer.cornerRadius = 25
@@ -34,6 +36,12 @@ final class ListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNotesTable()
+        addSaveNotificationOnAppDismiss()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        removeSaveNotificationOnAppDismiss()
     }
 
     // MARK: - сетап таблицы
@@ -64,18 +72,48 @@ final class ListViewController: UIViewController {
         notesTable.register(NotePreviewCell.self, forCellReuseIdentifier: "cell")
     }
 
-    // MARK: - метод для кнопки "плюс"
+    // MARK: - метод для кнопки "плюс" + кложур для новых заметок
     @objc private func createNewNote() {
         let newNoteVC = NoteViewController()
         DispatchQueue.main.async {
             newNoteVC.completion = { [weak self] model in
-                self?.navigationController?.popToRootViewController(animated: true)
                 self?.notes.append(model)
                 self?.notesTable.reloadData()
             }
         }
         newNoteVC.title = "Note Pad"
         self.navigationController?.pushViewController(newNoteVC, animated: true)
+    }
+
+    // MARK: - методы для сохранения и загрузки массива заметок
+    @objc private func saveArrayOfNotes() {
+        let notesData = try? JSONEncoder().encode(notes)
+        UserDefaults.standard.set(notesData, forKey: savedNotesKey)
+    }
+
+    func loadArrrayOfNotes() {
+        guard let notesData = UserDefaults.standard.data(forKey: savedNotesKey) else {
+            print("массив пуст")
+            return
+        }
+        do {
+            notes = try JSONDecoder().decode([NoteModel].self, from: notesData)
+        } catch {
+            print("ошибка во время загрузки массива")
+        }
+    }
+
+    private func addSaveNotificationOnAppDismiss() {
+        let saveNotification = NotificationCenter.default
+        saveNotification.addObserver(self,
+                                     selector: #selector(saveArrayOfNotes),
+                                     name: UIScene.willDeactivateNotification,
+                                     object: nil)
+    }
+
+    private func removeSaveNotificationOnAppDismiss() {
+        let saveNotification = NotificationCenter.default
+        saveNotification.removeObserver(self)
     }
 }
 
