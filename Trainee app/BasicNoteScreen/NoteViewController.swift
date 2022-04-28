@@ -11,9 +11,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
 
     // MARK: - константы
     let noteView = NoteView(frame: .zero)
-    var keyboadrdHeight: CGFloat = 0.0
-
-    public var completion: ((NoteModel) -> Void)?
+    var completion: ((NoteModel) -> Void)?
 
     // MARK: - lifecycle
     override func viewWillAppear(_ animated: Bool) {

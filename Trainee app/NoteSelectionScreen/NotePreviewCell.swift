@@ -10,11 +10,11 @@ import UIKit
 final class NotePreviewCell: UITableViewCell {
 
     // MARK: - константы
-    struct Constants {
-        let noteNameFont: UIFont = .systemFont(ofSize: 16, weight: .bold)
-        let noteTextFont: UIFont = .systemFont(ofSize: 10, weight: .light)
-        let noteDateFont: UIFont = .systemFont(ofSize: 10, weight: .regular)
-        let backColor = CGColor(
+    private enum Constants {
+        static let noteNameFont: UIFont = .systemFont(ofSize: 16, weight: .bold)
+        static let noteTextFont: UIFont = .systemFont(ofSize: 10, weight: .light)
+        static let noteDateFont: UIFont = .systemFont(ofSize: 10, weight: .regular)
+        static let backColor = CGColor(
             red: 0.898,
             green: 0.898,
             blue: 0.898,
@@ -32,27 +32,27 @@ final class NotePreviewCell: UITableViewCell {
     }
 
     // MARK: - создание эл-тов ячеек
-    let noteNameLabel: UILabel = {
+    private let noteNameLabel: UILabel = {
         let label = UILabel()
-        label.font = Constants().noteNameFont
+        label.font = Constants.noteNameFont
         label.textColor = .black
         label.contentMode = .scaleAspectFit
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    let noteTextLabel: UILabel = {
+    private let noteTextLabel: UILabel = {
         let label = UILabel()
-        label.font = Constants().noteTextFont
+        label.font = Constants.noteTextFont
         label.textColor = .placeholderText
         label.contentMode = .scaleAspectFit
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    let noteDateLabel: UITextField = {
+    private let noteDateLabel: UITextField = {
         let label = UITextField()
-        label.font = Constants().noteDateFont
+        label.font = Constants.noteDateFont
         label.textColor = .black
         label.text = Date().toString(format: "dd.MM.yyyy")
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -75,7 +75,7 @@ final class NotePreviewCell: UITableViewCell {
         contentView.layer.masksToBounds = true
         contentView.layer.cornerRadius = 10
         contentView.layer.borderWidth = 2
-        contentView.layer.borderColor = Constants().backColor
+        contentView.layer.borderColor = Constants.backColor
         contentView.addSubview(noteNameLabel)
         contentView.addSubview(noteTextLabel)
         contentView.addSubview(noteDateLabel)
@@ -88,5 +88,12 @@ final class NotePreviewCell: UITableViewCell {
             noteDateLabel.topAnchor.constraint(equalTo: noteTextLabel.bottomAnchor, constant: 24),
             noteDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
         ])
+    }
+
+    func setupCellData(with model: NoteModel) {
+        self.note = model
+        noteNameLabel.text = model.title
+        noteTextLabel.text = model.noteText
+        noteDateLabel.text = model.date
     }
 }

@@ -13,8 +13,8 @@ final class ListViewController: UIViewController {
     private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     private let savedNotesKey = "My Key"
     var notes = [NoteModel]()
-    static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
     static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
+    static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
 
     private let plusButton: UIButton = {
         let button = UIButton()
@@ -37,11 +37,6 @@ final class ListViewController: UIViewController {
         super.viewDidLoad()
         setupNotesTable()
         addSaveNotificationOnAppDismiss()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        removeSaveNotificationOnAppDismiss()
     }
 
     // MARK: - сетап таблицы
@@ -97,7 +92,7 @@ final class ListViewController: UIViewController {
             return
         }
         do {
-            notes = try JSONDecoder().decode([NoteModel].self, from: notesData)
+        notes = try JSONDecoder().decode([NoteModel].self, from: notesData)
         } catch {
             print("ошибка во время загрузки массива")
         }
@@ -110,11 +105,6 @@ final class ListViewController: UIViewController {
                                      name: UIScene.willDeactivateNotification,
                                      object: nil)
     }
-
-    private func removeSaveNotificationOnAppDismiss() {
-        let saveNotification = NotificationCenter.default
-        saveNotification.removeObserver(self)
-    }
 }
 
 // MARK: - экстеншн для функционала тэйблвью
@@ -125,11 +115,10 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = notesTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? NotePreviewCell
-        let currentNotes = notes[indexPath.row]
+        cell?.setupCellData(with: notes[indexPath.row])
         cell?.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: notesTable.bounds.width)
         cell?.layoutMargins = UIEdgeInsets.zero
         cell?.contentView.layer.masksToBounds = true
-        cell?.note = currentNotes
         return cell ?? NotePreviewCell()
     }
 
@@ -153,8 +142,8 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         return 90
     }
 
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.layer.cornerRadius = 15
-        cell.layer.masksToBounds = true
-    }
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        cell.layer.cornerRadius = 15
+//        cell.layer.masksToBounds = true
+//    }
 }
