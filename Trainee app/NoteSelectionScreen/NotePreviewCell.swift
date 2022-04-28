@@ -25,18 +25,20 @@ final class NotePreviewCell: UITableViewCell {
     // MARK: - модель
     var note: NoteModel? {
         didSet {
-            noteNameLabel.text = note?.title
+            noteNameField.text = note?.title
             noteTextLabel.text = note?.noteText
             noteDateLabel.text = note?.date
         }
     }
 
     // MARK: - создание эл-тов ячеек
-    private let noteNameLabel: UILabel = {
-        let label = UILabel()
+    private let noteNameField: UITextField = {
+        let label = UITextField()
         label.font = Constants.noteNameFont
+        label.placeholder = "Без названия"
         label.textColor = .black
         label.contentMode = .scaleAspectFit
+        label.isUserInteractionEnabled = false
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -54,6 +56,7 @@ final class NotePreviewCell: UITableViewCell {
         let label = UITextField()
         label.font = Constants.noteDateFont
         label.textColor = .black
+        label.isUserInteractionEnabled = false
         label.text = Date().toString(format: "dd.MM.yyyy")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -71,28 +74,30 @@ final class NotePreviewCell: UITableViewCell {
 
     // MARK: - настройка ячейки
     func setupCell() {
+        backgroundColor = .clear
         contentView.backgroundColor = .white
         contentView.layer.masksToBounds = true
-        contentView.layer.cornerRadius = 10
+        contentView.layer.cornerRadius = 15
         contentView.layer.borderWidth = 2
         contentView.layer.borderColor = Constants.backColor
-        contentView.addSubview(noteNameLabel)
+        contentView.addSubview(noteNameField)
         contentView.addSubview(noteTextLabel)
         contentView.addSubview(noteDateLabel)
 
         NSLayoutConstraint.activate([
-            noteNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            noteNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            noteTextLabel.topAnchor.constraint(equalTo: noteNameLabel.bottomAnchor, constant: 4),
+            noteNameField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            noteNameField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            noteTextLabel.topAnchor.constraint(equalTo: noteNameField.bottomAnchor, constant: 4),
             noteTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             noteDateLabel.topAnchor.constraint(equalTo: noteTextLabel.bottomAnchor, constant: 24),
             noteDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
         ])
     }
 
+    // MARK: - настройка данных ячейки
     func setupCellData(with model: NoteModel) {
         self.note = model
-        noteNameLabel.text = model.title
+        noteNameField.text = model.title
         noteTextLabel.text = model.noteText
         noteDateLabel.text = model.date
     }

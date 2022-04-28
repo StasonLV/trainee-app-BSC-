@@ -14,10 +14,6 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
     var completion: ((NoteModel) -> Void)?
 
     // MARK: - lifecycle
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         noteView.titleField.delegate = self
@@ -98,6 +94,12 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         )
         navigationItem.rightBarButtonItem = saveButton
         title = "Заметка"
+    }
+
+    func noteViewWithCellData(with model: NoteModel) {
+        self.noteView.titleField.text = model.title
+        self.noteView.noteText.text = model.noteText
+        self.noteView.dateField.text = model.date
     }
 
     // MARK: - методы для инсета контента при открытии клавиатуры

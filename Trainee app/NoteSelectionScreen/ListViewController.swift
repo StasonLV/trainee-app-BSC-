@@ -10,17 +10,19 @@ import UIKit
 final class ListViewController: UIViewController {
 
     // MARK: - константы
+    private enum Constants {
+        static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
+        static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
+        static let savedNotesKey = "My Key"
+    }
     private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
-    private let savedNotesKey = "My Key"
     var notes = [NoteModel]()
-    static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
-    static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
 
     private let plusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
         button.layer.cornerRadius = 25
-        button.setImage(buttonSymbol, for: .normal)
+        button.setImage(Constants.buttonSymbol, for: .normal)
         button.tintColor = .white
         button.layer.masksToBounds = true
         button.addTarget(
@@ -83,11 +85,11 @@ final class ListViewController: UIViewController {
     // MARK: - методы для сохранения и загрузки массива заметок
     @objc private func saveArrayOfNotes() {
         let notesData = try? JSONEncoder().encode(notes)
-        UserDefaults.standard.set(notesData, forKey: savedNotesKey)
+        UserDefaults.standard.set(notesData, forKey: Constants.savedNotesKey)
     }
 
     func loadArrrayOfNotes() {
-        guard let notesData = UserDefaults.standard.data(forKey: savedNotesKey) else {
+        guard let notesData = UserDefaults.standard.data(forKey: Constants.savedNotesKey) else {
             print("массив пуст")
             return
         }
@@ -100,10 +102,12 @@ final class ListViewController: UIViewController {
 
     private func addSaveNotificationOnAppDismiss() {
         let saveNotification = NotificationCenter.default
-        saveNotification.addObserver(self,
-                                     selector: #selector(saveArrayOfNotes),
-                                     name: UIScene.willDeactivateNotification,
-                                     object: nil)
+        saveNotification.addObserver(
+            self,
+            selector: #selector(saveArrayOfNotes),
+            name: UIScene.willDeactivateNotification,
+            object: nil
+        )
     }
 }
 
@@ -125,9 +129,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = notes[indexPath.row]
         let noteVC = NoteViewController()
-        noteVC.noteView.titleField.text = model.title
-        noteVC.noteView.noteText.text = model.noteText
-        noteVC.noteView.dateField.text = model.date
+        noteVC.noteViewWithCellData(with: model)
         notes.remove(at: indexPath.row)
         noteVC.completion = { [weak self] model in
             DispatchQueue.main.async {
@@ -141,9 +143,4 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
     }
-
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        cell.layer.cornerRadius = 15
-//        cell.layer.masksToBounds = true
-//    }
 }
