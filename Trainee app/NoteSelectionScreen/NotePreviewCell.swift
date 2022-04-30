@@ -20,6 +20,9 @@ final class NotePreviewCell: UITableViewCell {
             blue: 0.898,
             alpha: 1
         )
+        static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .heavy, scale: .default)
+        static let cellEditSymbol = UIImage(systemName: "checkmark.circle", withConfiguration: buttonSymbolConfig)
+        static let cellChooseSymbol = UIImage(systemName: "checkmark.circle.fill", withConfiguration: buttonSymbolConfig)
     }
 
     // MARK: - модель
@@ -32,6 +35,16 @@ final class NotePreviewCell: UITableViewCell {
     }
 
     // MARK: - создание эл-тов ячеек
+    private let checkButton: UIButton = {
+        let btn = UIButton()
+        btn.setImage(Constants.cellEditSymbol, for: .normal)
+        btn.setImage(Constants.cellChooseSymbol, for: .selected)
+        btn.alpha = 0.0
+        btn.addTarget(self, action: #selector(cellSelected), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+
     private let noteNameField: UITextField = {
         let label = UITextField()
         label.font = Constants.noteNameFont
@@ -83,8 +96,11 @@ final class NotePreviewCell: UITableViewCell {
         contentView.addSubview(noteNameField)
         contentView.addSubview(noteTextLabel)
         contentView.addSubview(noteDateLabel)
+        contentView.addSubview(checkButton)
 
         NSLayoutConstraint.activate([
+            checkButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            checkButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             noteNameField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             noteNameField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             noteTextLabel.topAnchor.constraint(equalTo: noteNameField.bottomAnchor, constant: 4),
@@ -94,11 +110,63 @@ final class NotePreviewCell: UITableViewCell {
         ])
     }
 
+    @objc func cellSelected(sender: UIButton) {
+        if sender.isSelected {
+            checkButton.image(for: .selected)
+        }
+    }
+
     // MARK: - настройка данных ячейки
     func setupCellData(with model: NoteModel) {
         self.note = model
         noteNameField.text = model.title
         noteTextLabel.text = model.noteText
         noteDateLabel.text = model.date
+    }
+
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        switch editing {
+        case true:
+            checkButtonAppearAnimation()
+            contentAnimationForStartEditing()
+        case false:
+            checkButton.alpha = 0.0
+            contentAnimationForEndEditing()
+        }
+    }
+
+    func contentAnimationForStartEditing() {
+        UIView.animate(
+            withDuration: 0.75,
+            delay: 0.0,
+            animations: {
+                self.noteNameField.center.x += 30.0
+                self.noteTextLabel.center.x += 30.0
+                self.noteDateLabel.center.x += 30.0
+            }
+        )
+    }
+
+    func contentAnimationForEndEditing() {
+        UIView.animate(
+            withDuration: 0.75,
+            delay: 0.0,
+            animations: {
+                self.noteNameField.center.x -= 30.0
+                self.noteTextLabel.center.x -= 30.0
+                self.noteDateLabel.center.x -= 30.0
+            }
+        )
+    }
+
+    func checkButtonAppearAnimation() {
+        UIView.animate(
+            withDuration: 0.75,
+            delay: 0.0,
+            animations: {
+                self.checkButton.alpha = 1.0
+            }
+        )
     }
 }

@@ -96,6 +96,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         title = "Заметка"
     }
 
+    // MARK: - настройка заметки с переданной моделью
     func noteViewWithCellData(with model: NoteModel) {
         self.noteView.titleField.text = model.title
         self.noteView.noteText.text = model.noteText

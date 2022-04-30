@@ -58,6 +58,9 @@ final class ListViewController: UIViewController {
         super.viewDidLoad()
         setupNotesTable()
         addSaveNotificationOnAppDismiss()
+//        setupNavBar()
+        navigationItem.rightBarButtonItem = editButtonItem
+        editButtonItem.title = "Выбрать"
     }
 
     // MARK: - сетап таблицы
@@ -101,6 +104,19 @@ final class ListViewController: UIViewController {
         self.navigationController?.pushViewController(newNoteVC, animated: true)
     }
 
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        switch isEditing {
+        case true:
+            self.editButtonItem.title = "Готово"
+            notesTable.setEditing(editing, animated: true)
+        case false:
+            self.editButtonItem.title = "Выбрать"
+            notesTable.setEditing(editing, animated: true)
+        }
+        print(editing)
+    }
+
     @objc private func animateCreation() {
         UIView.animateKeyframes(
             withDuration: 1.0,
@@ -127,6 +143,19 @@ final class ListViewController: UIViewController {
             }
         )
     }
+
+    // MARK: - настройка навигейшн бара
+//    private func setupNavBar() {
+//        let saveButton = UIBarButtonItem(
+//            title: "Выбрать",
+//            style: .plain,
+//            target: self,
+//            action: nil
+//        )
+//        navigationItem.rightBarButtonItem = saveButton
+//        title = "Заметка"
+//    }
+
     // MARK: - методы для сохранения и загрузки массива заметок
     @objc private func saveArrayOfNotes() {
         let notesData = try? JSONEncoder().encode(notes)
@@ -198,5 +227,13 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
             notesTable.deleteRows(at: [indexPath], with: .left)
             notesTable.endUpdates()
         }
+    }
+
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
     }
 }
