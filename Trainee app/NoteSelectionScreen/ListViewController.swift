@@ -18,7 +18,7 @@ final class ListViewController: UIViewController {
     private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     var notes = [NoteModel]()
 
-    private let plusButton: UIButton = {
+    let plusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
         button.layer.cornerRadius = 25
@@ -27,7 +27,7 @@ final class ListViewController: UIViewController {
         button.layer.masksToBounds = true
         button.addTarget(
             NoteViewController(),
-            action: #selector(createNewNote),
+            action: #selector(animateCreation),
             for: .touchUpInside
         )
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -35,6 +35,25 @@ final class ListViewController: UIViewController {
     }()
 
     // MARK: - Lifecycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        plusButton.center.y += 90.0
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.animate(
+            withDuration: 2.5,
+            delay: 0.0,
+            usingSpringWithDamping: 0.1,
+            initialSpringVelocity: 10.0,
+            options: [.layoutSubviews],
+            animations: {
+                self.plusButton.center.y -= 90.0
+        },
+            completion: nil)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNotesTable()
@@ -61,7 +80,7 @@ final class ListViewController: UIViewController {
             notesTable.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         NSLayoutConstraint.activate([
-            plusButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
+            plusButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: +60),
             plusButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -19),
             plusButton.widthAnchor.constraint(equalToConstant: 50),
             plusButton.heightAnchor.constraint(equalTo: plusButton.widthAnchor)
@@ -82,6 +101,32 @@ final class ListViewController: UIViewController {
         self.navigationController?.pushViewController(newNoteVC, animated: true)
     }
 
+    @objc private func animateCreation() {
+        UIView.animateKeyframes(
+            withDuration: 1.0,
+            delay: 0.0,
+            options: [.layoutSubviews],
+            animations: {
+                UIView.addKeyframe(
+                    withRelativeStartTime: 0.0,
+                    relativeDuration: 0.25,
+                    animations: {
+                        self.plusButton.center.y -= 50.0
+                    }
+                )
+                UIView.addKeyframe(
+                    withRelativeStartTime: 0.25,
+                    relativeDuration: 0.75,
+                    animations: {
+                        self.plusButton.center.y += 300.0
+                    }
+                )
+            },
+            completion: { _ in
+                self.createNewNote()
+            }
+        )
+    }
     // MARK: - методы для сохранения и загрузки массива заметок
     @objc private func saveArrayOfNotes() {
         let notesData = try? JSONEncoder().encode(notes)
@@ -136,5 +181,22 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
+    }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath
+    ) {
+        if editingStyle == .delete {
+            notesTable.beginUpdates()
+            notes.remove(at: indexPath.row)
+            notesTable.deleteRows(at: [indexPath], with: .left)
+            notesTable.endUpdates()
+        }
     }
 }
