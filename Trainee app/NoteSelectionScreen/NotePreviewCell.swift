@@ -9,6 +9,8 @@ import UIKit
 
 final class NotePreviewCell: UITableViewCell {
 
+    var selectionState: Bool = false
+
     // MARK: - константы
     private enum Constants {
         static let noteNameFont: UIFont = .systemFont(ofSize: 16, weight: .bold)
@@ -21,8 +23,14 @@ final class NotePreviewCell: UITableViewCell {
             alpha: 1
         )
         static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .heavy, scale: .default)
-        static let cellEditSymbol = UIImage(systemName: "checkmark.circle", withConfiguration: buttonSymbolConfig)
-        static let cellChooseSymbol = UIImage(systemName: "checkmark.circle.fill", withConfiguration: buttonSymbolConfig)
+        static let cellEditSymbol = UIImage(
+            systemName: "checkmark.circle",
+            withConfiguration: buttonSymbolConfig
+        )
+        static let cellChooseSymbol = UIImage(
+            systemName: "checkmark.circle.fill",
+            withConfiguration: buttonSymbolConfig
+        )
     }
 
     // MARK: - модель
@@ -35,7 +43,7 @@ final class NotePreviewCell: UITableViewCell {
     }
 
     // MARK: - создание эл-тов ячеек
-    private let checkButton: UIButton = {
+    lazy var checkButton: UIButton = {
         let btn = UIButton()
         btn.setImage(Constants.cellEditSymbol, for: .normal)
         btn.setImage(Constants.cellChooseSymbol, for: .selected)
@@ -111,9 +119,9 @@ final class NotePreviewCell: UITableViewCell {
     }
 
     @objc func cellSelected(sender: UIButton) {
-        if sender.isSelected {
-            checkButton.image(for: .selected)
-        }
+        print("checkbox pressed")
+        selectionState.toggle()
+        print(selectionState)
     }
 
     // MARK: - настройка данных ячейки

@@ -58,7 +58,6 @@ final class ListViewController: UIViewController {
         super.viewDidLoad()
         setupNotesTable()
         addSaveNotificationOnAppDismiss()
-//        setupNavBar()
         navigationItem.rightBarButtonItem = editButtonItem
         editButtonItem.title = "Выбрать"
     }
@@ -143,18 +142,6 @@ final class ListViewController: UIViewController {
             }
         )
     }
-
-    // MARK: - настройка навигейшн бара
-//    private func setupNavBar() {
-//        let saveButton = UIBarButtonItem(
-//            title: "Выбрать",
-//            style: .plain,
-//            target: self,
-//            action: nil
-//        )
-//        navigationItem.rightBarButtonItem = saveButton
-//        title = "Заметка"
-//    }
 
     // MARK: - методы для сохранения и загрузки массива заметок
     @objc private func saveArrayOfNotes() {
