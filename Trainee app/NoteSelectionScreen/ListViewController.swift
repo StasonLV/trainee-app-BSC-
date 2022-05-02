@@ -132,28 +132,33 @@ final class ListViewController: UIViewController {
         }
 
     @objc func removeSelected() {
-        notes.removeAll(where: {$0.selectionState == true})
-//        2 способ
-//        for note in notes {
-//            if note.selectionState == true {
-//                if let indexPaths = notesTable.indexPathsForSelectedRows {
-//                    let sortedArray = indexPaths.sorted {$0.row > $1.row}
-//                    for ino in (0...sortedArray.count - 1).reversed() {
-//                        notes.remove(at: sortedArray[ino].row)
-//                    }
-//                    notesTable.deleteRows(at: sortedArray, with: .fade)
-//                }
-//            }
-//        }
-//        3 способ
-//        for (index, note) in notes.enumerated() {
-//            if note.selectionState == true {
-//                notes.remove(at: index)
-//                let indexPath = IndexPath(item: index, section: 0)
-//                notesTable.deleteRows(at: [indexPath], with: .fade)
-//                notesTable.reloadData()
-//            }
-//        }
+        //теперь массив не фильтруется а полностью очищается, я чет не могу найти, что я упустил
+        let filteredNotes = notes.filter {$0.selectionState == true}
+        print(filteredNotes.count)
+        notesTable.reloadData()
+        //        1 способ
+        //        notes.removeAll(where: {$0.selectionState == true})
+        //        2 способ
+        //        for note in notes {
+        //            if note.selectionState == true {
+        //                if let indexPaths = notesTable.indexPathsForSelectedRows {
+        //                    let sortedArray = indexPaths.sorted {$0.row > $1.row}
+        //                    for ino in (0...sortedArray.count - 1).reversed() {
+        //                        notes.remove(at: sortedArray[ino].row)
+        //                    }
+        //                    notesTable.deleteRows(at: sortedArray, with: .fade)
+        //                }
+        //            }
+        //        }
+        //        3 способ
+        //        for (index, note) in notes.enumerated() {
+        //            if note.selectionState == true {
+        //                notes.remove(at: index)
+        //                let indexPath = IndexPath(item: index, section: 0)
+        //                notesTable.deleteRows(at: [indexPath], with: .fade)
+        //                notesTable.reloadData()
+        //            }
+        //        }
         print(notes.count)
     }
 
