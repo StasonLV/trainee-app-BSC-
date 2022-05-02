@@ -18,6 +18,14 @@ final class ListViewController: UIViewController {
     private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     var notes = [NoteModel]()
 
+    let deleteButton: UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = .red
+        btn.addTarget(self, action: #selector(removeSelected), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+
     let plusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
@@ -71,9 +79,18 @@ final class ListViewController: UIViewController {
         view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         view.addSubview(notesTable)
         view.addSubview(plusButton)
+        view.addSubview(deleteButton)
+        view.bringSubviewToFront(deleteButton)
         view.bringSubviewToFront(plusButton)
         notesTable.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         notesTable.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            deleteButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            deleteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            deleteButton.widthAnchor.constraint(equalToConstant: 50),
+            deleteButton.heightAnchor.constraint(equalTo: plusButton.widthAnchor)
+        ])
 
         NSLayoutConstraint.activate([
             notesTable.topAnchor.constraint(equalTo: view.topAnchor),
@@ -105,15 +122,39 @@ final class ListViewController: UIViewController {
 
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
+        notesTable.setEditing(editing, animated: true)
         switch isEditing {
         case true:
             self.editButtonItem.title = "Готово"
-            notesTable.setEditing(editing, animated: true)
         case false:
             self.editButtonItem.title = "Выбрать"
-            notesTable.setEditing(editing, animated: true)
+            }
         }
-        print(editing)
+
+    @objc func removeSelected() {
+        notes.removeAll(where: {$0.selectionState == true})
+//        2 способ
+//        for note in notes {
+//            if note.selectionState == true {
+//                if let indexPaths = notesTable.indexPathsForSelectedRows {
+//                    let sortedArray = indexPaths.sorted {$0.row > $1.row}
+//                    for ino in (0...sortedArray.count - 1).reversed() {
+//                        notes.remove(at: sortedArray[ino].row)
+//                    }
+//                    notesTable.deleteRows(at: sortedArray, with: .fade)
+//                }
+//            }
+//        }
+//        3 способ
+//        for (index, note) in notes.enumerated() {
+//            if note.selectionState == true {
+//                notes.remove(at: index)
+//                let indexPath = IndexPath(item: index, section: 0)
+//                notesTable.deleteRows(at: [indexPath], with: .fade)
+//                notesTable.reloadData()
+//            }
+//        }
+        print(notes.count)
     }
 
     @objc private func animateCreation() {
@@ -220,7 +261,10 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         return false
     }
 
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    func tableView(
+        _ tableView: UITableView,
+        editingStyleForRowAt indexPath: IndexPath
+    ) -> UITableViewCell.EditingStyle {
         return .none
     }
 }

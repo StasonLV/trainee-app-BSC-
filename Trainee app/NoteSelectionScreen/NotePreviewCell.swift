@@ -9,8 +9,6 @@ import UIKit
 
 final class NotePreviewCell: UITableViewCell {
 
-    var selectionState: Bool = false
-
     // MARK: - константы
     private enum Constants {
         static let noteNameFont: UIFont = .systemFont(ofSize: 16, weight: .bold)
@@ -119,9 +117,17 @@ final class NotePreviewCell: UITableViewCell {
     }
 
     @objc func cellSelected(sender: UIButton) {
-        print("checkbox pressed")
-        selectionState.toggle()
-        print(selectionState)
+        note?.selectionState.toggle()
+        print(note?.selectionState)
+        guard let state = note?.selectionState else { return }
+        print(state)
+        if state == true {
+            checkButton.setImage(Constants.cellChooseSymbol, for: .normal)
+            checkButton.tintColor = .red
+        } else {
+            checkButton.setImage(Constants.cellEditSymbol, for: .normal)
+            checkButton.tintColor = .blue
+        }
     }
 
     // MARK: - настройка данных ячейки
