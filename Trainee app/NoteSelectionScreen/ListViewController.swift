@@ -13,14 +13,18 @@ final class ListViewController: UIViewController {
     private enum Constants {
         static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
         static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
+        static let trashSymbol = UIImage(systemName: "trash", withConfiguration: buttonSymbolConfig)
         static let savedNotesKey = "My Key"
     }
     private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     var notes = [NoteModel]()
 
-    let deleteButton: UIButton = {
+    lazy var deleteButton: UIButton = {
         let btn = UIButton()
         btn.backgroundColor = .red
+        btn.layer.cornerRadius = 25
+        btn.setImage(Constants.trashSymbol, for: .normal)
+        btn.tintColor = .white
         btn.addTarget(self, action: #selector(removeSelected), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -78,19 +82,19 @@ final class ListViewController: UIViewController {
         notesTable.delegate = self
         view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         view.addSubview(notesTable)
-        view.addSubview(plusButton)
-        view.addSubview(deleteButton)
-        view.bringSubviewToFront(deleteButton)
-        view.bringSubviewToFront(plusButton)
+//        view.addSubview(plusButton)
+//        view.addSubview(deleteButton)
+//        view.bringSubviewToFront(deleteButton)
+//        view.bringSubviewToFront(plusButton)
         notesTable.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         notesTable.translatesAutoresizingMaskIntoConstraints = false
 
-        NSLayoutConstraint.activate([
-            deleteButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            deleteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            deleteButton.widthAnchor.constraint(equalToConstant: 50),
-            deleteButton.heightAnchor.constraint(equalTo: plusButton.widthAnchor)
-        ])
+//        NSLayoutConstraint.activate([
+//            deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: +60),
+//            deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -19),
+//            deleteButton.widthAnchor.constraint(equalToConstant: 50),
+//            deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor)
+//        ])
 
         NSLayoutConstraint.activate([
             notesTable.topAnchor.constraint(equalTo: view.topAnchor),
@@ -98,13 +102,37 @@ final class ListViewController: UIViewController {
             notesTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             notesTable.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+//        NSLayoutConstraint.activate([
+//            plusButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: +60),
+//            plusButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -19),
+//            plusButton.widthAnchor.constraint(equalToConstant: 50),
+//            plusButton.heightAnchor.constraint(equalTo: plusButton.widthAnchor)
+//        ])
+        notesTable.register(NotePreviewCell.self, forCellReuseIdentifier: "cell")
+    }
+
+    func addDeleteButton() {
+        view.addSubview(deleteButton)
+        view.bringSubviewToFront(deleteButton)
+
+        NSLayoutConstraint.activate([
+            deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: +60),
+            deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -19),
+            deleteButton.widthAnchor.constraint(equalToConstant: 50),
+            deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor)
+        ])
+    }
+
+    func addPlusButton() {
+        view.addSubview(plusButton)
+        view.bringSubviewToFront(plusButton)
+
         NSLayoutConstraint.activate([
             plusButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: +60),
             plusButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -19),
             plusButton.widthAnchor.constraint(equalToConstant: 50),
             plusButton.heightAnchor.constraint(equalTo: plusButton.widthAnchor)
         ])
-        notesTable.register(NotePreviewCell.self, forCellReuseIdentifier: "cell")
     }
 
     // MARK: - метод для кнопки "плюс" + кложур для новых заметок
@@ -126,8 +154,12 @@ final class ListViewController: UIViewController {
         switch isEditing {
         case true:
             self.editButtonItem.title = "Готово"
+            plusButton.removeFromSuperview()
+            addDeleteButton()
         case false:
             self.editButtonItem.title = "Выбрать"
+            deleteButton.removeFromSuperview()
+            addPlusButton()
             }
         }
 
@@ -208,6 +240,16 @@ final class ListViewController: UIViewController {
             selector: #selector(saveArrayOfNotes),
             name: UIScene.willDeactivateNotification,
             object: nil
+        )
+    }
+    // MARK: - анимации
+    func plusToTrashAnimation() {
+        UIView.animate(
+            withDuration: 5.0,
+            animations: {
+            self.plusButton.backgroundColor = .red
+            },
+                       completion: nil
         )
     }
 }
