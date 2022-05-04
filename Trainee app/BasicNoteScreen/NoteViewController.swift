@@ -9,18 +9,37 @@ import UIKit
 
 final class NoteViewController: UIViewController, UITextFieldDelegate {
 
+    // MARK: - константы
     let noteView = NoteView(frame: .zero)
+    var completion: ((NoteModel) -> Void)?
 
-    // MARK: ViewDidLoad
+    // MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         noteView.titleField.delegate = self
         noteView.noteText.becomeFirstResponder()
-        getViewData()
         setupNavBar()
+        notificationSetup()
         view.addSubview(noteView)
     }
-    // MARK: Methods
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.isMovingFromParent {
+            let model = NoteModel(
+                title: noteView.titleField.text,
+                noteText: noteView.noteText.text,
+                date: noteView.dateField.text
+            )
+            if model.isEmpty == true {
+                model.saveNoteOrAlert(model: model, rootVC: self)
+            } else {
+                completion?(model)
+            }
+        }
+    }
+
+    // MARK: - метод обработки нажатия вне вью
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
         super.touchesBegan(
@@ -33,27 +52,40 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         noteView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
     }
 
+    // MARK: - обсерверы для клавиаутуры
+    private func notificationSetup() {
+            let notificationCenter = NotificationCenter.default
+            notificationCenter.addObserver(
+                self,
+                selector: #selector(keyboardWasShown(notification:)),
+                name: UIResponder.keyboardWillShowNotification,
+                object: nil
+            )
+            notificationCenter.addObserver(
+                self,
+                selector: #selector(keyboardWillBeHidden(notification:)),
+                name: UIResponder.keyboardWillHideNotification,
+                object: nil
+            )
+        }
+
+    // MARK: - метод для сохранения
     @objc func saveViewData() {
         noteView.resignResponders()
-        let model = NoteModel(
+            let model = NoteModel(
             title: noteView.titleField.text,
             noteText: noteView.noteText.text,
             date: noteView.dateField.text
         )
+        if model.isEmpty == true {
         model.saveNoteOrAlert(model: model, rootVC: self)
-    }
-
-    func getViewData() {
-        if let decodedNote = UserDefaults.standard.object(forKey: "first") as? Data {
-            if let noteData = try? JSONDecoder().decode(NoteModel.self, from: decodedNote) {
-                noteView.titleField.text = noteData.title
-                noteView.noteText.text = noteData.noteText
-                noteView.dateField.text = noteData.date
-            }
+        } else {
+            completion?(model)
         }
     }
 
-    func setupNavBar() {
+    // MARK: - настройка навигейшн бара
+    private func setupNavBar() {
         let saveButton = UIBarButtonItem(
             title: "Готово",
             style: .done,
@@ -61,6 +93,33 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
             action: #selector(saveViewData)
         )
         navigationItem.rightBarButtonItem = saveButton
-        title = "Note Pad"
+        title = "Заметка"
+    }
+
+    func noteViewWithCellData(with model: NoteModel) {
+        self.noteView.titleField.text = model.title
+        self.noteView.noteText.text = model.noteText
+        self.noteView.dateField.text = model.date
+    }
+
+    // MARK: - методы для инсета контента при открытии клавиатуры
+    @objc func keyboardWasShown(notification: NSNotification) {
+        navigationItem.rightBarButtonItem?.isEnabled = true
+        navigationItem.rightBarButtonItem?.tintColor = .systemBlue
+        let info = notification.userInfo
+        if let keyboardRect = info?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            let keyboardSize = keyboardRect.size
+            noteView.noteText.contentInset = UIEdgeInsets(top: 0, left: 0,
+                                                          bottom: keyboardSize.height, right: 0)
+            noteView.noteText.scrollIndicatorInsets = noteView.noteText.contentInset
+        }
+    }
+
+    @objc func keyboardWillBeHidden(notification: NSNotification) {
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        navigationItem.rightBarButtonItem?.tintColor = .clear
+        noteView.noteText.contentInset = UIEdgeInsets(top: 0, left: 0,
+                                                      bottom: 0, right: 0)
+        noteView.noteText.scrollIndicatorInsets = noteView.noteText.contentInset
     }
 }
