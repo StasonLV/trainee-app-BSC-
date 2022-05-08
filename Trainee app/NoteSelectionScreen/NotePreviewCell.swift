@@ -142,10 +142,8 @@ final class NotePreviewCell: UITableViewCell {
         super.setEditing(editing, animated: animated)
         switch editing {
         case true:
-            checkButtonAppearAnimation()
             contentAnimationForStartEditing()
         case false:
-            checkButton.alpha = 0.0
             contentAnimationForEndEditing()
         }
     }
@@ -158,6 +156,7 @@ final class NotePreviewCell: UITableViewCell {
                 self.noteNameField.center.x += 30.0
                 self.noteTextLabel.center.x += 30.0
                 self.noteDateLabel.center.x += 30.0
+                self.checkButton.alpha = 1.0
             }
         )
     }
@@ -170,16 +169,7 @@ final class NotePreviewCell: UITableViewCell {
                 self.noteNameField.center.x -= 30.0
                 self.noteTextLabel.center.x -= 30.0
                 self.noteDateLabel.center.x -= 30.0
-            }
-        )
-    }
-
-    func checkButtonAppearAnimation() {
-        UIView.animate(
-            withDuration: 0.75,
-            delay: 0.0,
-            animations: {
-                self.checkButton.alpha = 1.0
+                self.checkButton.alpha = 0.0
             }
         )
     }

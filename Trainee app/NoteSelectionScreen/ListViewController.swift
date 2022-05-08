@@ -12,34 +12,34 @@ final class ListViewController: UIViewController {
     // MARK: - константы
     private enum Constants {
         static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
+        static let plusButtonBlueColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
         static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
-        static let trashSymbol = UIImage(systemName: "trash", withConfiguration: buttonSymbolConfig)
         static let savedNotesKey = "My Key"
     }
     private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     var notes = [NoteModel]()
 
-    lazy var deleteButton: UIButton = {
-        let btn = UIButton()
-        btn.backgroundColor = .red
-        btn.layer.cornerRadius = 25
-        btn.setImage(Constants.trashSymbol, for: .normal)
-        btn.tintColor = .white
-        btn.addTarget(self, action: #selector(removeSelected), for: .touchUpInside)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
+    lazy var alert: UIAlertController = {
+        let alert = UIAlertController(
+            title: "Нечего удалять",
+            message: "Не выбрано ни одной заметки для удаления",
+            preferredStyle: .alert
+        )
+        let actionOK = UIAlertAction(title: "Продолжить", style: .cancel)
+        alert.addAction(actionOK)
+        return alert
     }()
 
     let plusButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
+        button.backgroundColor = Constants.plusButtonBlueColor
         button.layer.cornerRadius = 25
         button.setImage(Constants.buttonSymbol, for: .normal)
         button.tintColor = .white
         button.layer.masksToBounds = true
         button.addTarget(
             NoteViewController(),
-            action: #selector(animateCreation),
+            action: #selector(buttonMethod),
             for: .touchUpInside
         )
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -82,19 +82,10 @@ final class ListViewController: UIViewController {
         notesTable.delegate = self
         view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         view.addSubview(notesTable)
-//        view.addSubview(plusButton)
-//        view.addSubview(deleteButton)
-//        view.bringSubviewToFront(deleteButton)
-//        view.bringSubviewToFront(plusButton)
+        view.addSubview(plusButton)
+        view.bringSubviewToFront(plusButton)
         notesTable.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         notesTable.translatesAutoresizingMaskIntoConstraints = false
-
-//        NSLayoutConstraint.activate([
-//            deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: +60),
-//            deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -19),
-//            deleteButton.widthAnchor.constraint(equalToConstant: 50),
-//            deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor)
-//        ])
 
         NSLayoutConstraint.activate([
             notesTable.topAnchor.constraint(equalTo: view.topAnchor),
@@ -102,41 +93,25 @@ final class ListViewController: UIViewController {
             notesTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             notesTable.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-//        NSLayoutConstraint.activate([
-//            plusButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: +60),
-//            plusButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -19),
-//            plusButton.widthAnchor.constraint(equalToConstant: 50),
-//            plusButton.heightAnchor.constraint(equalTo: plusButton.widthAnchor)
-//        ])
-        notesTable.register(NotePreviewCell.self, forCellReuseIdentifier: "cell")
-    }
-
-    func addDeleteButton() {
-        view.addSubview(deleteButton)
-        view.bringSubviewToFront(deleteButton)
-
-        NSLayoutConstraint.activate([
-            deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: +60),
-            deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -19),
-            deleteButton.widthAnchor.constraint(equalToConstant: 50),
-            deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor)
-        ])
-    }
-
-    func addPlusButton() {
-        view.addSubview(plusButton)
-        view.bringSubviewToFront(plusButton)
-
         NSLayoutConstraint.activate([
             plusButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: +60),
             plusButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -19),
             plusButton.widthAnchor.constraint(equalToConstant: 50),
             plusButton.heightAnchor.constraint(equalTo: plusButton.widthAnchor)
         ])
+        notesTable.register(NotePreviewCell.self, forCellReuseIdentifier: "cell")
     }
 
     // MARK: - метод для кнопки "плюс" + кложур для новых заметок
-    @objc private func createNewNote() {
+    @objc private func buttonMethod() {
+        if notesTable.isEditing == true {
+            removeSelected()
+        } else {
+            noteCreationAnimation()
+        }
+    }
+
+    private func createNewNote() {
         let newNoteVC = NoteViewController()
         DispatchQueue.main.async {
             newNoteVC.completion = { [weak self] model in
@@ -154,20 +129,22 @@ final class ListViewController: UIViewController {
         switch isEditing {
         case true:
             self.editButtonItem.title = "Готово"
-            plusButton.removeFromSuperview()
-            addDeleteButton()
+            buttonForDeletionTransition()
         case false:
             self.editButtonItem.title = "Выбрать"
-            deleteButton.removeFromSuperview()
-            addPlusButton()
+            buttonForAddTransition()
             }
         }
 
-    @objc func removeSelected() {
-        //теперь массив не фильтруется а полностью очищается, я чет не могу найти, что я упустил
-        let filteredNotes = notes.filter {$0.selectionState == true}
-        print(filteredNotes.count)
-        notesTable.reloadData()
+    private func removeSelected() {
+        // теперь массив не фильтруется а полностью очищается, я чет не могу найти, что я упустил
+//        let filteredNotes = notes.filter {$0.selectionState == true}
+        let filetered = [NoteModel]()
+        if filetered.isEmpty {
+            self.present(alert, animated: true, completion: nil)
+        }
+        print(notes.count)
+//        notesTable.reloadData()
         //        1 способ
         //        notes.removeAll(where: {$0.selectionState == true})
         //        2 способ
@@ -191,10 +168,9 @@ final class ListViewController: UIViewController {
         //                notesTable.reloadData()
         //            }
         //        }
-        print(notes.count)
     }
 
-    @objc private func animateCreation() {
+    private func noteCreationAnimation() {
         UIView.animateKeyframes(
             withDuration: 1.0,
             delay: 0.0,
@@ -218,6 +194,28 @@ final class ListViewController: UIViewController {
             completion: { _ in
                 self.createNewNote()
             }
+        )
+    }
+
+    private func buttonForDeletionTransition() {
+        UIView.animate(
+            withDuration: 1.0,
+            animations: {
+                self.plusButton.backgroundColor = .red
+                self.plusButton.transform = CGAffineTransform(rotationAngle: 40)
+            },
+            completion: nil
+        )
+    }
+
+    private func buttonForAddTransition() {
+        UIView.animate(
+            withDuration: 1.0,
+            animations: {
+                self.plusButton.backgroundColor = Constants.plusButtonBlueColor
+                self.plusButton.transform = .identity
+            },
+            completion: nil
         )
     }
 
