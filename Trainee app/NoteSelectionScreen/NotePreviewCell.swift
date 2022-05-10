@@ -106,7 +106,7 @@ final class NotePreviewCell: UITableViewCell {
 
         NSLayoutConstraint.activate([
             checkButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            checkButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            checkButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             noteNameField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             noteNameField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             noteTextLabel.topAnchor.constraint(equalTo: noteNameField.bottomAnchor, constant: 4),
@@ -116,9 +116,9 @@ final class NotePreviewCell: UITableViewCell {
         ])
     }
 
+    // MARK: - метод для тапа по чекбоксу
     @objc func cellSelected(sender: UIButton) {
         note?.selectionState.toggle()
-        print(note?.selectionState)
         guard let state = note?.selectionState else { return }
         print(state)
         if state == true {
@@ -148,14 +148,15 @@ final class NotePreviewCell: UITableViewCell {
         }
     }
 
+    // MARK: - анимации
     func contentAnimationForStartEditing() {
         UIView.animate(
             withDuration: 0.75,
             delay: 0.0,
             animations: {
-                self.noteNameField.center.x += 30.0
-                self.noteTextLabel.center.x += 30.0
-                self.noteDateLabel.center.x += 30.0
+                self.noteNameField.center.x += 30
+                self.noteTextLabel.center.x += 30
+                self.noteDateLabel.center.x += 30
                 self.checkButton.alpha = 1.0
             }
         )

@@ -54,16 +54,7 @@ final class ListViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        UIView.animate(
-            withDuration: 2.5,
-            delay: 0.0,
-            usingSpringWithDamping: 0.1,
-            initialSpringVelocity: 10.0,
-            options: [.layoutSubviews],
-            animations: {
-                self.plusButton.center.y -= 90.0
-        },
-            completion: nil)
+        buttonAppearAnimation()
     }
 
     override func viewDidLoad() {
@@ -123,6 +114,7 @@ final class ListViewController: UIViewController {
         self.navigationController?.pushViewController(newNoteVC, animated: true)
     }
 
+    // MARK: - оверрайд метода эдита
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         notesTable.setEditing(editing, animated: true)
@@ -136,11 +128,11 @@ final class ListViewController: UIViewController {
             }
         }
 
+    // MARK: - метод для удаления отмеченных заметок
     private func removeSelected() {
         // теперь массив не фильтруется а полностью очищается, я чет не могу найти, что я упустил
-//        let filteredNotes = notes.filter {$0.selectionState == true}
-        let filetered = [NoteModel]()
-        if filetered.isEmpty {
+        let filteredNotes = notes.filter {$0.selectionState == true}
+        if filteredNotes.isEmpty {
             self.present(alert, animated: true, completion: nil)
         }
         print(notes.count)
@@ -170,55 +162,6 @@ final class ListViewController: UIViewController {
         //        }
     }
 
-    private func noteCreationAnimation() {
-        UIView.animateKeyframes(
-            withDuration: 1.0,
-            delay: 0.0,
-            options: [.layoutSubviews],
-            animations: {
-                UIView.addKeyframe(
-                    withRelativeStartTime: 0.0,
-                    relativeDuration: 0.25,
-                    animations: {
-                        self.plusButton.center.y -= 50.0
-                    }
-                )
-                UIView.addKeyframe(
-                    withRelativeStartTime: 0.25,
-                    relativeDuration: 0.75,
-                    animations: {
-                        self.plusButton.center.y += 300.0
-                    }
-                )
-            },
-            completion: { _ in
-                self.createNewNote()
-            }
-        )
-    }
-
-    private func buttonForDeletionTransition() {
-        UIView.animate(
-            withDuration: 1.0,
-            animations: {
-                self.plusButton.backgroundColor = .red
-                self.plusButton.transform = CGAffineTransform(rotationAngle: 40)
-            },
-            completion: nil
-        )
-    }
-
-    private func buttonForAddTransition() {
-        UIView.animate(
-            withDuration: 1.0,
-            animations: {
-                self.plusButton.backgroundColor = Constants.plusButtonBlueColor
-                self.plusButton.transform = .identity
-            },
-            completion: nil
-        )
-    }
-
     // MARK: - методы для сохранения и загрузки массива заметок
     @objc private func saveArrayOfNotes() {
         let notesData = try? JSONEncoder().encode(notes)
@@ -238,16 +181,6 @@ final class ListViewController: UIViewController {
             selector: #selector(saveArrayOfNotes),
             name: UIScene.willDeactivateNotification,
             object: nil
-        )
-    }
-    // MARK: - анимации
-    func plusToTrashAnimation() {
-        UIView.animate(
-            withDuration: 5.0,
-            animations: {
-            self.plusButton.backgroundColor = .red
-            },
-                       completion: nil
         )
     }
 }
@@ -311,5 +244,82 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         editingStyleForRowAt indexPath: IndexPath
     ) -> UITableViewCell.EditingStyle {
         return .none
+    }
+}
+
+// MARK: - анимации
+extension ListViewController {
+    private func plusToTrashAnimation() {
+        UIView.animate(
+            withDuration: 5.0,
+            animations: {
+            self.plusButton.backgroundColor = .red
+            },
+            completion: nil
+        )
+    }
+
+    private func buttonAppearAnimation() {
+        UIView.animate(
+            withDuration: 2.5,
+            delay: 0.0,
+            usingSpringWithDamping: 0.1,
+            initialSpringVelocity: 10.0,
+            options: [],
+            animations: {
+                self.plusButton.center.y -= 90.0
+                self.view.layoutSubviews()
+            },
+            completion: nil)
+    }
+
+    private func noteCreationAnimation() {
+        UIView.animateKeyframes(
+            withDuration: 1.0,
+            delay: 0.0,
+            options: [],
+            animations: {
+                UIView.addKeyframe(
+                    withRelativeStartTime: 0.0,
+                    relativeDuration: 0.25,
+                    animations: {
+                        self.plusButton.center.y -= 50.0
+                    }
+                )
+                UIView.addKeyframe(
+                    withRelativeStartTime: 0.25,
+                    relativeDuration: 0.75,
+                    animations: {
+                        self.plusButton.center.y += 150.0
+                    }
+                )
+            },
+            completion: { _ in
+                self.createNewNote()
+                self.plusButton.center.y -= 100.0
+            }
+        )
+    }
+
+    private func buttonForDeletionTransition() {
+        UIView.animate(
+            withDuration: 1.0,
+            animations: {
+                self.plusButton.backgroundColor = .red
+                self.plusButton.transform = CGAffineTransform(rotationAngle: 40)
+            },
+            completion: nil
+        )
+    }
+
+    private func buttonForAddTransition() {
+        UIView.animate(
+            withDuration: 1.0,
+            animations: {
+                self.plusButton.backgroundColor = Constants.plusButtonBlueColor
+                self.plusButton.transform = .identity
+            },
+            completion: nil
+        )
     }
 }
