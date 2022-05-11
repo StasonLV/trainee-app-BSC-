@@ -130,37 +130,20 @@ final class ListViewController: UIViewController {
 
     // MARK: - метод для удаления отмеченных заметок
     private func removeSelected() {
-        // теперь массив не фильтруется а полностью очищается, я чет не могу найти, что я упустил
         let filteredNotes = notes.filter {$0.selectionState == true}
         if filteredNotes.isEmpty {
             self.present(alert, animated: true, completion: nil)
+        } else {
+            for (index, note) in notes.enumerated() where note.selectionState == true {
+                    notes.remove(at: index)
+                    let indexPath = IndexPath(item: index, section: 0)
+                    notesTable.beginUpdates()
+                    notesTable.deleteRows(at: [indexPath], with: .automatic)
+                    notesTable.reloadData()
+                    notesTable.endUpdates()
+                }
+            }
         }
-        print(notes.count)
-//        notesTable.reloadData()
-        //        1 способ
-        //        notes.removeAll(where: {$0.selectionState == true})
-        //        2 способ
-        //        for note in notes {
-        //            if note.selectionState == true {
-        //                if let indexPaths = notesTable.indexPathsForSelectedRows {
-        //                    let sortedArray = indexPaths.sorted {$0.row > $1.row}
-        //                    for ino in (0...sortedArray.count - 1).reversed() {
-        //                        notes.remove(at: sortedArray[ino].row)
-        //                    }
-        //                    notesTable.deleteRows(at: sortedArray, with: .fade)
-        //                }
-        //            }
-        //        }
-        //        3 способ
-        //        for (index, note) in notes.enumerated() {
-        //            if note.selectionState == true {
-        //                notes.remove(at: index)
-        //                let indexPath = IndexPath(item: index, section: 0)
-        //                notesTable.deleteRows(at: [indexPath], with: .fade)
-        //                notesTable.reloadData()
-        //            }
-        //        }
-    }
 
     // MARK: - методы для сохранения и загрузки массива заметок
     @objc private func saveArrayOfNotes() {
@@ -186,13 +169,23 @@ final class ListViewController: UIViewController {
 }
 
 // MARK: - экстеншн для функционала тэйблвью
-extension ListViewController: UITableViewDataSource, UITableViewDelegate {
+extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePreviewCellDelegate {
+    
+    func checkboxToggle(sender: NotePreviewCell) {
+        if let selectedIndexPath = notesTable.indexPath(for: sender) {
+            notes[selectedIndexPath.row].selectionState = !notes[selectedIndexPath.row].selectionState
+            notesTable.reloadRows(at: [selectedIndexPath], with: .none)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = notesTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? NotePreviewCell
+        cell?.delegate = self
+        cell?.checkButton.isSelected = notes[indexPath.row].selectionState
         cell?.setupCellData(with: notes[indexPath.row])
         cell?.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: notesTable.bounds.width)
         cell?.layoutMargins = UIEdgeInsets.zero

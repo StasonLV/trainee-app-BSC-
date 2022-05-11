@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol NotePreviewCellDelegate: AnyObject {
+    func checkboxToggle(sender: NotePreviewCell)
+}
+
 final class NotePreviewCell: UITableViewCell {
 
     // MARK: - константы
@@ -30,6 +34,7 @@ final class NotePreviewCell: UITableViewCell {
             withConfiguration: buttonSymbolConfig
         )
     }
+    weak var delegate: NotePreviewCellDelegate?
 
     // MARK: - модель
     var note: NoteModel? {
@@ -48,6 +53,7 @@ final class NotePreviewCell: UITableViewCell {
         btn.alpha = 0.0
         btn.addTarget(self, action: #selector(cellSelected), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.isUserInteractionEnabled = true
         return btn
     }()
 
@@ -118,16 +124,7 @@ final class NotePreviewCell: UITableViewCell {
 
     // MARK: - метод для тапа по чекбоксу
     @objc func cellSelected(sender: UIButton) {
-        note?.selectionState.toggle()
-        guard let state = note?.selectionState else { return }
-        print(state)
-        if state == true {
-            checkButton.setImage(Constants.cellChooseSymbol, for: .normal)
-            checkButton.tintColor = .red
-        } else {
-            checkButton.setImage(Constants.cellEditSymbol, for: .normal)
-            checkButton.tintColor = .blue
-        }
+        delegate?.checkboxToggle(sender: self)
     }
 
     // MARK: - настройка данных ячейки
