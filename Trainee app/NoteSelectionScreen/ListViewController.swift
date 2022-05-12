@@ -125,8 +125,8 @@ final class ListViewController: UIViewController {
         case false:
             self.editButtonItem.title = "Выбрать"
             buttonForAddTransition()
-            }
         }
+    }
 
     // MARK: - метод для удаления отмеченных заметок
     private func removeSelected() {
@@ -170,14 +170,14 @@ final class ListViewController: UIViewController {
 
 // MARK: - экстеншн для функционала тэйблвью
 extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePreviewCellDelegate {
-    
+
     func checkboxToggle(sender: NotePreviewCell) {
         if let selectedIndexPath = notesTable.indexPath(for: sender) {
             notes[selectedIndexPath.row].selectionState = !notes[selectedIndexPath.row].selectionState
             notesTable.reloadRows(at: [selectedIndexPath], with: .none)
         }
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
     }
@@ -242,15 +242,6 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePr
 
 // MARK: - анимации
 extension ListViewController {
-    private func plusToTrashAnimation() {
-        UIView.animate(
-            withDuration: 5.0,
-            animations: {
-            self.plusButton.backgroundColor = .red
-            },
-            completion: nil
-        )
-    }
 
     private func buttonAppearAnimation() {
         UIView.animate(

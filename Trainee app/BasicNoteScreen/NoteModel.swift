@@ -17,6 +17,10 @@ struct NoteModel: Codable {
     var isEmpty: Bool {
         title!.isEmpty && noteText!.isEmpty
     }
+
+    mutating func selectionStateToggle() {
+        self.selectionState.toggle()
+    }
 }
 
 extension NoteModel {

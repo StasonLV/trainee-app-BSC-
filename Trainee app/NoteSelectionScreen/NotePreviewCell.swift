@@ -34,6 +34,7 @@ final class NotePreviewCell: UITableViewCell {
             withConfiguration: buttonSymbolConfig
         )
     }
+
     weak var delegate: NotePreviewCellDelegate?
 
     // MARK: - модель
@@ -144,29 +145,31 @@ final class NotePreviewCell: UITableViewCell {
             contentAnimationForEndEditing()
         }
     }
+}
 
-    // MARK: - анимации
-    func contentAnimationForStartEditing() {
+// MARK: - анимации
+extension NotePreviewCell {
+    private func contentAnimationForStartEditing() {
         UIView.animate(
-            withDuration: 0.75,
+            withDuration: 1.0,
             delay: 0.0,
             animations: {
-                self.noteNameField.center.x += 30
-                self.noteTextLabel.center.x += 30
-                self.noteDateLabel.center.x += 30
+                self.noteNameField.transform = CGAffineTransform(translationX: 25, y: 0)
+                self.noteTextLabel.transform = CGAffineTransform(translationX: 25, y: 0)
+                self.noteDateLabel.transform = CGAffineTransform(translationX: 25, y: 0)
                 self.checkButton.alpha = 1.0
             }
         )
     }
 
-    func contentAnimationForEndEditing() {
+    private func contentAnimationForEndEditing() {
         UIView.animate(
-            withDuration: 0.75,
+            withDuration: 1.0,
             delay: 0.0,
             animations: {
-                self.noteNameField.center.x -= 30.0
-                self.noteTextLabel.center.x -= 30.0
-                self.noteDateLabel.center.x -= 30.0
+                self.noteNameField.transform = .identity
+                self.noteTextLabel.transform = .identity
+                self.noteDateLabel.transform = .identity
                 self.checkButton.alpha = 0.0
             }
         )
