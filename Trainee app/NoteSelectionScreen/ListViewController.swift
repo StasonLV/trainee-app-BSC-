@@ -152,9 +152,11 @@ final class ListViewController: UIViewController {
     }
 
     func loadArrrayOfNotes() {
-        guard let notesData = UserDefaults.standard.data(forKey: Constants.savedNotesKey),
-        let cache = try? JSONDecoder().decode([NoteModel].self, from: notesData) else { return }
-        notes = cache
+        let worker: WorkerType = Worker()
+        worker.fetch()
+//        guard let notesData = UserDefaults.standard.data(forKey: Constants.savedNotesKey),
+//        let cache = try? JSONDecoder().decode([NoteModel].self, from: notesData) else { return }
+//        notes = cache
     }
 
     private func addSaveNotificationOnAppDismiss() {
