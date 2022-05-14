@@ -21,6 +21,12 @@ struct NoteModel: Codable {
     mutating func selectionStateToggle() {
         self.selectionState.toggle()
     }
+
+    enum CodingKeys: String, CodingKey {
+        case title = "header"
+        case noteText = "text"
+        case date = "date"
+    }
 }
 
 extension NoteModel {

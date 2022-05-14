@@ -16,7 +16,7 @@ final class ListViewController: UIViewController {
         static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
         static let savedNotesKey = "My Key"
     }
-    private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
+    let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     var notes = [NoteModel]()
 
     lazy var alert: UIAlertController = {
@@ -154,10 +154,12 @@ final class ListViewController: UIViewController {
     func loadArrrayOfNotes() {
         let worker: WorkerType = Worker()
         worker.fetch()
+        notes.append(contentsOf: worker.fetch())
+        notesTable.reloadData()
+        }
 //        guard let notesData = UserDefaults.standard.data(forKey: Constants.savedNotesKey),
 //        let cache = try? JSONDecoder().decode([NoteModel].self, from: notesData) else { return }
 //        notes = cache
-    }
 
     private func addSaveNotificationOnAppDismiss() {
         let saveNotification = NotificationCenter.default
