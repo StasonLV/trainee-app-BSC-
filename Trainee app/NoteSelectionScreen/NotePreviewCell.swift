@@ -14,16 +14,12 @@ protocol NotePreviewCellDelegate: AnyObject {
 final class NotePreviewCell: UITableViewCell {
 
     // MARK: - константы
-    private enum Constants {
+    private enum FontConstants {
         static let noteNameFont: UIFont = .systemFont(ofSize: 16, weight: .bold)
         static let noteTextFont: UIFont = .systemFont(ofSize: 10, weight: .light)
         static let noteDateFont: UIFont = .systemFont(ofSize: 10, weight: .regular)
-        static let backColor = CGColor(
-            red: 0.898,
-            green: 0.898,
-            blue: 0.898,
-            alpha: 1
-        )
+    }
+    private enum CheckmarkConstants {
         static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .heavy, scale: .default)
         static let cellEditSymbol = UIImage(
             systemName: "checkmark.circle",
@@ -32,6 +28,14 @@ final class NotePreviewCell: UITableViewCell {
         static let cellChooseSymbol = UIImage(
             systemName: "checkmark.circle.fill",
             withConfiguration: buttonSymbolConfig
+        )
+    }
+    private enum ViewConstants {
+        static let viewBackColor = CGColor(
+            red: 0.898,
+            green: 0.898,
+            blue: 0.898,
+            alpha: 1
         )
     }
 
@@ -49,8 +53,8 @@ final class NotePreviewCell: UITableViewCell {
     // MARK: - создание эл-тов ячеек
     lazy var checkButton: UIButton = {
         let btn = UIButton()
-        btn.setImage(Constants.cellEditSymbol, for: .normal)
-        btn.setImage(Constants.cellChooseSymbol, for: .selected)
+        btn.setImage(CheckmarkConstants.cellEditSymbol, for: .normal)
+        btn.setImage(CheckmarkConstants.cellChooseSymbol, for: .selected)
         btn.alpha = 0.0
         btn.addTarget(self, action: #selector(cellSelected), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -60,7 +64,7 @@ final class NotePreviewCell: UITableViewCell {
 
     private let noteNameField: UITextField = {
         let label = UITextField()
-        label.font = Constants.noteNameFont
+        label.font = FontConstants.noteNameFont
         label.placeholder = "Без названия"
         label.textColor = .black
         label.contentMode = .scaleAspectFit
@@ -71,7 +75,7 @@ final class NotePreviewCell: UITableViewCell {
 
     private let noteTextLabel: UILabel = {
         let label = UILabel()
-        label.font = Constants.noteTextFont
+        label.font = FontConstants.noteTextFont
         label.textColor = .placeholderText
         label.contentMode = .scaleAspectFit
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -80,7 +84,7 @@ final class NotePreviewCell: UITableViewCell {
 
     private let noteDateLabel: UITextField = {
         let label = UITextField()
-        label.font = Constants.noteDateFont
+        label.font = FontConstants.noteDateFont
         label.textColor = .black
         label.isUserInteractionEnabled = false
         label.text = Date().toString(format: "dd.MM.yyyy")
@@ -105,7 +109,7 @@ final class NotePreviewCell: UITableViewCell {
         contentView.layer.masksToBounds = true
         contentView.layer.cornerRadius = 15
         contentView.layer.borderWidth = 2
-        contentView.layer.borderColor = Constants.backColor
+        contentView.layer.borderColor = ViewConstants.viewBackColor
         contentView.addSubview(noteNameField)
         contentView.addSubview(noteTextLabel)
         contentView.addSubview(noteDateLabel)
@@ -138,10 +142,9 @@ final class NotePreviewCell: UITableViewCell {
 
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        switch editing {
-        case true:
+        if isEditing {
             contentAnimationForStartEditing()
-        case false:
+        } else {
             contentAnimationForEndEditing()
         }
     }

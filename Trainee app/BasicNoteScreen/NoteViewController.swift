@@ -12,6 +12,10 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
     // MARK: - константы
     let noteView = NoteView(frame: .zero)
     var completion: ((NoteModel) -> Void)?
+    private enum NavBarConstants {
+        static let title = "Заметка"
+        static let navBarButtonTitle = "Готово"
+    }
 
     // MARK: - lifecycle
     override func viewDidLoad() {
@@ -19,7 +23,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         noteView.titleField.delegate = self
         noteView.noteText.becomeFirstResponder()
         setupNavBar()
-        notificationSetup()
+        setupNotificationsKeyboard()
         view.addSubview(noteView)
     }
 
@@ -53,7 +57,7 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
     }
 
     // MARK: - обсерверы для клавиаутуры
-    private func notificationSetup() {
+    private func setupNotificationsKeyboard() {
             let notificationCenter = NotificationCenter.default
             notificationCenter.addObserver(
                 self,
@@ -87,13 +91,13 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
     // MARK: - настройка навигейшн бара
     private func setupNavBar() {
         let saveButton = UIBarButtonItem(
-            title: "Готово",
+            title: NavBarConstants.navBarButtonTitle,
             style: .done,
             target: self,
             action: #selector(saveViewData)
         )
         navigationItem.rightBarButtonItem = saveButton
-        title = "Заметка"
+        title = NavBarConstants.title
     }
 
     // MARK: - настройка заметки с переданной моделью

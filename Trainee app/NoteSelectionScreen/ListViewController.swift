@@ -10,31 +10,36 @@ import UIKit
 final class ListViewController: UIViewController {
 
     // MARK: - константы
-    private enum Constants {
+    private enum PlusButtonConstants {
         static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
         static let plusButtonBlueColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
         static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
         static let savedNotesKey = "My Key"
+    }
+    private enum AlertConstants {
+        static let alertTitle = "Нечего удалять"
+        static let alertButtonText = "Продолжить"
+        static let alertMessage = "Не выбрано ни одной заметки для удаления"
     }
     private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     var notes = [NoteModel]()
 
     lazy var alert: UIAlertController = {
         let alert = UIAlertController(
-            title: "Нечего удалять",
-            message: "Не выбрано ни одной заметки для удаления",
+            title: AlertConstants.alertTitle,
+            message: AlertConstants.alertMessage,
             preferredStyle: .alert
         )
-        let actionOK = UIAlertAction(title: "Продолжить", style: .cancel)
+        let actionOK = UIAlertAction(title: AlertConstants.alertButtonText, style: .cancel)
         alert.addAction(actionOK)
         return alert
     }()
 
     let plusButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = Constants.plusButtonBlueColor
+        button.backgroundColor = PlusButtonConstants.plusButtonBlueColor
         button.layer.cornerRadius = 25
-        button.setImage(Constants.buttonSymbol, for: .normal)
+        button.setImage(PlusButtonConstants.buttonSymbol, for: .normal)
         button.tintColor = .white
         button.layer.masksToBounds = true
         button.addTarget(
@@ -118,11 +123,10 @@ final class ListViewController: UIViewController {
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         notesTable.setEditing(editing, animated: true)
-        switch isEditing {
-        case true:
+        if isEditing {
             self.editButtonItem.title = "Готово"
             buttonForDeletionTransition()
-        case false:
+        } else {
             self.editButtonItem.title = "Выбрать"
             buttonForAddTransition()
         }
@@ -148,12 +152,13 @@ final class ListViewController: UIViewController {
     // MARK: - методы для сохранения и загрузки массива заметок
     @objc private func saveArrayOfNotes() {
         let notesData = try? JSONEncoder().encode(notes)
-        UserDefaults.standard.set(notesData, forKey: Constants.savedNotesKey)
+        UserDefaults.standard.set(notesData, forKey: PlusButtonConstants.savedNotesKey)
     }
 
     func loadArrrayOfNotes() {
-        guard let notesData = UserDefaults.standard.data(forKey: Constants.savedNotesKey),
-        let cache = try? JSONDecoder().decode([NoteModel].self, from: notesData) else { return }
+        guard let notesData = UserDefaults.standard.data(forKey: PlusButtonConstants.savedNotesKey),
+        let cache = try? JSONDecoder().decode([NoteModel].self, from: notesData)
+        else { return }
         notes = cache
     }
 
@@ -183,14 +188,19 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePr
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = notesTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? NotePreviewCell
-        cell?.delegate = self
-        cell?.checkButton.isSelected = notes[indexPath.row].selectionState
-        cell?.setupCellData(with: notes[indexPath.row])
-        cell?.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: notesTable.bounds.width)
-        cell?.layoutMargins = UIEdgeInsets.zero
-        cell?.contentView.layer.masksToBounds = true
-        return cell ?? NotePreviewCell()
+        guard let cell = notesTable.dequeueReusableCell(
+            withIdentifier: "cell",
+            for: indexPath
+        ) as? NotePreviewCell else {
+            fatalError("Ячейка не получена")
+        }
+        cell.delegate = self
+        cell.checkButton.isSelected = notes[indexPath.row].selectionState
+        cell.setupCellData(with: notes[indexPath.row])
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: notesTable.bounds.width)
+        cell.layoutMargins = UIEdgeInsets.zero
+        cell.contentView.layer.masksToBounds = true
+        return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -245,7 +255,7 @@ extension ListViewController {
 
     private func buttonAppearAnimation() {
         UIView.animate(
-            withDuration: 2.5,
+            withDuration: 1.0,
             delay: 0.0,
             usingSpringWithDamping: 0.1,
             initialSpringVelocity: 10.0,
@@ -300,7 +310,7 @@ extension ListViewController {
         UIView.animate(
             withDuration: 1.0,
             animations: {
-                self.plusButton.backgroundColor = Constants.plusButtonBlueColor
+                self.plusButton.backgroundColor = PlusButtonConstants.plusButtonBlueColor
                 self.plusButton.transform = .identity
             },
             completion: nil

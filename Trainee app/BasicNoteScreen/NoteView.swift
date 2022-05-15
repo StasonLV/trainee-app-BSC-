@@ -10,7 +10,7 @@ import UIKit
 final class NoteView: UIView {
 
     // MARK: - константы
-    private enum Constants {
+    private enum TextConstants {
         static let titleFont: UIFont = .systemFont(ofSize: 24, weight: .bold)
         static let noteFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
         static let dateFont: UIFont = .systemFont(ofSize: 14, weight: .medium)
@@ -20,7 +20,9 @@ final class NoteView: UIView {
             blue: 0.675,
             alpha: 1
         )
-        static let backColor: UIColor = UIColor(
+    }
+    private enum ViewConstants {
+        static let viewBackColor: UIColor = UIColor(
             red: 0.898,
             green: 0.898,
             blue: 0.898,
@@ -31,9 +33,9 @@ final class NoteView: UIView {
     // MARK: - создание эл-тов вью
     lazy var dateField: UITextField = {
         let field = UITextField()
-        field.font = Constants.dateFont
-        field.backgroundColor = Constants.backColor
-        field.textColor = Constants.dateFontColor
+        field.font = TextConstants.dateFont
+        field.backgroundColor = ViewConstants.viewBackColor
+        field.textColor = TextConstants.dateFontColor
         field.isUserInteractionEnabled = false
         field.textAlignment = .center
         field.text = "Дата: \(Date().toString(format: "dd.MM.yyyy"))"
@@ -72,8 +74,8 @@ final class NoteView: UIView {
         field.placeholder = "Name your note..."
         field.sizeToFit()
         field.textColor = .none
-        field.backgroundColor = Constants.backColor
-        field.font = Constants.titleFont
+        field.backgroundColor = ViewConstants.viewBackColor
+        field.font = TextConstants.titleFont
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -84,8 +86,8 @@ final class NoteView: UIView {
         text.sizeToFit()
         text.isEditable = true
         text.textColor = .none
-        text.backgroundColor = Constants.backColor
-        text.font = Constants.noteFont
+        text.backgroundColor = ViewConstants.viewBackColor
+        text.font = TextConstants.noteFont
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
@@ -106,7 +108,7 @@ final class NoteView: UIView {
         addSubview(dateField)
         addSubview(noteText)
         addSubview(titleField)
-        backgroundColor = Constants.backColor
+        backgroundColor = ViewConstants.viewBackColor
 
         NSLayoutConstraint.activate([
             dateField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 21),

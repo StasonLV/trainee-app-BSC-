@@ -25,7 +25,7 @@ struct NoteModel: Codable {
 
 extension NoteModel {
     func saveNoteOrAlert(model: NoteModel, rootVC: UIViewController) {
-        if model.isEmpty == true {
+        if model.isEmpty {
             rootVC.present(NoteView.alert, animated: true)
         }
     }
