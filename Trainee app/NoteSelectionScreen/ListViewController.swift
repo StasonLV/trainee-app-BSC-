@@ -154,8 +154,8 @@ final class ListViewController: UIViewController {
     func loadArrrayOfNotes() {
         let worker: WorkerType = Worker()
         worker.fetch()
-        notes.append(contentsOf: worker.fetch())
         notesTable.reloadData()
+        print(notes)
         }
 //        guard let notesData = UserDefaults.standard.data(forKey: Constants.savedNotesKey),
 //        let cache = try? JSONDecoder().decode([NoteModel].self, from: notesData) else { return }

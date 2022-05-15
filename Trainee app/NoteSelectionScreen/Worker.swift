@@ -9,7 +9,7 @@ import Foundation
 
 protocol WorkerType {
     var session: URLSession { get }
-    func fetch() -> [NoteModel]
+    func fetch()
     func convertToNoteModel(input: DecodedNote) -> NoteModel
 }
 
@@ -29,22 +29,35 @@ class Worker: WorkerType {
         self.session = session
     }
 
-    func fetch() -> [NoteModel] {
-        let url = createURLComponents()!
-        let task = session.dataTask(with: url) { data, response, error in
-            guard let onlineNotesArray = data,
-                  let responses = try? JSONDecoder().decode([DecodedNote].self, from: onlineNotesArray)
-            else { return }
-            for response in responses {
-                let note = self.convertToNoteModel(input: response)
-                noteArray.append(note)
-            }
-            print(noteArray)
-        }
-        task.resume()
-        return noteArray
-    }
+    func fetch() {
+        guard let url = createURLComponents() else {
+            print("Error finding JSON File")
+            return
+          }
+        do {
 
+        } catch  {
+            
+        }
+//        let url = createURLComponents()!
+//        let task = session.dataTask(with: url) { data, response, error in
+//            guard let onlineNotesArray = data,
+//                  let responses = try? JSONDecoder().decode([DecodedNote].self, from: onlineNotesArray)
+//            else { return }
+//                DispatchQueue.main.async {
+//                    for response in responses {
+//                    let title = (response.header ?? "") as String
+//                    let text = (response.text ?? "") as String
+//                    let date = Date(timeIntervalSince1970: Double(response.date!)).toString(format: "dd.MM.yyyy")
+//                    let note = NoteModel(title: title, noteText: text, date: date, selectionState: false)
+//                    ListViewController().notes.append(note)
+//                    ListViewController().notesTable.reloadData()
+//                }
+//            }
+//        }
+//        task.resume()
+    }
+    
     private func createURLComponents () -> URL? {
         var url = URLComponents()
         url.scheme = "https"
