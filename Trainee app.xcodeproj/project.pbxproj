@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8431A9C8281D15CD00D98B67 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8431A9C7281D15CD00D98B67 /* Animations.swift */; };
 		84362D6B27EEFD98007D2234 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84362D6A27EEFD98007D2234 /* AppDelegate.swift */; };
 		84362D6D27EEFD98007D2234 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84362D6C27EEFD98007D2234 /* SceneDelegate.swift */; };
 		84362D6F27EEFD98007D2234 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84362D6E27EEFD98007D2234 /* NoteViewController.swift */; };
@@ -22,7 +21,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8431A9C7281D15CD00D98B67 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		84362D6727EEFD98007D2234 /* Trainee app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Trainee app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84362D6A27EEFD98007D2234 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84362D6C27EEFD98007D2234 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,7 +81,6 @@
 			children = (
 				84B059BF280C03B30065D27A /* ListViewController.swift */,
 				84B059C1280C04460065D27A /* NotePreviewCell.swift */,
-				8431A9C7281D15CD00D98B67 /* Animations.swift */,
 				84AEDD99282FCB7D00E9508D /* Worker.swift */,
 			);
 			path = NoteSelectionScreen;
@@ -215,7 +212,6 @@
 				843DA06D27F979DE0057F8CC /* NoteView.swift in Sources */,
 				84362D6F27EEFD98007D2234 /* NoteViewController.swift in Sources */,
 				84AEDD9A282FCB7D00E9508D /* Worker.swift in Sources */,
-				8431A9C8281D15CD00D98B67 /* Animations.swift in Sources */,
 				84362D6B27EEFD98007D2234 /* AppDelegate.swift in Sources */,
 				84362D6D27EEFD98007D2234 /* SceneDelegate.swift in Sources */,
 				84B059C0280C03B30065D27A /* ListViewController.swift in Sources */,

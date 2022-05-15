@@ -17,21 +17,11 @@ struct NoteModel: Codable {
     var isEmpty: Bool {
         title!.isEmpty && noteText!.isEmpty
     }
-
-    mutating func selectionStateToggle() {
-        self.selectionState.toggle()
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case title = "header"
-        case noteText = "text"
-        case date = "date"
-    }
 }
 
 extension NoteModel {
     func saveNoteOrAlert(model: NoteModel, rootVC: UIViewController) {
-        if model.isEmpty == true {
+        if model.isEmpty {
             rootVC.present(NoteView.alert, animated: true)
         }
     }
