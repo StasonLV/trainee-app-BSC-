@@ -158,10 +158,17 @@ final class ListViewController: UIViewController {
     }
 
     func loadArrrayOfNotes() {
+        //получаем заметки из сети и добавляем в конец массива дата сорс
+        let worker: WorkerType = Worker()
+        worker.fetch { [weak self] models in
+            self?.notes.append(contentsOf: models)
+            self?.notesTable.reloadData()
+        }
+        //получаем заметки из юзерДифолтс и добавляем в дата сорс
         guard let notesData = UserDefaults.standard.data(forKey: Constants.PlusButtonConstants.savedNotesKey),
-        let cache = try? JSONDecoder().decode([NoteModel].self, from: notesData)
+              let cache = try? JSONDecoder().decode([NoteModel].self, from: notesData)
         else { return }
-        notes = cache
+        notes.append(contentsOf: cache)
     }
 
     private func addSaveNotificationOnAppDismiss() {
