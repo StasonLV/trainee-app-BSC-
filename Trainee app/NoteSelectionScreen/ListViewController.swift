@@ -10,36 +10,38 @@ import UIKit
 final class ListViewController: UIViewController {
 
     // MARK: - константы
-    private enum PlusButtonConstants {
-        static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
-        static let plusButtonBlueColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
-        static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
-        static let savedNotesKey = "My Key"
-    }
-    private enum AlertConstants {
-        static let alertTitle = "Нечего удалять"
-        static let alertButtonText = "Продолжить"
-        static let alertMessage = "Не выбрано ни одной заметки для удаления"
+    private enum Constants {
+        enum PlusButtonConstants {
+            static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
+            static let plusButtonBlueColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
+            static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
+            static let savedNotesKey = "My Key"
+        }
+        enum AlertConstants {
+            static let alertTitle = "Нечего удалять"
+            static let alertButtonText = "Продолжить"
+            static let alertMessage = "Не выбрано ни одной заметки для удаления"
+        }
     }
     private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     var notes = [NoteModel]()
 
     lazy var alert: UIAlertController = {
         let alert = UIAlertController(
-            title: AlertConstants.alertTitle,
-            message: AlertConstants.alertMessage,
+            title: Constants.AlertConstants.alertTitle,
+            message: Constants.AlertConstants.alertMessage,
             preferredStyle: .alert
         )
-        let actionOK = UIAlertAction(title: AlertConstants.alertButtonText, style: .cancel)
+        let actionOK = UIAlertAction(title: Constants.AlertConstants.alertButtonText, style: .cancel)
         alert.addAction(actionOK)
         return alert
     }()
 
     let plusButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = PlusButtonConstants.plusButtonBlueColor
+        button.backgroundColor = Constants.PlusButtonConstants.plusButtonBlueColor
         button.layer.cornerRadius = 25
-        button.setImage(PlusButtonConstants.buttonSymbol, for: .normal)
+        button.setImage(Constants.PlusButtonConstants.buttonSymbol, for: .normal)
         button.tintColor = .white
         button.layer.masksToBounds = true
         button.addTarget(
@@ -152,11 +154,11 @@ final class ListViewController: UIViewController {
     // MARK: - методы для сохранения и загрузки массива заметок
     @objc private func saveArrayOfNotes() {
         let notesData = try? JSONEncoder().encode(notes)
-        UserDefaults.standard.set(notesData, forKey: PlusButtonConstants.savedNotesKey)
+        UserDefaults.standard.set(notesData, forKey: Constants.PlusButtonConstants.savedNotesKey)
     }
 
     func loadArrrayOfNotes() {
-        guard let notesData = UserDefaults.standard.data(forKey: PlusButtonConstants.savedNotesKey),
+        guard let notesData = UserDefaults.standard.data(forKey: Constants.PlusButtonConstants.savedNotesKey),
         let cache = try? JSONDecoder().decode([NoteModel].self, from: notesData)
         else { return }
         notes = cache
@@ -310,7 +312,7 @@ extension ListViewController {
         UIView.animate(
             withDuration: 1.0,
             animations: {
-                self.plusButton.backgroundColor = PlusButtonConstants.plusButtonBlueColor
+                self.plusButton.backgroundColor = Constants.PlusButtonConstants.plusButtonBlueColor
                 self.plusButton.transform = .identity
             },
             completion: nil
