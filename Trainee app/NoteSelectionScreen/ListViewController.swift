@@ -158,13 +158,13 @@ final class ListViewController: UIViewController {
     }
 
     func loadArrrayOfNotes() {
-        //получаем заметки из сети и добавляем в конец массива дата сорс
+        // получаем заметки из сети и добавляем в конец массива дата сорс
         let worker: WorkerType = Worker()
-        worker.fetch { [weak self] models in
-            self?.notes.append(contentsOf: models)
+        worker.fetch { [weak self] urlNote in
+            self?.notes.append(urlNote)
             self?.notesTable.reloadData()
         }
-        //получаем заметки из юзерДифолтс и добавляем в дата сорс
+        // получаем заметки из юзерДифолтс и добавляем в дата сорс
         guard let notesData = UserDefaults.standard.data(forKey: Constants.PlusButtonConstants.savedNotesKey),
               let cache = try? JSONDecoder().decode([NoteModel].self, from: notesData)
         else { return }

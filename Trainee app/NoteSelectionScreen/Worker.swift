@@ -9,7 +9,7 @@ import Foundation
 
 protocol WorkerType {
     var session: URLSession { get }
-    func fetch(completed: @escaping ([NoteModel]) -> Void)
+    func fetch(completion: @escaping (NoteModel) -> Void)
 }
 
 final class Worker: WorkerType {
@@ -18,7 +18,7 @@ final class Worker: WorkerType {
     struct DecodedNote: Codable {
         var header: String?
         var text: String?
-        var date: Int?
+        var date: Date?
     }
 
     let session: URLSession
@@ -28,38 +28,30 @@ final class Worker: WorkerType {
     }
 
     // MARK: - метод для получения и обработки данных по url
-    func fetch(completed: @escaping ([NoteModel]) -> Void) {
+    func fetch(completion: @escaping (NoteModel) -> Void) {
         guard let url = createURLComponents() else {
-            print("Error finding JSON File")
+            print("Ошибка в адресе JSON")
             return
         }
-        let task = session.dataTask(with: url, completionHandler: { data, response, error in
-            guard let onlineNotesArray = data else { return }
-            do {
-                if let error = error {
-                    throw error
-                }
-                let responses = try JSONDecoder().decode([DecodedNote].self, from: onlineNotesArray)
+        let task = session.dataTask(with: url) { data, response, error in
+            guard let onlineNotesArray = data,
+                  let responses = try? JSONDecoder().decode([DecodedNote].self, from: onlineNotesArray)
+            else { return }
                 for response in responses {
-                    var tempArray = [NoteModel]()
-                    let date = Double(response.date ?? 0)
                     let note = NoteModel(
                         title: response.header,
                         noteText: response.text,
-                        date: Date(timeIntervalSince1970: date).toString(format: "dd.MM.yyy"),
-                        selectionState: false)
-                    tempArray.append(note)
+                        date: response.date?.toString(format: "dd.MM.yyy"),
+                        selectionState: false
+                    )
                     DispatchQueue.main.async {
-                        completed(tempArray)
+                        completion(note)
                     }
                 }
-            } catch let error as NSError {
-                print("Ошибка при загрузке JSON: \(error.localizedDescription)")
-            }
-        })
+        }
         task.resume()
     }
-    
+
     // MARK: - метод для удобной работы с url
     private func createURLComponents () -> URL? {
         var url = URLComponents()
