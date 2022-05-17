@@ -34,6 +34,9 @@ final class Worker: WorkerType {
             return
         }
         let task = session.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Ошибка ответа от сервера: \(error)")
+            }
             guard let onlineNotesArray = data,
                   let responses = try? JSONDecoder().decode([DecodedNote].self, from: onlineNotesArray)
             else { return }
