@@ -9,18 +9,17 @@ import Foundation
 
 protocol WorkerType {
     var session: URLSession { get }
-    func fetch(completion: @escaping (NoteModel) -> Void)
+    func fetch(completion: @escaping ([NoteModel]) -> Void)
+}
+
+// MARK: - Структура для полученных заметок
+struct DecodedNote: Codable {
+    var header: String?
+    var text: String?
+    var date: Date?
 }
 
 final class Worker: WorkerType {
-
-    // MARK: - Структура для полученных заметок
-    struct DecodedNote: Codable {
-        var header: String?
-        var text: String?
-        var date: Date?
-    }
-
     let session: URLSession
 
     init (session: URLSession = URLSession(configuration: .default)) {
@@ -28,29 +27,20 @@ final class Worker: WorkerType {
     }
 
     // MARK: - метод для получения и обработки данных по url
-    func fetch(completion: @escaping (NoteModel) -> Void) {
+    func fetch(completion: @escaping ([NoteModel]) -> Void) {
         guard let url = createURLComponents() else {
             print("Ошибка в адресе JSON")
             return
         }
-        let task = session.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, _, error in
             if let error = error {
-                print("Ошибка ответа от сервера: \(error)")
+                print("Ошибка ответа от сервера: \(error.localizedDescription)")
             }
-            guard let onlineNotesArray = data,
-                  let responses = try? JSONDecoder().decode([DecodedNote].self, from: onlineNotesArray)
+            guard let data = data,
+                  let arrayOfDecodedNotes = try? JSONDecoder().decode([DecodedNote].self, from: data)
             else { return }
-                for response in responses {
-                    let note = NoteModel(
-                        title: response.header,
-                        noteText: response.text,
-                        date: response.date?.toString(format: "dd.MM.yyy"),
-                        selectionState: false
-                    )
-                    DispatchQueue.main.async {
-                        completion(note)
-                    }
-                }
+            let arrayOfNoteModels = arrayOfDecodedNotes.map{NoteModel(with: $0)}
+            completion(arrayOfNoteModels)
         }
         task.resume()
     }
@@ -66,5 +56,16 @@ final class Worker: WorkerType {
             URLQueryItem(name: "token", value: "d07f7d4a-141e-4ac5-a2d2-cc936d4e6f18")
         ]
         return url.url
+    }
+}
+
+private extension NoteModel {
+    init(with decodedNote: DecodedNote) {
+        self.init(
+            title: decodedNote.header,
+            noteText: decodedNote.text,
+            date: decodedNote.date?.toString(format: "dd.MM.yyyy"),
+            selectionState: false
+        )
     }
 }
