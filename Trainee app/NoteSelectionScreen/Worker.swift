@@ -39,7 +39,7 @@ final class Worker: WorkerType {
             guard let data = data,
                   let arrayOfDecodedNotes = try? JSONDecoder().decode([DecodedNote].self, from: data)
             else { return }
-            let arrayOfNoteModels = arrayOfDecodedNotes.map{NoteModel(with: $0)}
+            let arrayOfNoteModels = arrayOfDecodedNotes.map { NoteModel(with: $0) }
             completion(arrayOfNoteModels)
         }
         task.resume()

@@ -12,7 +12,6 @@ protocol NotePreviewCellDelegate: AnyObject {
 }
 
 final class NotePreviewCell: UITableViewCell {
-
     // MARK: - константы
     private enum Constants {
         enum FontConstants {

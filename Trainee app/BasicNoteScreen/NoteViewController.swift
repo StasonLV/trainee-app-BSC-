@@ -8,7 +8,6 @@
 import UIKit
 
 final class NoteViewController: UIViewController, UITextFieldDelegate {
-
     // MARK: - константы
     let noteView = NoteView(frame: .zero)
     var completion: ((NoteModel) -> Void)?
@@ -114,8 +113,12 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         let info = notification.userInfo
         if let keyboardRect = info?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
             let keyboardSize = keyboardRect.size
-            noteView.noteText.contentInset = UIEdgeInsets(top: 0, left: 0,
-                                                          bottom: keyboardSize.height, right: 0)
+            noteView.noteText.contentInset = UIEdgeInsets(
+                top: 0,
+                left: 0,
+                bottom: keyboardSize.height,
+                right: 0
+            )
             noteView.noteText.scrollIndicatorInsets = noteView.noteText.contentInset
         }
     }
@@ -123,8 +126,12 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
     @objc func keyboardWillBeHidden(notification: NSNotification) {
         navigationItem.rightBarButtonItem?.isEnabled = false
         navigationItem.rightBarButtonItem?.tintColor = .clear
-        noteView.noteText.contentInset = UIEdgeInsets(top: 0, left: 0,
-                                                      bottom: 0, right: 0)
+        noteView.noteText.contentInset = UIEdgeInsets(
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0
+        )
         noteView.noteText.scrollIndicatorInsets = noteView.noteText.contentInset
     }
 }

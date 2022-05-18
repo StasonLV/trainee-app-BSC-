@@ -8,7 +8,6 @@
 import UIKit
 
 final class ListViewController: UIViewController {
-
     // MARK: - константы
     private enum Constants {
         enum PlusButtonConstants {
@@ -136,7 +135,7 @@ final class ListViewController: UIViewController {
 
     // MARK: - метод для удаления отмеченных заметок
     private func removeSelected() {
-        let filteredNotes = notes.filter {$0.selectionState == true}
+        let filteredNotes = notes.filter { $0.selectionState == true }
         if filteredNotes.isEmpty {
             self.present(alert, animated: true, completion: nil)
         } else {
@@ -186,7 +185,6 @@ final class ListViewController: UIViewController {
 
 // MARK: - экстеншн для функционала тэйблвью
 extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePreviewCellDelegate {
-
     func checkboxToggle(sender: NotePreviewCell) {
         if let selectedIndexPath = notesTable.indexPath(for: sender) {
             notes[selectedIndexPath.row].selectionState = !notes[selectedIndexPath.row].selectionState
@@ -263,7 +261,6 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePr
 
 // MARK: - анимации
 extension ListViewController {
-
     private func buttonAppearAnimation() {
         UIView.animate(
             withDuration: 1.0,
@@ -275,7 +272,8 @@ extension ListViewController {
                 self.plusButton.center.y -= 90.0
                 self.view.layoutSubviews()
             },
-            completion: nil)
+            completion: nil
+        )
     }
 
     private func noteCreationAnimation() {

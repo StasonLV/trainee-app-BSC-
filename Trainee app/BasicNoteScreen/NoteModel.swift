@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 struct NoteModel: Codable {
-
     var title: String?
     var noteText: String?
     var date: String?
