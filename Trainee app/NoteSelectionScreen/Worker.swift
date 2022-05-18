@@ -9,7 +9,7 @@ import Foundation
 
 protocol WorkerType {
     var session: URLSession { get }
-    func fetch(completion: @escaping ([NoteModel]) -> Void)
+    func fetch(completion: @escaping (Result<[NoteModel], InternalError>) -> Void)
 }
 
 // MARK: - Структура для полученных заметок
@@ -17,6 +17,12 @@ struct DecodedNote: Codable {
     var header: String?
     var text: String?
     var date: Date?
+}
+
+enum InternalError: Error {
+    case URLError
+    case connectionError
+    case decodeError
 }
 
 final class Worker: WorkerType {
@@ -27,20 +33,24 @@ final class Worker: WorkerType {
     }
 
     // MARK: - метод для получения и обработки данных по url
-    func fetch(completion: @escaping ([NoteModel]) -> Void) {
+    func fetch(completion: @escaping (Result<[NoteModel], InternalError>) -> Void) {
         guard let url = createURLComponents() else {
-            print("Ошибка в адресе JSON")
+            completion(.failure(.URLError))
             return
         }
         let task = session.dataTask(with: url) { data, _, error in
-            if let error = error {
-                print("Ошибка ответа от сервера: \(error.localizedDescription)")
+            if error != nil {
+                completion(.failure(.connectionError))
+                return
             }
             guard let data = data,
-                  let arrayOfDecodedNotes = try? JSONDecoder().decode([DecodedNote].self, from: data)
-            else { return }
-            let arrayOfNoteModels = arrayOfDecodedNotes.map { NoteModel(with: $0) }
-            completion(arrayOfNoteModels)
+                  let notes = try? JSONDecoder().decode([DecodedNote].self, from: data)
+            else {
+                completion(.failure(.decodeError))
+                return
+            }
+            let decodedNotes = notes.map { NoteModel(with: $0) }
+            completion(.success(decodedNotes))
         }
         task.resume()
     }
