@@ -9,17 +9,12 @@ import Foundation
 import UIKit
 
 struct NoteModel: Codable {
-
     var title: String?
     var noteText: String?
     var date: String?
     var selectionState: Bool = false
     var isEmpty: Bool {
         title!.isEmpty && noteText!.isEmpty
-    }
-
-    mutating func selectionStateToggle() {
-        self.selectionState.toggle()
     }
 }
 

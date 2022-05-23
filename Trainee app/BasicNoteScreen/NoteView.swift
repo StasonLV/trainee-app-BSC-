@@ -8,7 +8,6 @@
 import UIKit
 
 final class NoteView: UIView {
-
     // MARK: - константы
     private enum Constants {
         enum TextConstants {

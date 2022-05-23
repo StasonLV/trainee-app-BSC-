@@ -8,12 +8,24 @@
 import UIKit
 
 final class ListViewController: UIViewController {
-
     // MARK: - константы
     private enum Constants {
+        enum ColorConstants {
+            static let viewBackColor = UIColor(
+                red: 0.898,
+                green: 0.898,
+                blue: 0.898,
+                alpha: 1
+            )
+        }
         enum PlusButtonConstants {
             static let buttonSymbolConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .thin, scale: .default)
-            static let plusButtonBlueColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
+            static let plusButtonBlueColor = UIColor(
+                red: 0,
+                green: 0.478,
+                blue: 1,
+                alpha: 1
+            )
             static let buttonSymbol = UIImage(systemName: "plus", withConfiguration: buttonSymbolConfig)
             static let savedNotesKey = "My Key"
         }
@@ -25,6 +37,7 @@ final class ListViewController: UIViewController {
     }
     private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     var notes = [NoteModel]()
+    let worker: WorkerType = Worker()
 
     lazy var alert: UIAlertController = {
         let alert = UIAlertController(
@@ -78,11 +91,11 @@ final class ListViewController: UIViewController {
         self.notesTable.separatorStyle = .none
         notesTable.dataSource = self
         notesTable.delegate = self
-        view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        view.backgroundColor = Constants.ColorConstants.viewBackColor
         view.addSubview(notesTable)
         view.addSubview(plusButton)
         view.bringSubviewToFront(plusButton)
-        notesTable.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        notesTable.backgroundColor = Constants.ColorConstants.viewBackColor
         notesTable.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
@@ -102,7 +115,7 @@ final class ListViewController: UIViewController {
 
     // MARK: - метод для кнопки "плюс" + кложур для новых заметок
     @objc private func buttonMethod() {
-        if notesTable.isEditing == true {
+        if notesTable.isEditing {
             removeSelected()
         } else {
             noteCreationAnimation()
@@ -136,11 +149,11 @@ final class ListViewController: UIViewController {
 
     // MARK: - метод для удаления отмеченных заметок
     private func removeSelected() {
-        let filteredNotes = notes.filter {$0.selectionState == true}
+        let filteredNotes = notes.filter { $0.selectionState }
         if filteredNotes.isEmpty {
             self.present(alert, animated: true, completion: nil)
         } else {
-            for (index, note) in notes.enumerated() where note.selectionState == true {
+            for (index, note) in notes.enumerated() where note.selectionState {
                     notes.remove(at: index)
                     let indexPath = IndexPath(item: index, section: 0)
                     notesTable.beginUpdates()
@@ -158,10 +171,23 @@ final class ListViewController: UIViewController {
     }
 
     func loadArrrayOfNotes() {
+        // получаем заметки из сети и добавляем в конец массива дата сорс
+        worker.fetch { [weak self] result in
+            switch result {
+            case .success(let result):
+                self?.notes.append(contentsOf: result)
+                DispatchQueue.main.async {
+                    self?.notesTable.reloadData()
+                }
+            case .failure(let error):
+                print("Ошибка при работе с загружаемыми данными: \(error.localizedDescription)")
+            }
+        }
+        // получаем заметки из юзерДифолтс и добавляем в дата сорс
         guard let notesData = UserDefaults.standard.data(forKey: Constants.PlusButtonConstants.savedNotesKey),
-        let cache = try? JSONDecoder().decode([NoteModel].self, from: notesData)
+              let cache = try? JSONDecoder().decode([NoteModel].self, from: notesData)
         else { return }
-        notes = cache
+        notes.append(contentsOf: cache)
     }
 
     private func addSaveNotificationOnAppDismiss() {
@@ -177,7 +203,6 @@ final class ListViewController: UIViewController {
 
 // MARK: - экстеншн для функционала тэйблвью
 extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePreviewCellDelegate {
-
     func checkboxToggle(sender: NotePreviewCell) {
         if let selectedIndexPath = notesTable.indexPath(for: sender) {
             notes[selectedIndexPath.row].selectionState = !notes[selectedIndexPath.row].selectionState
@@ -194,7 +219,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePr
             withIdentifier: "cell",
             for: indexPath
         ) as? NotePreviewCell else {
-            fatalError("Ячейка не получена")
+            return UITableViewCell()
         }
         cell.delegate = self
         cell.checkButton.isSelected = notes[indexPath.row].selectionState
@@ -254,7 +279,6 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePr
 
 // MARK: - анимации
 extension ListViewController {
-
     private func buttonAppearAnimation() {
         UIView.animate(
             withDuration: 1.0,
@@ -266,7 +290,8 @@ extension ListViewController {
                 self.plusButton.center.y -= 90.0
                 self.view.layoutSubviews()
             },
-            completion: nil)
+            completion: nil
+        )
     }
 
     private func noteCreationAnimation() {
