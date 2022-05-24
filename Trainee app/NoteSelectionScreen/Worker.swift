@@ -17,6 +17,7 @@ struct DecodedNote: Codable {
     var header: String?
     var text: String?
     var date: Date?
+    var userShareIcon: String?
 }
 
 enum InternalError: Error {
@@ -60,10 +61,10 @@ final class Worker: WorkerType {
         var url = URLComponents()
         url.scheme = "https"
         url.host = "firebasestorage.googleapis.com"
-        url.path = "/v0/b/ios-test-ce687.appspot.com/o/Empty.json"
+        url.path = "/v0/b/ios-test-ce687.appspot.com/o/lesson8.json"
         url.queryItems = [
             URLQueryItem(name: "alt", value: "media"),
-            URLQueryItem(name: "token", value: "d07f7d4a-141e-4ac5-a2d2-cc936d4e6f18")
+            URLQueryItem(name: "token", value: "215055df-172d-4b98-95a0-b353caca1424")
         ]
         return url.url
     }
@@ -75,6 +76,7 @@ private extension NoteModel {
             title: decodedNote.header,
             noteText: decodedNote.text,
             date: decodedNote.date?.toString(format: "dd.MM.yyyy"),
+            userShareIcon: decodedNote.userShareIcon,
             selectionState: false
         )
     }

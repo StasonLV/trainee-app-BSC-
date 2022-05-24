@@ -93,6 +93,12 @@ final class NotePreviewCell: UITableViewCell {
         return label
     }()
 
+    let userShareIcon: UIImageView = {
+        let img = UIImageView()
+        img.translatesAutoresizingMaskIntoConstraints = false
+        return img
+    }()
+
     // MARK: - инициализаторы
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -115,6 +121,7 @@ final class NotePreviewCell: UITableViewCell {
         contentView.addSubview(noteTextLabel)
         contentView.addSubview(noteDateLabel)
         contentView.addSubview(checkButton)
+        contentView.addSubview(userShareIcon)
 
         NSLayoutConstraint.activate([
             checkButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -124,7 +131,11 @@ final class NotePreviewCell: UITableViewCell {
             noteTextLabel.topAnchor.constraint(equalTo: noteNameField.bottomAnchor, constant: 4),
             noteTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             noteDateLabel.topAnchor.constraint(equalTo: noteTextLabel.bottomAnchor, constant: 24),
-            noteDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
+            noteDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            userShareIcon.heightAnchor.constraint(equalToConstant: 50),
+            userShareIcon.widthAnchor.constraint(equalToConstant: 50),
+            userShareIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            userShareIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
 

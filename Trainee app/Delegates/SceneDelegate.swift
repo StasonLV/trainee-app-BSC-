@@ -21,7 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let rootVC = ListViewController()
         let navVC = UINavigationController(rootViewController: rootVC)
         navVC.navigationBar.barStyle = .black
-        rootVC.loadArrrayOfNotes()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            rootVC.loadArrrayOfNotes()
+            rootVC.removeIndicator()
+        }
         window?.rootViewController = navVC
         window?.makeKeyAndVisible()
     }

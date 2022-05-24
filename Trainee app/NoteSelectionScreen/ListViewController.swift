@@ -38,6 +38,7 @@ final class ListViewController: UIViewController {
     private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     var notes = [NoteModel]()
     let worker: WorkerType = Worker()
+    let loading = LoadingViewController()
 
     lazy var alert: UIAlertController = {
         let alert = UIAlertController(
@@ -75,6 +76,7 @@ final class ListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         buttonAppearAnimation()
+        addIndicator()
     }
 
     override func viewDidLoad() {
@@ -111,6 +113,16 @@ final class ListViewController: UIViewController {
             plusButton.heightAnchor.constraint(equalTo: plusButton.widthAnchor)
         ])
         notesTable.register(NotePreviewCell.self, forCellReuseIdentifier: "cell")
+    }
+
+    private func addIndicator() {
+        loading.modalPresentationStyle = .overCurrentContext
+        loading.modalTransitionStyle = .crossDissolve
+        self.present(loading, animated: true)
+    }
+
+    func removeIndicator() {
+        loading.dismiss(animated: true)
     }
 
     // MARK: - метод для кнопки "плюс" + кложур для новых заметок
@@ -221,6 +233,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePr
         ) as? NotePreviewCell else {
             return UITableViewCell()
         }
+        cell.userShareIcon.downloadImageFrom(urlString: notes[indexPath.row].userShareIcon ?? "")
         cell.delegate = self
         cell.checkButton.isSelected = notes[indexPath.row].selectionState
         cell.setupCellData(with: notes[indexPath.row])
@@ -274,6 +287,22 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePr
         editingStyleForRowAt indexPath: IndexPath
     ) -> UITableViewCell.EditingStyle {
         return .none
+    }
+}
+
+// MARK: - экстеншн для обработки УРЛ изображения
+private extension UIImageView {
+    func downloadImageFrom(urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
     }
 }
 
