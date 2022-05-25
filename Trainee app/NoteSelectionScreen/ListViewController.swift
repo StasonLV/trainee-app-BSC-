@@ -77,6 +77,9 @@ final class ListViewController: UIViewController {
         super.viewDidAppear(animated)
         buttonAppearAnimation()
         addIndicator()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            self.removeIndicator()
+        }
     }
 
     override func viewDidLoad() {
@@ -125,6 +128,10 @@ final class ListViewController: UIViewController {
         loading.dismiss(animated: true)
     }
 
+    deinit {
+        print("ListVC deinited")
+    }
+
     // MARK: - метод для кнопки "плюс" + кложур для новых заметок
     @objc private func buttonMethod() {
         if notesTable.isEditing {
@@ -137,9 +144,10 @@ final class ListViewController: UIViewController {
     private func createNewNote() {
         let newNoteVC = NoteViewController()
         DispatchQueue.main.async {
-            newNoteVC.completion = { [weak self] model in
-                self?.notes.append(model)
-                self?.notesTable.reloadData()
+            // Listviewcontroller остается в памяти и не будет равен nil
+            newNoteVC.completion = { [unowned self] model in
+                self.notes.append(model)
+                self.notesTable.reloadData()
             }
         }
         newNoteVC.title = "Note Pad"
@@ -184,6 +192,7 @@ final class ListViewController: UIViewController {
 
     func loadArrrayOfNotes() {
         // получаем заметки из сети и добавляем в конец массива дата сорс
+        // Listviewcontroller остается в памяти и не будет равен nil
         worker.fetch { [weak self] result in
             switch result {
             case .success(let result):
@@ -248,10 +257,11 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePr
         let noteVC = NoteViewController()
         noteVC.noteViewWithCellData(with: model)
         notes.remove(at: indexPath.row)
-        noteVC.completion = { [weak self] model in
+        // Listviewcontroller остается в памяти и не будет равен nil
+        noteVC.completion = { [unowned self] model in
             DispatchQueue.main.async {
-                self?.notes.insert(model, at: indexPath.row)
-                self?.notesTable.reloadData()
+                self.notes.insert(model, at: indexPath.row)
+                self.notesTable.reloadData()
             }
         }
         self.navigationController?.pushViewController(noteVC, animated: true)
@@ -307,6 +317,7 @@ private extension UIImageView {
 }
 
 // MARK: - анимации
+// в анимациях можно пользоваться "сильным" захватом, т.к. селф в замыкании не приводит к утечке
 extension ListViewController {
     private func buttonAppearAnimation() {
         UIView.animate(

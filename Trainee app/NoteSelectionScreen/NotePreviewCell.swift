@@ -39,7 +39,7 @@ final class NotePreviewCell: UITableViewCell {
             )
         }
     }
-
+    // Ссылка опциональна
     weak var delegate: NotePreviewCellDelegate?
 
     // MARK: - модель
@@ -93,7 +93,7 @@ final class NotePreviewCell: UITableViewCell {
         return label
     }()
 
-    let userShareIcon: UIImageView = {
+    lazy var userShareIcon: UIImageView = {
         let img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         return img
@@ -107,6 +107,12 @@ final class NotePreviewCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.note = nil
+        self.userShareIcon = .init(image: UIImage.add)
     }
 
     // MARK: - настройка ячейки
@@ -132,10 +138,10 @@ final class NotePreviewCell: UITableViewCell {
             noteTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             noteDateLabel.topAnchor.constraint(equalTo: noteTextLabel.bottomAnchor, constant: 24),
             noteDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            userShareIcon.heightAnchor.constraint(equalToConstant: 50),
-            userShareIcon.widthAnchor.constraint(equalToConstant: 50),
-            userShareIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            userShareIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            userShareIcon.heightAnchor.constraint(equalToConstant: 24),
+            userShareIcon.widthAnchor.constraint(equalToConstant: 24),
+            userShareIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            userShareIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
     }
 

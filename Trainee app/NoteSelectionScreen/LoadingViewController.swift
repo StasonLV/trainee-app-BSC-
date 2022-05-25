@@ -36,4 +36,8 @@ final class LoadingViewController: UIViewController {
         )
         view.addSubview(loadingActivityIndicator)
     }
+
+    deinit {
+        print("LoadingVC deinited")
+    }
 }
