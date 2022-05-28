@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 final class LoadingViewController: UIViewController {
-    var loadingActivityIndicator: UIActivityIndicatorView = {
+    lazy var loadingActivityIndicator: UIActivityIndicatorView = {
         let indic = UIActivityIndicatorView()
         indic.style = .medium
         indic.color = .white
@@ -17,7 +17,7 @@ final class LoadingViewController: UIViewController {
         return indic
     }()
 
-    var blurEffectView: UIVisualEffectView = {
+    lazy var blurEffectView: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .dark)
         let blurView = UIVisualEffectView(effect: blur)
         blurView.alpha = 0.6

@@ -79,6 +79,7 @@ final class ListViewController: UIViewController {
         addIndicator()
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             self.removeIndicator()
+            self.loadArrrayOfNotes()
         }
     }
 
@@ -118,13 +119,14 @@ final class ListViewController: UIViewController {
         notesTable.register(NotePreviewCell.self, forCellReuseIdentifier: "cell")
     }
 
+    // MARK: - методы для работы лоадинг индикатора
     private func addIndicator() {
         loading.modalPresentationStyle = .overCurrentContext
         loading.modalTransitionStyle = .crossDissolve
         self.present(loading, animated: true)
     }
 
-    func removeIndicator() {
+    private func removeIndicator() {
         loading.dismiss(animated: true)
     }
 
@@ -144,10 +146,9 @@ final class ListViewController: UIViewController {
     private func createNewNote() {
         let newNoteVC = NoteViewController()
         DispatchQueue.main.async {
-            // Listviewcontroller остается в памяти и не будет равен nil
-            newNoteVC.completion = { [unowned self] model in
-                self.notes.append(model)
-                self.notesTable.reloadData()
+            newNoteVC.completion = { [weak self] model in
+                self?.notes.append(model)
+                self?.notesTable.reloadData()
             }
         }
         newNoteVC.title = "Note Pad"
@@ -192,7 +193,6 @@ final class ListViewController: UIViewController {
 
     func loadArrrayOfNotes() {
         // получаем заметки из сети и добавляем в конец массива дата сорс
-        // Listviewcontroller остается в памяти и не будет равен nil
         worker.fetch { [weak self] result in
             switch result {
             case .success(let result):
@@ -257,11 +257,10 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePr
         let noteVC = NoteViewController()
         noteVC.noteViewWithCellData(with: model)
         notes.remove(at: indexPath.row)
-        // Listviewcontroller остается в памяти и не будет равен nil
-        noteVC.completion = { [unowned self] model in
+        noteVC.completion = { [weak self] model in
             DispatchQueue.main.async {
-                self.notes.insert(model, at: indexPath.row)
-                self.notesTable.reloadData()
+                self?.notes.insert(model, at: indexPath.row)
+                self?.notesTable.reloadData()
             }
         }
         self.navigationController?.pushViewController(noteVC, animated: true)
@@ -303,15 +302,17 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePr
 // MARK: - экстеншн для обработки УРЛ изображения
 private extension UIImageView {
     func downloadImageFrom(urlString: String) {
-        guard let url = URL(string: urlString) else { return }
         DispatchQueue.global().async { [weak self] in
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.image = image
-                    }
-                }
-            }
+        guard let url = URL(string: urlString) else { return }
+            guard let data = try? Data(contentsOf: url),
+                  let image = UIImage(data: data)
+            else { return }
+            self?.image = image
+//            if let data = try? Data(contentsOf: url) {
+//                if let image = UIImage(data: data) {
+//                        self?.image = image
+//                }
+//            }
         }
     }
 }
