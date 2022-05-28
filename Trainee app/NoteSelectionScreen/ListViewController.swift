@@ -303,16 +303,13 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePr
 private extension UIImageView {
     func downloadImageFrom(urlString: String) {
         DispatchQueue.global().async { [weak self] in
-        guard let url = URL(string: urlString) else { return }
+            guard let url = URL(string: urlString) else { return }
             guard let data = try? Data(contentsOf: url),
                   let image = UIImage(data: data)
             else { return }
-            self?.image = image
-//            if let data = try? Data(contentsOf: url) {
-//                if let image = UIImage(data: data) {
-//                        self?.image = image
-//                }
-//            }
+            DispatchQueue.main.async {
+                self?.image = image
+            }
         }
     }
 }
