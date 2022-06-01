@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+final class NoteDetailsPresenter: NoteDetailsPresentationLogic {
+    func presentInitForm(_ response: CleanNoteModel.InitForm.Response) {
+        <#code#>
+    }
+    
+    
+}

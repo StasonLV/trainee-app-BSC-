@@ -6,3 +6,22 @@
 //
 
 import Foundation
+import UIKit
+
+enum SearchSceneAssembly {
+  static func builder() -> UIViewController {
+    let presenter = NoteDetailsPresenter()
+    let router = NoteDetailsRouter()
+    let interactor = NoteDetailsInteractor(presenter: presenter)
+    let viewController = NoteDetailViewController(
+        interactor: interactor,
+        router: router
+    )
+
+    router.viewController = viewController
+    presenter.viewController = viewController
+    router.dataStore = interactor
+
+    return viewController
+  }
+}

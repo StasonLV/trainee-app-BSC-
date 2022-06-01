@@ -36,9 +36,9 @@ class NoteListViewController: UIViewController {
         }
     }
     private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
-    var notes = [NoteModel]()
-    let worker: WorkerType = Worker()
-    let loading = LoadingViewController()
+    private var notes = [CleanNoteModel.InitForm.ViewModel]()
+    var interactor = NoteListInteractor.self
+    var router = NoteListRouter.self
 
     lazy var alert: UIAlertController = {
         let alert = UIAlertController(
@@ -60,7 +60,7 @@ class NoteListViewController: UIViewController {
         button.layer.masksToBounds = true
         button.addTarget(
             NoteViewController(),
-            action: #selector(buttonMethod),
+            action: #selector(NoteListInteractor.createNewNote),
             for: .touchUpInside
         )
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -76,11 +76,6 @@ class NoteListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         buttonAppearAnimation()
-        addIndicator()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-            self.removeIndicator()
-            self.loadArrrayOfNotes()
-        }
     }
 
     override func viewDidLoad() {
@@ -117,21 +112,6 @@ class NoteListViewController: UIViewController {
             plusButton.heightAnchor.constraint(equalTo: plusButton.widthAnchor)
         ])
         notesTable.register(NotePreviewCell.self, forCellReuseIdentifier: "cell")
-    }
-
-    // MARK: - методы для работы лоадинг индикатора
-    private func addIndicator() {
-        loading.modalPresentationStyle = .overCurrentContext
-        loading.modalTransitionStyle = .crossDissolve
-        self.present(loading, animated: true)
-    }
-
-    private func removeIndicator() {
-        loading.dismiss(animated: true)
-    }
-
-    deinit {
-        print("ListVC deinited")
     }
 
     // MARK: - метод для кнопки "плюс" + кложур для новых заметок
@@ -223,7 +203,7 @@ class NoteListViewController: UIViewController {
 }
 
 // MARK: - экстеншн для функционала тэйблвью
-extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePreviewCellDelegate {
+extension NoteListViewController: UITableViewDataSource, UITableViewDelegate, NotePreviewCellDelegate {
     func checkboxToggle(sender: NotePreviewCell) {
         if let selectedIndexPath = notesTable.indexPath(for: sender) {
             notes[selectedIndexPath.row].selectionState = !notes[selectedIndexPath.row].selectionState
@@ -316,7 +296,7 @@ private extension UIImageView {
 
 // MARK: - анимации
 // в анимациях можно пользоваться "сильным" захватом, т.к. селф в замыкании не приводит к утечке
-extension ListViewController {
+extension NoteListViewController {
     private func buttonAppearAnimation() {
         UIView.animate(
             withDuration: 1.0,
@@ -381,5 +361,13 @@ extension ListViewController {
             completion: nil
         )
     }
+}
+
+extension NoteListViewController: NoteListDisplayLogic {
+    func displayInitForm(_ viewModel: CleanNoteModel.InitForm.ViewModel) {
+        notes = [viewModel]
+    }
+    
+    
 }
 

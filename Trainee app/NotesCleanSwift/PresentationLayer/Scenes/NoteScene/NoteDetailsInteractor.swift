@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+final class NoteDetailsInteractor: NoteDetailsDataStore {
+    public let presenter: NoteDetailsPresentationLogic
+    
+    init(presenter: NoteDetailsPresentationLogic) {
+        self.presenter = presenter
+    }
+}
