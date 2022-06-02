@@ -33,8 +33,6 @@
 		84362D7627EEFDB3007D2234 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84362D7927EEFDB3007D2234 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84362D7B27EEFDB3007D2234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		843BD0762847D5430024C1C8 /* CleanNoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanNoteModel.swift; sourceTree = "<group>"; };
-		843BD0782847D8200024C1C8 /* NoteListWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListWorker.swift; sourceTree = "<group>"; };
 		843DA06C27F979DE0057F8CC /* NoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
 		845FF54F283D6040005F0F7F /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		8491CA9B2832C7090086D709 /* Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Worker.swift; sourceTree = "<group>"; };
@@ -83,9 +81,8 @@
 		84362D6927EEFD98007D2234 /* Trainee app */ = {
 			isa = PBXGroup;
 			children = (
+				84C7CF5F28494DAF0050DE4C /* Source Project */,
 				846F3C9928468225005217BB /* NotesCleanSwift */,
-				84B059BE280C03620065D27A /* NoteSelectionScreen */,
-				84D42E8627F6222400ED7405 /* BasicNoteScreen */,
 				84D42E8527F6213E00ED7405 /* Delegates */,
 				84D42E8427F6210800ED7405 /* BoardsAndAssets */,
 				84362D7B27EEFDB3007D2234 /* Info.plist */,
@@ -114,8 +111,6 @@
 		843BD06E2847C9B30024C1C8 /* BuisnessLogicLayer */ = {
 			isa = PBXGroup;
 			children = (
-				843BD0762847D5430024C1C8 /* CleanNoteModel.swift */,
-				843BD0782847D8200024C1C8 /* NoteListWorker.swift */,
 			);
 			path = BuisnessLogicLayer;
 			sourceTree = "<group>";
@@ -179,6 +174,15 @@
 				8491CA9B2832C7090086D709 /* Worker.swift */,
 			);
 			path = NoteSelectionScreen;
+			sourceTree = "<group>";
+		};
+		84C7CF5F28494DAF0050DE4C /* Source Project */ = {
+			isa = PBXGroup;
+			children = (
+				84B059BE280C03620065D27A /* NoteSelectionScreen */,
+				84D42E8627F6222400ED7405 /* BasicNoteScreen */,
+			);
+			path = "Source Project";
 			sourceTree = "<group>";
 		};
 		84D42E8427F6210800ED7405 /* BoardsAndAssets */ = {
