@@ -7,26 +7,26 @@
 
 import Foundation
 
-//protocol WorkerType {
+// protocol WorkerType {
 //    var session: URLSession { get }
 //    func fetch(completion: @escaping (Result<[NoteModel], InternalError>) -> Void)
-//}
+// }
 //
 //// MARK: - Структура для полученных заметок
-//struct DecodedNote: Codable {
+// struct DecodedNote: Codable {
 //    var header: String?
 //    var text: String?
 //    var date: Date?
 //    var userShareIcon: String?
-//}
+// }
 //
-//enum InternalError: Error {
+// enum InternalError: Error {
 //    case URLError
 //    case connectionError
 //    case decodeError
-//}
+// }
 //
-//final class Worker: WorkerType {
+// final class Worker: WorkerType {
 //    let session: URLSession
 //
 //    init (session: URLSession = URLSession(configuration: .default)) {
@@ -68,16 +68,16 @@ import Foundation
 //        ]
 //        return url.url
 //    }
-//}
+// }
 
-private extension NoteModel {
-    init(with decodedNote: DecodedNote) {
-        self.init(
-            title: decodedNote.header,
-            noteText: decodedNote.text,
-            date: decodedNote.date?.toString(format: "dd.MM.yyyy"),
-            userShareIcon: decodedNote.userShareIcon,
-            selectionState: false
-        )
-    }
-}
+// private extension NoteModel {
+//    init(with decodedNote: DecodedNote) {
+//        self.init(
+//            title: decodedNote.header,
+//            noteText: decodedNote.text,
+//            date: decodedNote.date?.toString(format: "dd.MM.yyyy"),
+//            userShareIcon: decodedNote.userShareIcon,
+//            selectionState: false
+//        )
+//    }
+// }

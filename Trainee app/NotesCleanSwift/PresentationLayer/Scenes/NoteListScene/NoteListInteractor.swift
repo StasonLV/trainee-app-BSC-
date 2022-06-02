@@ -2,39 +2,42 @@
 //  NoteListInteractor.swift
 //  Trainee app
 //
-//  Created by Stanislav Lezovsky on 01.06.2022.
+//  Created by Stanislav Lezovsky on 02.06.2022.
 //
 
 import Foundation
+import UIKit
 
-protocol NoteListInteractorProtocol: AnyObject {
-    
-    func createNewNote()
-    
-    func removeSelectedNotes()
-    
-    func didSelectRow(at index: Int)
-    
-}
+final class NoteListInteractor: NoteListBusinessLogic, NoteListDataStore {
+    private let presenter: NoteListPresentationLogic
+    private let worker: NoteListWorkerLogic
 
-final class NoteListInteractor: NoteListInteractorProtocol {
-    func didSelectRow(at index: Int) {
-        
+    private(set) var model: [NoteListCleanModel.FetchData.Response]?
+
+    init(
+        presenter: NoteListPresentationLogic,
+        worker: NoteListWorkerLogic
+    ) {
+        self.presenter = presenter
+        self.worker = worker
     }
-    
-    @objc func createNewNote() {
-            let newNoteVC = NoteViewController()
-            DispatchQueue.main.async {
-                newNoteVC.completion = { [weak self] model in
-                    self?.notes.append(model)
-                    self?.notesTable.reloadData()
-                }
+
+    func buttonMethod() {
+        print(2)
+    }
+
+    func fetchNotesData() {
+        DispatchQueue.global().async {
+            self.worker.fetch(completion: { response in
+                self.model = response
             }
-            newNoteVC.title = "Note Pad"
-            self.navigationController?.pushViewController(newNoteVC, animated: true)
+            )
         }
-    
-    func removeSelectedNotes() {
-        <#code#>
     }
+
+    func requestInitForm(_ request: NoteListCleanModel.InitForm.Request) {
+        print(model)
+            guard let modelForPresenter = self.model else { return }
+            self.presenter.presentFetchedNotes(modelForPresenter)
     }
+}

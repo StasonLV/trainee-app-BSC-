@@ -2,53 +2,46 @@
 //  NoteListPresenter.swift
 //  Trainee app
 //
-//  Created by Stanislav Lezovsky on 01.06.2022.
+//  Created by Stanislav Lezovsky on 02.06.2022.
 //
-
 import Foundation
+import UIKit
 
-protocol NoteListPresenter: AnyObject {
-    func interactor(didRetrieveNotes notes: [CleanNoteModel.NoteModel])
-    
-    func interactor(didAddNote note: CleanNoteModel.NoteModel)
-    
-    func interactor(didDeleteNoteAtIndex index: Int)
-    
+final class NoteListPresenter: NoteListPresentationLogic {
+    weak var view: NoteListDisplayLogic?
+
+    func presentFetchedNotes(_ response: [NoteListCleanModel.FetchData.Response]) {
+        let fetchedNotes = response.map { NoteListCleanModel.FetchData.ViewModel(
+            title: $0.header,
+            noteText: $0.text,
+            date: $0.date?.toString(format: "dd.MM.yyyy"),
+            userShareIcon: $0.userShareIcon,
+            selectionState: false
+        )
+        }
+        view?.displayInitForm(fetchedNotes)
+    }
 }
 
-class NoteListPresenterImplementation: NoteListPresenter {
-    weak var viewController: TitlesPresenterOutput?
-    
-    func interactor(didRetrieveNotes notes: [CleanNoteModel.NoteModel]) {
-        let titlesStrings = titles.compactMap { $0.text }
-        viewController?.presenter(didRetrieveItems: titlesStrings)
+private extension Date {
+    func toString(format: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        dateFormatter.locale = Locale(identifier: "ru")
+        return dateFormatter.string(from: self)
     }
-    
-    func interactor(didFailRetrieveTitles error: Error) {
-        viewController?.presenter(didFailRetrieveItems: error.localizedDescription)
-    }
-    
-    func interactor(didAddTitle title: Title) {
-        if let titleString = title.text {
-            viewController?.presenter(didAddItem: titleString)
-        }
-    }
-    
-    func interactor(didDeleteTitleAtIndex index: Int) {
-        viewController?.presenter(didDeleteItemAtIndex: index)
-    }
-    
-    func interactor(didFailDeleteTitleAtIndex index: Int) {
-        viewController?.presenter(didFailDeleteItemAtIndex: index, message: "Couldn't delete")
-    }
-    
-    func interactor(didFailAddTitle error: Error) {
-        viewController?.presenter(didFailAddItem: error.localizedDescription)
-    }
-    
-    func interactor(didFindTitle title: Title) {
-        if let id = title.id {
-            viewController?.presenter(didObtainItemId: id)
+}
+
+private extension UIImageView {
+    func downloadImageFrom(urlString: String) {
+        DispatchQueue.global().async { [weak self] in
+            guard let url = URL(string: urlString) else { return }
+            guard let data = try? Data(contentsOf: url),
+                  let image = UIImage(data: data)
+            else { return }
+            DispatchQueue.main.async {
+                self?.image = image
+            }
         }
     }
 }

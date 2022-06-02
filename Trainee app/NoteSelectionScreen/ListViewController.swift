@@ -298,7 +298,7 @@ import UIKit
 //        return .none
 //    }
 //}
-//
+
 //// MARK: - экстеншн для обработки УРЛ изображения
 //private extension UIImageView {
 //    func downloadImageFrom(urlString: String) {

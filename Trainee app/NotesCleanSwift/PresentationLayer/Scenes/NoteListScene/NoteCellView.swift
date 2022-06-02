@@ -2,16 +2,12 @@
 //  NoteCellView.swift
 //  Trainee app
 //
-//  Created by Stanislav Lezovsky on 01.06.2022.
+//  Created by Stanislav Lezovsky on 02.06.2022.
 //
 
 import UIKit
 
-protocol NotePreviewCellDelegate: AnyObject {
-    func checkboxToggle(sender: NotePreviewCell)
-}
-
-final class NotePreviewCell: UITableViewCell {
+ final class NoteCellView: UITableViewCell {
     // MARK: - константы
     private enum Constants {
         enum FontConstants {
@@ -39,11 +35,9 @@ final class NotePreviewCell: UITableViewCell {
             )
         }
     }
-    // Ссылка опциональна
-    weak var delegate: NotePreviewCellDelegate?
 
     // MARK: - модель
-    var note: NoteModel? {
+     var note: NoteListCleanModel.FetchData.ViewModel? {
         didSet {
             noteNameField.text = note?.title
             noteTextLabel.text = note?.noteText
@@ -57,7 +51,7 @@ final class NotePreviewCell: UITableViewCell {
         btn.setImage(Constants.CheckmarkConstants.cellEditSymbol, for: .normal)
         btn.setImage(Constants.CheckmarkConstants.cellChooseSymbol, for: .selected)
         btn.alpha = 0.0
-        btn.addTarget(self, action: #selector(cellSelected), for: .touchUpInside)
+//        btn.addTarget(self, action: #selector(cellSelected), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.isUserInteractionEnabled = true
         return btn
@@ -88,7 +82,7 @@ final class NotePreviewCell: UITableViewCell {
         label.font = Constants.FontConstants.noteDateFont
         label.textColor = .black
         label.isUserInteractionEnabled = false
-        label.text = Date().toString(format: "dd.MM.yyyy")
+        label.text = ""
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -107,12 +101,6 @@ final class NotePreviewCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        self.note = nil
-        self.userShareIcon = .init(image: UIImage.add)
     }
 
     // MARK: - настройка ячейки
@@ -145,13 +133,8 @@ final class NotePreviewCell: UITableViewCell {
         ])
     }
 
-    // MARK: - метод для тапа по чекбоксу
-    @objc func cellSelected(sender: UIButton) {
-        delegate?.checkboxToggle(sender: self)
-    }
-
     // MARK: - настройка данных ячейки
-    func setupCellData(with model: NoteModel) {
+     func setupCellData(with model: NoteListCleanModel.FetchData.ViewModel) {
         self.note = model
         noteNameField.text = model.title
         noteTextLabel.text = model.noteText
@@ -169,7 +152,7 @@ final class NotePreviewCell: UITableViewCell {
 }
 
 // MARK: - анимации
-extension NotePreviewCell {
+extension NoteCellView {
     private func contentAnimationForStartEditing() {
         UIView.animate(
             withDuration: 1.0,

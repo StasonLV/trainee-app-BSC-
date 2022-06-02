@@ -2,13 +2,14 @@
 //  NoteListViewController.swift
 //  Trainee app
 //
-//  Created by Stanislav Lezovsky on 01.06.2022.
+//  Created by Stanislav Lezovsky on 02.06.2022.
 //
 
 import UIKit
 
-class NoteListViewController: UIViewController {
+final class NoteListViewController: UIViewController {
     // MARK: - константы
+    private var notes = [NoteListCleanModel.FetchData.ViewModel]()
     private enum Constants {
         enum ColorConstants {
             static let viewBackColor = UIColor(
@@ -36,9 +37,8 @@ class NoteListViewController: UIViewController {
         }
     }
     private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
-    private var notes = [CleanNoteModel.InitForm.ViewModel]()
-    var interactor = NoteListInteractor.self
-    var router = NoteListRouter.self
+    private let interactor: NoteListBusinessLogic
+    private let router: NoteListRoutingLogic
 
     lazy var alert: UIAlertController = {
         let alert = UIAlertController(
@@ -51,7 +51,7 @@ class NoteListViewController: UIViewController {
         return alert
     }()
 
-    let plusButton: UIButton = {
+    lazy var plusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = Constants.PlusButtonConstants.plusButtonBlueColor
         button.layer.cornerRadius = 25
@@ -59,15 +59,25 @@ class NoteListViewController: UIViewController {
         button.tintColor = .white
         button.layer.masksToBounds = true
         button.addTarget(
-            NoteViewController(),
-            action: #selector(NoteListInteractor.createNewNote),
+            self,
+            action: #selector(selectorForPlus),
             for: .touchUpInside
         )
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
-    // MARK: - Lifecycle
+    init(interactor: NoteListBusinessLogic, router: NoteListRoutingLogic) {
+        self.interactor = interactor
+        self.router = router
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         plusButton.center.y += 90.0
@@ -80,10 +90,13 @@ class NoteListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetch()
+        initForm()
         setupNotesTable()
-        addSaveNotificationOnAppDismiss()
-        navigationItem.rightBarButtonItem = editButtonItem
-        editButtonItem.title = "Выбрать"
+    }
+
+    @objc func selectorForPlus() {
+        interactor.buttonMethod()
     }
 
     // MARK: - сетап таблицы
@@ -111,105 +124,33 @@ class NoteListViewController: UIViewController {
             plusButton.widthAnchor.constraint(equalToConstant: 50),
             plusButton.heightAnchor.constraint(equalTo: plusButton.widthAnchor)
         ])
-        notesTable.register(NotePreviewCell.self, forCellReuseIdentifier: "cell")
+        notesTable.register(NoteCellView.self, forCellReuseIdentifier: "cell")
     }
 
-    // MARK: - метод для кнопки "плюс" + кложур для новых заметок
-    @objc private func buttonMethod() {
-        if notesTable.isEditing {
-            removeSelected()
-        } else {
-            noteCreationAnimation()
-        }
+    // MARK: - DisplayLogic
+
+    func displayInitForm(_ viewModel: NoteListCleanModel.InitForm.ViewModel) {
     }
 
-    private func createNewNote() {
-        let newNoteVC = NoteViewController()
-        DispatchQueue.main.async {
-            newNoteVC.completion = { [weak self] model in
-                self?.notes.append(model)
-                self?.notesTable.reloadData()
-            }
-        }
-        newNoteVC.title = "Note Pad"
-        self.navigationController?.pushViewController(newNoteVC, animated: true)
+    // MARK: - Private
+
+    private func fetch() {
+        interactor.fetchNotesData()
     }
-
-    // MARK: - оверрайд метода эдита
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        notesTable.setEditing(editing, animated: true)
-        if isEditing {
-            self.editButtonItem.title = "Готово"
-            buttonForDeletionTransition()
-        } else {
-            self.editButtonItem.title = "Выбрать"
-            buttonForAddTransition()
-        }
-    }
-
-    // MARK: - метод для удаления отмеченных заметок
-    private func removeSelected() {
-        let filteredNotes = notes.filter { $0.selectionState }
-        if filteredNotes.isEmpty {
-            self.present(alert, animated: true, completion: nil)
-        } else {
-            for (index, note) in notes.enumerated() where note.selectionState {
-                    notes.remove(at: index)
-                    let indexPath = IndexPath(item: index, section: 0)
-                    notesTable.beginUpdates()
-                    notesTable.deleteRows(at: [indexPath], with: .automatic)
-                    notesTable.reloadData()
-                    notesTable.endUpdates()
-                }
-            }
-        }
-
-    // MARK: - методы для сохранения и загрузки массива заметок
-    @objc private func saveArrayOfNotes() {
-        let notesData = try? JSONEncoder().encode(notes)
-        UserDefaults.standard.set(notesData, forKey: Constants.PlusButtonConstants.savedNotesKey)
-    }
-
-    func loadArrrayOfNotes() {
-        // получаем заметки из сети и добавляем в конец массива дата сорс
-        worker.fetch { [weak self] result in
-            switch result {
-            case .success(let result):
-                self?.notes.append(contentsOf: result)
-                DispatchQueue.main.async {
-                    self?.notesTable.reloadData()
-                }
-            case .failure(let error):
-                print("Ошибка при работе с загружаемыми данными: \(error.localizedDescription)")
-            }
-        }
-        // получаем заметки из юзерДифолтс и добавляем в дата сорс
-        guard let notesData = UserDefaults.standard.data(forKey: Constants.PlusButtonConstants.savedNotesKey),
-              let cache = try? JSONDecoder().decode([NoteModel].self, from: notesData)
-        else { return }
-        notes.append(contentsOf: cache)
-    }
-
-    private func addSaveNotificationOnAppDismiss() {
-        let saveNotification = NotificationCenter.default
-        saveNotification.addObserver(
-            self,
-            selector: #selector(saveArrayOfNotes),
-            name: UIScene.willDeactivateNotification,
-            object: nil
-        )
+    
+    private func initForm() {
+        interactor.requestInitForm(NoteListCleanModel.InitForm.Request())
     }
 }
 
 // MARK: - экстеншн для функционала тэйблвью
-extension NoteListViewController: UITableViewDataSource, UITableViewDelegate, NotePreviewCellDelegate {
-    func checkboxToggle(sender: NotePreviewCell) {
-        if let selectedIndexPath = notesTable.indexPath(for: sender) {
-            notes[selectedIndexPath.row].selectionState = !notes[selectedIndexPath.row].selectionState
-            notesTable.reloadRows(at: [selectedIndexPath], with: .none)
-        }
-    }
+extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
+//    func checkboxToggle(sender: NotePreviewCell) {
+//        if let selectedIndexPath = notesTable.indexPath(for: sender) {
+//            notes[selectedIndexPath.row].selectionState = !notes[selectedIndexPath.row].selectionState
+//            notesTable.reloadRows(at: [selectedIndexPath], with: .none)
+//        }
+//    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
@@ -219,32 +160,31 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate, No
         guard let cell = notesTable.dequeueReusableCell(
             withIdentifier: "cell",
             for: indexPath
-        ) as? NotePreviewCell else {
+        ) as? NoteCellView else {
             return UITableViewCell()
         }
-        cell.userShareIcon.downloadImageFrom(urlString: notes[indexPath.row].userShareIcon ?? "")
-        cell.delegate = self
-        cell.checkButton.isSelected = notes[indexPath.row].selectionState
-        cell.setupCellData(with: notes[indexPath.row])
+//        cell.userShareIcon.downloadImageFrom(urlString: notes[indexPath.row].userShareIcon ?? "")
+//        cell.checkButton.isSelected = notes[indexPath.row].selectionState
+//        cell.setupCellData(with: notes[indexPath.row])
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: notesTable.bounds.width)
         cell.layoutMargins = UIEdgeInsets.zero
         cell.contentView.layer.masksToBounds = true
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = notes[indexPath.row]
-        let noteVC = NoteViewController()
-        noteVC.noteViewWithCellData(with: model)
-        notes.remove(at: indexPath.row)
-        noteVC.completion = { [weak self] model in
-            DispatchQueue.main.async {
-                self?.notes.insert(model, at: indexPath.row)
-                self?.notesTable.reloadData()
-            }
-        }
-        self.navigationController?.pushViewController(noteVC, animated: true)
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let model = notes[indexPath.row]
+//        let noteVC = NoteViewController()
+//        noteVC.noteViewWithCellData(with: model)
+//        notes.remove(at: indexPath.row)
+//        noteVC.completion = { [weak self] model in
+//            DispatchQueue.main.async {
+//                self?.notes.insert(model, at: indexPath.row)
+//                self?.notesTable.reloadData()
+//            }
+//        }
+//        self.navigationController?.pushViewController(noteVC, animated: true)
+//    }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
@@ -279,23 +219,6 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate, No
     }
 }
 
-// MARK: - экстеншн для обработки УРЛ изображения
-private extension UIImageView {
-    func downloadImageFrom(urlString: String) {
-        DispatchQueue.global().async { [weak self] in
-            guard let url = URL(string: urlString) else { return }
-            guard let data = try? Data(contentsOf: url),
-                  let image = UIImage(data: data)
-            else { return }
-            DispatchQueue.main.async {
-                self?.image = image
-            }
-        }
-    }
-}
-
-// MARK: - анимации
-// в анимациях можно пользоваться "сильным" захватом, т.к. селф в замыкании не приводит к утечке
 extension NoteListViewController {
     private func buttonAppearAnimation() {
         UIView.animate(
@@ -332,11 +255,11 @@ extension NoteListViewController {
                         self.plusButton.center.y += 150.0
                     }
                 )
-            },
-            completion: { _ in
-                self.createNewNote()
-                self.plusButton.center.y -= 100.0
             }
+//            completion: { _ in
+//                self.createNewNote()
+//                self.plusButton.center.y -= 100.0
+//            }
         )
     }
 
@@ -364,10 +287,10 @@ extension NoteListViewController {
 }
 
 extension NoteListViewController: NoteListDisplayLogic {
-    func displayInitForm(_ viewModel: CleanNoteModel.InitForm.ViewModel) {
-        notes = [viewModel]
+    func displayInitForm(_ viewModel: [NoteListCleanModel.FetchData.ViewModel]) {
+        DispatchQueue.main.async {
+            self.notes = viewModel
+            self.notesTable.reloadData()
+        }
     }
-    
-    
 }
-

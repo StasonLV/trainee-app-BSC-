@@ -17,7 +17,7 @@ enum CleanNoteModel {
             var notesModel: [NoteModel]?
         }
     }
-    
+
     struct NoteModel: Codable {
         var title: String?
         var noteText: String?
@@ -29,4 +29,3 @@ enum CleanNoteModel {
         }
     }
 }
-

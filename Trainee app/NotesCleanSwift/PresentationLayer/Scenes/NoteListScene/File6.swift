@@ -5,7 +5,6 @@
 //  Created by Stanislav Lezovsky on 02.06.2022.
 //
 
-import UIKit
 
 protocol NoteListDataPassing {
 //    var dataStore: NoteListDataStore { get }
@@ -13,22 +12,18 @@ protocol NoteListDataPassing {
 
 protocol NoteListDataStore {}
 
-protocol NoteListBusinessLogic: AnyObject {
+protocol NoteListBusinessLogic {
     func requestInitForm(_ request: NoteListCleanModel.InitForm.Request)
-    func buttonMethod()
-    func fetchNotesData()
 }
 
-protocol NoteListWorkerLogic {
-    func fetch(completion: @escaping ([NoteListCleanModel.FetchData.Response]) -> Void)
-}
+protocol NoteListWorkerLogic {}
 
 protocol NoteListPresentationLogic {
-    func presentFetchedNotes(_ response: [NoteListCleanModel.FetchData.Response])
+    func presentInitForm(_ response: NoteListCleanModel.InitForm.Response)
 }
 
 protocol NoteListDisplayLogic: AnyObject {
-    func displayInitForm(_ viewModel: [NoteListCleanModel.FetchData.ViewModel])
+    func displayInitForm(_ viewModel: NoteListCleanModel.InitForm.ViewModel)
 }
 
 protocol NoteListRoutingLogic {}
