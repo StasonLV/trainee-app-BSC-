@@ -31,4 +31,7 @@ protocol NoteListDisplayLogic: AnyObject {
     func displayInitForm(_ viewModel: [NoteListCleanModel.FetchData.ViewModel])
 }
 
-protocol NoteListRoutingLogic {}
+protocol NoteListRoutingLogic {
+    func createNewNote()
+    func didSelectRow()
+}

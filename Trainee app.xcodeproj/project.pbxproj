@@ -12,6 +12,15 @@
 		84362D7527EEFD98007D2234 /* Trainee_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84362D7327EEFD98007D2234 /* Trainee_app.xcdatamodeld */; };
 		84362D7727EEFDB3007D2234 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84362D7627EEFDB3007D2234 /* Assets.xcassets */; };
 		84362D7A27EEFDB3007D2234 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84362D7827EEFDB3007D2234 /* LaunchScreen.storyboard */; };
+		844519FC284BBFF200AE345D /* NoteAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844519FB284BBFF200AE345D /* NoteAssembly.swift */; };
+		844519FE284BC02A00AE345D /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844519FD284BC02A00AE345D /* NoteViewController.swift */; };
+		84451A00284BC06E00AE345D /* NoteInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844519FF284BC06E00AE345D /* NoteInteractor.swift */; };
+		84451A02284BC08100AE345D /* NotePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84451A01284BC08100AE345D /* NotePresenter.swift */; };
+		84451A04284BC09300AE345D /* NoteRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84451A03284BC09300AE345D /* NoteRouter.swift */; };
+		84451A06284BC15300AE345D /* NoteProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84451A05284BC15300AE345D /* NoteProtocols.swift */; };
+		84451A08284BC2FA00AE345D /* NoteCleanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84451A07284BC2FA00AE345D /* NoteCleanModel.swift */; };
+		84451A0A284BC40100AE345D /* NoteWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84451A09284BC40100AE345D /* NoteWorker.swift */; };
+		84451A0C284BC59400AE345D /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84451A0B284BC59400AE345D /* NoteView.swift */; };
 		84C7CF4C28491ED30050DE4C /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF4B28491ED30050DE4C /* NoteListViewController.swift */; };
 		84C7CF4E28491EE30050DE4C /* NoteListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF4D28491EE30050DE4C /* NoteListAssembly.swift */; };
 		84C7CF5028491EEE0050DE4C /* NoteListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF4F28491EEE0050DE4C /* NoteListInteractor.swift */; };
@@ -34,6 +43,15 @@
 		84362D7927EEFDB3007D2234 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84362D7B27EEFDB3007D2234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		843DA06C27F979DE0057F8CC /* NoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
+		844519FB284BBFF200AE345D /* NoteAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAssembly.swift; sourceTree = "<group>"; };
+		844519FD284BC02A00AE345D /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
+		844519FF284BC06E00AE345D /* NoteInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInteractor.swift; sourceTree = "<group>"; };
+		84451A01284BC08100AE345D /* NotePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotePresenter.swift; sourceTree = "<group>"; };
+		84451A03284BC09300AE345D /* NoteRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteRouter.swift; sourceTree = "<group>"; };
+		84451A05284BC15300AE345D /* NoteProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteProtocols.swift; sourceTree = "<group>"; };
+		84451A07284BC2FA00AE345D /* NoteCleanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCleanModel.swift; sourceTree = "<group>"; };
+		84451A09284BC40100AE345D /* NoteWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteWorker.swift; sourceTree = "<group>"; };
+		84451A0B284BC59400AE345D /* NoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
 		845FF54F283D6040005F0F7F /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		8491CA9B2832C7090086D709 /* Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Worker.swift; sourceTree = "<group>"; };
 		84B059BF280C03B30065D27A /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +162,15 @@
 		846F3C9B284687E0005217BB /* NoteScene */ = {
 			isa = PBXGroup;
 			children = (
+				844519FB284BBFF200AE345D /* NoteAssembly.swift */,
+				844519FD284BC02A00AE345D /* NoteViewController.swift */,
+				844519FF284BC06E00AE345D /* NoteInteractor.swift */,
+				84451A01284BC08100AE345D /* NotePresenter.swift */,
+				84451A03284BC09300AE345D /* NoteRouter.swift */,
+				84451A05284BC15300AE345D /* NoteProtocols.swift */,
+				84451A07284BC2FA00AE345D /* NoteCleanModel.swift */,
+				84451A09284BC40100AE345D /* NoteWorker.swift */,
+				84451A0B284BC59400AE345D /* NoteView.swift */,
 			);
 			path = NoteScene;
 			sourceTree = "<group>";
@@ -304,18 +331,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84451A00284BC06E00AE345D /* NoteInteractor.swift in Sources */,
 				84362D7527EEFD98007D2234 /* Trainee_app.xcdatamodeld in Sources */,
 				84C7CF5828491F140050DE4C /* NoteListRouter.swift in Sources */,
 				84C7CF5228491EF60050DE4C /* NoteListCleanModel.swift in Sources */,
+				84451A0C284BC59400AE345D /* NoteView.swift in Sources */,
+				84451A04284BC09300AE345D /* NoteRouter.swift in Sources */,
 				84C7CF4E28491EE30050DE4C /* NoteListAssembly.swift in Sources */,
 				84C7CF5028491EEE0050DE4C /* NoteListInteractor.swift in Sources */,
 				84C7CF5428491F020050DE4C /* NoteListPresenter.swift in Sources */,
 				84C7CF4C28491ED30050DE4C /* NoteListViewController.swift in Sources */,
+				84451A0A284BC40100AE345D /* NoteWorker.swift in Sources */,
 				84C7CF5628491F0A0050DE4C /* NoteListProtocols.swift in Sources */,
 				84362D6B27EEFD98007D2234 /* AppDelegate.swift in Sources */,
+				84451A06284BC15300AE345D /* NoteProtocols.swift in Sources */,
+				84451A02284BC08100AE345D /* NotePresenter.swift in Sources */,
+				844519FC284BBFF200AE345D /* NoteAssembly.swift in Sources */,
 				84362D6D27EEFD98007D2234 /* SceneDelegate.swift in Sources */,
 				84C7CF5E284925C60050DE4C /* NoteListAnimations.swift in Sources */,
 				84C7CF5C284924270050DE4C /* NoteCellView.swift in Sources */,
+				84451A08284BC2FA00AE345D /* NoteCleanModel.swift in Sources */,
+				844519FE284BC02A00AE345D /* NoteViewController.swift in Sources */,
 				84C7CF5A28491F860050DE4C /* NoteListWorker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -5,7 +5,6 @@
 //  Created by Stanislav Lezovsky on 02.06.2022.
 //
 
-
 protocol NoteListDataPassing {
 //    var dataStore: NoteListDataStore { get }
 }

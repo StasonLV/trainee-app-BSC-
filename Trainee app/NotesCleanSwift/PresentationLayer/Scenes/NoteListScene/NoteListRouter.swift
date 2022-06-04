@@ -14,6 +14,14 @@ final class NoteListRouter: NoteListRoutingLogic, NoteListDataPassing {
     init(dataStore: NoteListDataStore) {
         self.dataStore = dataStore
     }
+
+    func createNewNote() {
+        let noteVC = NoteAssembly.build()
+        viewController?.navigationController?.pushViewController(noteVC, animated: true)
+    }
+
+    func didSelectRow() {
+    }
 }
 
 private extension NoteListRouter {

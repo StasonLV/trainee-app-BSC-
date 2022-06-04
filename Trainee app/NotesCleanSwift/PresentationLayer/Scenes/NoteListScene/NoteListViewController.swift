@@ -96,7 +96,7 @@ final class NoteListViewController: UIViewController {
     }
 
     @objc func selectorForPlus() {
-        interactor.buttonMethod()
+        router.createNewNote()
     }
 
     // MARK: - сетап таблицы
@@ -137,7 +137,7 @@ final class NoteListViewController: UIViewController {
     private func fetch() {
         interactor.fetchNotesData()
     }
-    
+
     private func initForm() {
         interactor.requestInitForm(NoteListCleanModel.InitForm.Request())
     }
