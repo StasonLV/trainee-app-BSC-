@@ -8,6 +8,7 @@
 import Foundation
 
 final class NoteInteractor: NoteBusinessLogic, NoteDataStore {
+    var note: NoteListCleanModel.FetchData.Response!
     private let presenter: NotePresentationLogic
     private let worker: NoteWorkerLogic
 
@@ -20,7 +21,6 @@ final class NoteInteractor: NoteBusinessLogic, NoteDataStore {
     }
 
     func saveNote() {
-        
     }
 
     func requestInitForm(_ request: NoteCleanModel.InitForm.Request) {

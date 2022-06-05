@@ -5,6 +5,7 @@
 //  Created by Stanislav Lezovsky on 02.06.2022.
 //
 import Foundation
+import UIKit
 
 enum NoteListCleanModel {
     enum InitForm {
@@ -15,7 +16,13 @@ enum NoteListCleanModel {
 
     enum FetchData {
         struct Request {}
-        struct Response: Codable {
+        struct FetchResponse: Codable {
+            var header: String?
+            var text: String?
+            var date: Date?
+            var userShareIcon: String?
+        }
+        struct Response {
             var header: String?
             var text: String?
             var date: Date?
@@ -26,7 +33,7 @@ enum NoteListCleanModel {
             var title: String?
             var noteText: String?
             var date: String?
-            var userShareIcon: String?
+            var userShareIcon: UIImage?
             var selectionState: Bool = false
         }
     }

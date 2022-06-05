@@ -11,7 +11,9 @@ protocol NoteDataPassing {
     var dataStore: NoteDataStore { get }
 }
 
-protocol NoteDataStore {}
+protocol NoteDataStore {
+    var note: NoteListCleanModel.FetchData.ViewModel! { get set }
+}
 
 protocol NoteBusinessLogic {
     func requestInitForm(_ request: NoteCleanModel.InitForm.Request)

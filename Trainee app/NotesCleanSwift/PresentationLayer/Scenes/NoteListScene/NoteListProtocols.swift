@@ -8,15 +8,15 @@
 import UIKit
 
 protocol NoteListDataPassing {
-//    var dataStore: NoteListDataStore { get }
+    var dataStore: NoteListDataStore? { get }
 }
 
-protocol NoteListDataStore {}
+protocol NoteListDataStore {
+    var notes: [NoteListCleanModel.FetchData.ViewModel]? { get set }
+}
 
 protocol NoteListBusinessLogic: AnyObject {
     func requestInitForm(_ request: NoteListCleanModel.InitForm.Request)
-    func buttonMethod()
-    func fetchNotesData()
 }
 
 protocol NoteListWorkerLogic {
@@ -33,5 +33,5 @@ protocol NoteListDisplayLogic: AnyObject {
 
 protocol NoteListRoutingLogic {
     func createNewNote()
-    func didSelectRow()
+    func showNote(for id: Int)
 }

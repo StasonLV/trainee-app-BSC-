@@ -36,7 +36,7 @@ final class NoteListViewController: UIViewController {
             static let alertMessage = "Не выбрано ни одной заметки для удаления"
         }
     }
-    private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
+    let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     private let interactor: NoteListBusinessLogic
     private let router: NoteListRoutingLogic
 
@@ -90,17 +90,16 @@ final class NoteListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetch()
-        initForm()
         setupNotesTable()
+        initForm()
     }
 
     @objc func selectorForPlus() {
-        router.createNewNote()
+        noteCreationAnimation()
     }
 
     // MARK: - сетап таблицы
-    private func setupNotesTable () {
+    private func setupNotesTable() {
         title = "Заметки"
         self.notesTable.separatorStyle = .none
         notesTable.dataSource = self
@@ -129,17 +128,10 @@ final class NoteListViewController: UIViewController {
 
     // MARK: - DisplayLogic
 
-    func displayInitForm(_ viewModel: NoteListCleanModel.InitForm.ViewModel) {
-    }
-
     // MARK: - Private
-
-    private func fetch() {
-        interactor.fetchNotesData()
-    }
-
     private func initForm() {
-        interactor.requestInitForm(NoteListCleanModel.InitForm.Request())
+            self.interactor.requestInitForm(NoteListCleanModel.InitForm.Request())
+            print(self.notes)
     }
 }
 
@@ -172,7 +164,9 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = notes[indexPath.row]
+        router.showNote(for: indexPath.row)
 //        let model = notes[indexPath.row]
 //        let noteVC = NoteViewController()
 //        noteVC.noteViewWithCellData(with: model)
@@ -184,7 +178,7 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
 //            }
 //        }
 //        self.navigationController?.pushViewController(noteVC, animated: true)
-//    }
+    }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
@@ -255,11 +249,11 @@ extension NoteListViewController {
                         self.plusButton.center.y += 150.0
                     }
                 )
+            },
+            completion: { _ in
+                self.router.createNewNote()
+                self.plusButton.center.y -= 100.0
             }
-//            completion: { _ in
-//                self.createNewNote()
-//                self.plusButton.center.y -= 100.0
-//            }
         )
     }
 
@@ -288,9 +282,8 @@ extension NoteListViewController {
 
 extension NoteListViewController: NoteListDisplayLogic {
     func displayInitForm(_ viewModel: [NoteListCleanModel.FetchData.ViewModel]) {
-        DispatchQueue.main.async {
-            self.notes = viewModel
+            self.notes.append(contentsOf: viewModel)
+            print(self.notes)
             self.notesTable.reloadData()
-        }
     }
 }

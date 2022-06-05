@@ -13,4 +13,8 @@ final class NotePresenter: NotePresentationLogic {
     func presentInitForm(_ response: NoteCleanModel.InitForm.Response) {
         view?.displayInitForm(NoteCleanModel.InitForm.ViewModel())
     }
-}
+    
+    func noteFromCell() {
+
+        }
+    }

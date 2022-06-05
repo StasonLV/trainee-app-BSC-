@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 final class NoteListInteractor: NoteListBusinessLogic, NoteListDataStore {
+    var notes: [NoteListCleanModel.FetchData.ViewModel]?
     private let presenter: NoteListPresentationLogic
     private let worker: NoteListWorkerLogic
 
@@ -22,22 +23,11 @@ final class NoteListInteractor: NoteListBusinessLogic, NoteListDataStore {
         self.worker = worker
     }
 
-    func buttonMethod() {
-        print(2)
-    }
-
-    func fetchNotesData() {
-        DispatchQueue.global().async {
-            self.worker.fetch(completion: { response in
-                self.model = response
-            }
-            )
-        }
-    }
-
     func requestInitForm(_ request: NoteListCleanModel.InitForm.Request) {
-        print(model)
-            guard let modelForPresenter = self.model else { return }
-            self.presenter.presentFetchedNotes(modelForPresenter)
+        worker.fetch { response in
+            DispatchQueue.main.async {
+                self.presenter.presentFetchedNotes(response)
+            }
+        }
     }
 }

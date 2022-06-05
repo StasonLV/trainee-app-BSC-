@@ -8,8 +8,8 @@
 import UIKit
 
 final class NoteListRouter: NoteListRoutingLogic, NoteListDataPassing {
-    weak var viewController: UIViewController?
-    let dataStore: NoteListDataStore
+    weak var viewController: NoteListViewController?
+    var dataStore: NoteListDataStore?
 
     init(dataStore: NoteListDataStore) {
         self.dataStore = dataStore
@@ -20,14 +20,28 @@ final class NoteListRouter: NoteListRoutingLogic, NoteListDataPassing {
         viewController?.navigationController?.pushViewController(noteVC, animated: true)
     }
 
-    func didSelectRow() {
+    func showNote(for id: Int) {
+        let noteVC = NoteAssembly.build()
+        viewController?.navigationController?.pushViewController(noteVC, animated: true)
     }
 }
 
 private extension NoteListRouter {
-//    func passDataTo_() {
-//        source: CounterDataStore,
-//        destination: inout SomewhereDataStore
-//    ) {
+    func passDataToNoteDetail(source: NoteListDataStore, destination: inout NoteDataStore) {
+        let selectedRow = viewController?.notesTable.indexPathForSelectedRow?.row
+        let selectedNote = source.notes?[selectedRow!]
+        destination.note = selectedNote
+    }
+
+    func routeToNoteDetail() {
+        var noteVC = NoteAssembly.build()
+        var noteDS = noteVC.router.dataStore
+        passDataToNoteDetail(source: dataStore!, destination: &noteVC)
+    }
+//    func passDataToNoteScene() {
+//        source: NoteListDataStore,
+//        destination: inout NoteDataStore
+//        ) do {
 //    }
+// }
 }

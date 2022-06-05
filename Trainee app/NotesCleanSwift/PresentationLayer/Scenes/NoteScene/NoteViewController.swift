@@ -15,7 +15,7 @@ final class NoteViewController: UIViewController, NoteDisplayLogic, UITextFieldD
         static let navBarButtonTitle = "Готово"
     }
     private let interactor: NoteBusinessLogic
-    private let router: NoteRoutingLogic
+    let router: NoteRoutingLogic
 
     init(interactor: NoteBusinessLogic, router: NoteRoutingLogic) {
         self.interactor = interactor
