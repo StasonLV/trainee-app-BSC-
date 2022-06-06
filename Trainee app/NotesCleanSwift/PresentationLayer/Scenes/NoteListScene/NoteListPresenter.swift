@@ -9,17 +9,18 @@ import UIKit
 
 final class NoteListPresenter: NoteListPresentationLogic {
     weak var view: NoteListDisplayLogic?
-
+    
     func presentFetchedNotes(_ response: [NoteListCleanModel.FetchData.Response]) {
-        let fetchedNotes = response.map { NoteListCleanModel.FetchData.ViewModel(
-            title: $0.header,
-            noteText: $0.text,
-            date: $0.date?.toString(format: "dd.MM.yyyy"),
-            userShareIcon: $0.userShareIcon,
-            selectionState: false
-        )
+        let viewModel = response.map {
+            NoteListCleanModel.FetchData.ViewModel(
+                title: $0.header,
+                noteText: $0.text,
+                date: $0.date?.toString(format: "dd.MM.yyyy"),
+                userShareIcon: $0.userShareIcon,
+                selectionState: false
+            )
         }
-        view?.displayInitForm(fetchedNotes)
+        view?.displayInitForm(viewModel)
     }
 }
 
@@ -29,19 +30,5 @@ extension Date {
         dateFormatter.dateFormat = format
         dateFormatter.locale = Locale(identifier: "ru")
         return dateFormatter.string(from: self)
-    }
-}
-
-private extension UIImageView {
-    func downloadImageFrom(urlString: String) {
-        DispatchQueue.global().async { [weak self] in
-            guard let url = URL(string: urlString) else { return }
-            guard let data = try? Data(contentsOf: url),
-                  let image = UIImage(data: data)
-            else { return }
-            DispatchQueue.main.async {
-                self?.image = image
-            }
-        }
     }
 }

@@ -31,6 +31,7 @@
 		84C7CF5A28491F860050DE4C /* NoteListWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF5928491F850050DE4C /* NoteListWorker.swift */; };
 		84C7CF5C284924270050DE4C /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF5B284924270050DE4C /* NoteCellView.swift */; };
 		84C7CF5E284925C60050DE4C /* NoteListAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF5D284925C60050DE4C /* NoteListAnimations.swift */; };
+		84F0815A284E78F800388684 /* ImageViewExstension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F08159284E78F800388684 /* ImageViewExstension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		84C7CF5B284924270050DE4C /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
 		84C7CF5D284925C60050DE4C /* NoteListAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListAnimations.swift; sourceTree = "<group>"; };
 		84D42E8727F6224C00ED7405 /* NoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
+		84F08159284E78F800388684 /* ImageViewExstension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExstension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 		843BD06E2847C9B30024C1C8 /* BuisnessLogicLayer */ = {
 			isa = PBXGroup;
 			children = (
+				84F08159284E78F800388684 /* ImageViewExstension.swift */,
 			);
 			path = BuisnessLogicLayer;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				844519FC284BBFF200AE345D /* NoteAssembly.swift in Sources */,
 				84362D6D27EEFD98007D2234 /* SceneDelegate.swift in Sources */,
 				84C7CF5E284925C60050DE4C /* NoteListAnimations.swift in Sources */,
+				84F0815A284E78F800388684 /* ImageViewExstension.swift in Sources */,
 				84C7CF5C284924270050DE4C /* NoteCellView.swift in Sources */,
 				84451A08284BC2FA00AE345D /* NoteCleanModel.swift in Sources */,
 				844519FE284BC02A00AE345D /* NoteViewController.swift in Sources */,

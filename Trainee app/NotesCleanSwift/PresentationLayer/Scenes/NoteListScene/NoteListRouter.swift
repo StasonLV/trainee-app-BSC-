@@ -34,14 +34,5 @@ private extension NoteListRouter {
     }
 
     func routeToNoteDetail() {
-        var noteVC = NoteAssembly.build()
-        var noteDS = noteVC.router.dataStore
-        passDataToNoteDetail(source: dataStore!, destination: &noteVC)
     }
-//    func passDataToNoteScene() {
-//        source: NoteListDataStore,
-//        destination: inout NoteDataStore
-//        ) do {
-//    }
-// }
 }

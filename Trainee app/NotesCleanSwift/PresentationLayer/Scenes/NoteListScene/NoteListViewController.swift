@@ -36,6 +36,7 @@ final class NoteListViewController: UIViewController {
             static let alertMessage = "Не выбрано ни одной заметки для удаления"
         }
     }
+    var selected = [IndexPath]()
     let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     private let interactor: NoteListBusinessLogic
     private let router: NoteListRoutingLogic
@@ -60,7 +61,7 @@ final class NoteListViewController: UIViewController {
         button.layer.masksToBounds = true
         button.addTarget(
             self,
-            action: #selector(selectorForPlus),
+            action: #selector(buttonMethod),
             for: .touchUpInside
         )
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -92,10 +93,48 @@ final class NoteListViewController: UIViewController {
         super.viewDidLoad()
         setupNotesTable()
         initForm()
+        navigationItem.rightBarButtonItem = editButtonItem
+        editButtonItem.title = "Выбрать"
     }
 
-    @objc func selectorForPlus() {
-        noteCreationAnimation()
+    // MARK: - метод для кнопки "плюс" + кложур для новых заметок
+    @objc private func buttonMethod() {
+        if notesTable.isEditing {
+            removeNotes()
+        } else {
+            noteCreationAnimation()
+        }
+    }
+
+    func removeNotes() {
+        if selected.isEmpty {
+            self.present(alert, animated: true, completion: nil)
+        } else {
+        for indexPath in selected {
+            notes.remove(at: indexPath.row)
+            notesTable.beginUpdates()
+            notesTable.deleteRows(
+                at: [IndexPath(row: indexPath.row, section: 0)],
+                with: .top
+            )
+            notesTable.endUpdates()
+        }
+        notesTable.setEditing(false, animated: true)
+        selected.removeAll()
+    }
+    }
+
+    // MARK: - оверрайд метода эдита
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        notesTable.setEditing(editing, animated: true)
+        if isEditing {
+            self.editButtonItem.title = "Готово"
+            buttonForDeletionTransition()
+        } else {
+            self.editButtonItem.title = "Выбрать"
+            buttonForAddTransition()
+        }
     }
 
     // MARK: - сетап таблицы
@@ -130,19 +169,21 @@ final class NoteListViewController: UIViewController {
 
     // MARK: - Private
     private func initForm() {
+        DispatchQueue.main.async {
             self.interactor.requestInitForm(NoteListCleanModel.InitForm.Request())
             print(self.notes)
+        }
     }
 }
 
 // MARK: - экстеншн для функционала тэйблвью
 extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
-//    func checkboxToggle(sender: NotePreviewCell) {
-//        if let selectedIndexPath = notesTable.indexPath(for: sender) {
-//            notes[selectedIndexPath.row].selectionState = !notes[selectedIndexPath.row].selectionState
-//            notesTable.reloadRows(at: [selectedIndexPath], with: .none)
-//        }
-//    }
+    func checkboxToggle(sender: NoteCellView) {
+        if let selectedIndexPath = notesTable.indexPath(for: sender) {
+            notes[selectedIndexPath.row].selectionState = !notes[selectedIndexPath.row].selectionState
+            notesTable.reloadRows(at: [selectedIndexPath], with: .none)
+        }
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
@@ -155,9 +196,9 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
         ) as? NoteCellView else {
             return UITableViewCell()
         }
-//        cell.userShareIcon.downloadImageFrom(urlString: notes[indexPath.row].userShareIcon ?? "")
-//        cell.checkButton.isSelected = notes[indexPath.row].selectionState
-//        cell.setupCellData(with: notes[indexPath.row])
+        cell.userShareIcon.downloadImageFrom(urlString: notes[indexPath.row].userShareIcon ?? "")
+        cell.checkButton.isSelected = notes[indexPath.row].selectionState
+        cell.setupCellData(with: notes[indexPath.row])
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: notesTable.bounds.width)
         cell.layoutMargins = UIEdgeInsets.zero
         cell.contentView.layer.masksToBounds = true
@@ -282,8 +323,10 @@ extension NoteListViewController {
 
 extension NoteListViewController: NoteListDisplayLogic {
     func displayInitForm(_ viewModel: [NoteListCleanModel.FetchData.ViewModel]) {
+        DispatchQueue.main.async {
             self.notes.append(contentsOf: viewModel)
             print(self.notes)
             self.notesTable.reloadData()
+        }
     }
 }

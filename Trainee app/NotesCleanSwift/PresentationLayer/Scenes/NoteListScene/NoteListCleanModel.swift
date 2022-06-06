@@ -16,13 +16,8 @@ enum NoteListCleanModel {
 
     enum FetchData {
         struct Request {}
-        struct FetchResponse: Codable {
-            var header: String?
-            var text: String?
-            var date: Date?
-            var userShareIcon: String?
-        }
-        struct Response {
+
+        struct Response: Codable {
             var header: String?
             var text: String?
             var date: Date?
@@ -33,7 +28,7 @@ enum NoteListCleanModel {
             var title: String?
             var noteText: String?
             var date: String?
-            var userShareIcon: UIImage?
+            var userShareIcon: String?
             var selectionState: Bool = false
         }
     }

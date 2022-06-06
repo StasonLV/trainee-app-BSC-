@@ -8,7 +8,8 @@
 import Foundation
 
 final class NoteInteractor: NoteBusinessLogic, NoteDataStore {
-    var note: NoteListCleanModel.FetchData.Response!
+    var note: NoteListCleanModel.FetchData.ViewModel!
+//    var note: NoteListCleanModel.FetchData.Response!
     private let presenter: NotePresentationLogic
     private let worker: NoteWorkerLogic
 

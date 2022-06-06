@@ -6,6 +6,9 @@
 //
 
 import UIKit
+protocol NotePreviewCellDelegate: AnyObject {
+   func checkboxToggle(sender: NoteCellView)
+}
 
  final class NoteCellView: UITableViewCell {
     // MARK: - константы
@@ -35,6 +38,7 @@ import UIKit
             )
         }
     }
+     weak var delegate: NotePreviewCellDelegate?
 
     // MARK: - модель
      var note: NoteListCleanModel.FetchData.ViewModel? {
@@ -51,7 +55,7 @@ import UIKit
         btn.setImage(Constants.CheckmarkConstants.cellEditSymbol, for: .normal)
         btn.setImage(Constants.CheckmarkConstants.cellChooseSymbol, for: .selected)
         btn.alpha = 0.0
-//        btn.addTarget(self, action: #selector(cellSelected), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(cellSelected), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.isUserInteractionEnabled = true
         return btn
@@ -133,23 +137,28 @@ import UIKit
         ])
     }
 
-    // MARK: - настройка данных ячейки
+     // MARK: - настройка данных ячейки
      func setupCellData(with model: NoteListCleanModel.FetchData.ViewModel) {
-        self.note = model
-        noteNameField.text = model.title
-        noteTextLabel.text = model.noteText
-        noteDateLabel.text = model.date
-    }
+         self.note = model
+         noteNameField.text = model.title
+         noteTextLabel.text = model.noteText
+         noteDateLabel.text = model.date
+     }
 
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        if isEditing {
-            contentAnimationForStartEditing()
-        } else {
-            contentAnimationForEndEditing()
-        }
-    }
-}
+     override func setEditing(_ editing: Bool, animated: Bool) {
+         super.setEditing(editing, animated: animated)
+         if isEditing {
+             contentAnimationForStartEditing()
+         } else {
+             contentAnimationForEndEditing()
+         }
+     }
+
+     // MARK: - метод для тапа по чекбоксу
+     @objc func cellSelected(sender: UIButton) {
+         delegate?.checkboxToggle(sender: self)
+     }
+ }
 
 // MARK: - анимации
 extension NoteCellView {
