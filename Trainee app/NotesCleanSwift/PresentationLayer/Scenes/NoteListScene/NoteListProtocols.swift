@@ -12,10 +12,11 @@ protocol NoteListDataPassing {
 }
 
 protocol NoteListDataStore {
-    var notes: [NoteListCleanModel.FetchData.ViewModel]? { get set }
+    var note: NoteListCleanModel.FetchData.ViewModel? { get set }
 }
 
 protocol NoteListBusinessLogic: AnyObject {
+    func requestDeletion(_ request: [NoteListCleanModel.DeleteData.Request])
     func requestInitForm(_ request: NoteListCleanModel.InitForm.Request)
 }
 

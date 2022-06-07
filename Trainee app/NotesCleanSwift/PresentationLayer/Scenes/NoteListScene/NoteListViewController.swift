@@ -9,7 +9,7 @@ import UIKit
 
 final class NoteListViewController: UIViewController {
     // MARK: - константы
-    private var notes = [NoteListCleanModel.FetchData.ViewModel]()
+    var notes = [NoteListCleanModel.FetchData.ViewModel]()
     private enum Constants {
         enum ColorConstants {
             static let viewBackColor = UIColor(
@@ -37,6 +37,7 @@ final class NoteListViewController: UIViewController {
         }
     }
     var selected = [IndexPath]()
+    private var notesForDeletion = [NoteListCleanModel.DeleteData.Request]()
     let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     private let interactor: NoteListBusinessLogic
     private let router: NoteListRoutingLogic
@@ -97,7 +98,7 @@ final class NoteListViewController: UIViewController {
         editButtonItem.title = "Выбрать"
     }
 
-    // MARK: - метод для кнопки "плюс" + кложур для новых заметок
+    // MARK: - метод для кнопки "плюс"
     @objc private func buttonMethod() {
         if notesTable.isEditing {
             removeNotes()
@@ -106,22 +107,23 @@ final class NoteListViewController: UIViewController {
         }
     }
 
-    func removeNotes() {
+    private func removeNotes() {
+        interactor.requestDeletion([NoteListCleanModel.DeleteData.Request()])
         if selected.isEmpty {
             self.present(alert, animated: true, completion: nil)
         } else {
-        for indexPath in selected {
-            notes.remove(at: indexPath.row)
-            notesTable.beginUpdates()
-            notesTable.deleteRows(
-                at: [IndexPath(row: indexPath.row, section: 0)],
-                with: .top
-            )
-            notesTable.endUpdates()
+            for indexPath in selected {
+                notes.remove(at: indexPath.row)
+                notesTable.beginUpdates()
+                notesTable.deleteRows(
+                    at: [IndexPath(row: indexPath.row, section: 0)],
+                    with: .top
+                )
+                notesTable.endUpdates()
+            }
+            notesTable.setEditing(false, animated: true)
+            selected.removeAll()
         }
-        notesTable.setEditing(false, animated: true)
-        selected.removeAll()
-    }
     }
 
     // MARK: - оверрайд метода эдита
@@ -165,8 +167,6 @@ final class NoteListViewController: UIViewController {
         notesTable.register(NoteCellView.self, forCellReuseIdentifier: "cell")
     }
 
-    // MARK: - DisplayLogic
-
     // MARK: - Private
     private func initForm() {
         DispatchQueue.main.async {
@@ -177,7 +177,7 @@ final class NoteListViewController: UIViewController {
 }
 
 // MARK: - экстеншн для функционала тэйблвью
-extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
+extension NoteListViewController: UITableViewDataSource, UITableViewDelegate, NotePreviewCellDelegate {
     func checkboxToggle(sender: NoteCellView) {
         if let selectedIndexPath = notesTable.indexPath(for: sender) {
             notes[selectedIndexPath.row].selectionState = !notes[selectedIndexPath.row].selectionState
@@ -196,6 +196,7 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
         ) as? NoteCellView else {
             return UITableViewCell()
         }
+        cell.delegate = self
         cell.userShareIcon.downloadImageFrom(urlString: notes[indexPath.row].userShareIcon ?? "")
         cell.checkButton.isSelected = notes[indexPath.row].selectionState
         cell.setupCellData(with: notes[indexPath.row])
@@ -206,19 +207,7 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = notes[indexPath.row]
         router.showNote(for: indexPath.row)
-//        let model = notes[indexPath.row]
-//        let noteVC = NoteViewController()
-//        noteVC.noteViewWithCellData(with: model)
-//        notes.remove(at: indexPath.row)
-//        noteVC.completion = { [weak self] model in
-//            DispatchQueue.main.async {
-//                self?.notes.insert(model, at: indexPath.row)
-//                self?.notesTable.reloadData()
-//            }
-//        }
-//        self.navigationController?.pushViewController(noteVC, animated: true)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -254,6 +243,7 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: Экстеншн с анимациями
 extension NoteListViewController {
     private func buttonAppearAnimation() {
         UIView.animate(

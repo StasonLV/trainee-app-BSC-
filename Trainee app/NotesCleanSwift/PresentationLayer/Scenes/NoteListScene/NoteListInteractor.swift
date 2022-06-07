@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class NoteListInteractor: NoteListBusinessLogic, NoteListDataStore {
-    var notes: [NoteListCleanModel.FetchData.ViewModel]?
+    var note: NoteListCleanModel.FetchData.ViewModel?
     private let presenter: NoteListPresentationLogic
     private let worker: NoteListWorkerLogic
 
@@ -21,6 +21,9 @@ final class NoteListInteractor: NoteListBusinessLogic, NoteListDataStore {
     ) {
         self.presenter = presenter
         self.worker = worker
+    }
+
+    func requestDeletion(_ request: [NoteListCleanModel.DeleteData.Request]) {
     }
 
     func requestInitForm(_ request: NoteListCleanModel.InitForm.Request) {

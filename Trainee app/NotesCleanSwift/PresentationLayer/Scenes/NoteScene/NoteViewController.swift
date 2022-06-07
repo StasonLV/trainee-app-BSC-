@@ -10,6 +10,14 @@ import UIKit
 final class NoteViewController: UIViewController, NoteDisplayLogic, UITextFieldDelegate {
     // MARK: - константы
     let noteView = NoteView(frame: .zero)
+    var completion: ((NoteListCleanModel.FetchData.ViewModel?) -> Void)?
+    private struct ViewModel {
+        var title: String?
+        var noteText: String?
+        var date: String?
+        var userShareIcon: String?
+        var selectionState: Bool = false
+    }
     private enum NavBarConstants {
         static let title = "Заметка"
         static let navBarButtonTitle = "Готово"
@@ -38,6 +46,18 @@ final class NoteViewController: UIViewController, NoteDisplayLogic, UITextFieldD
         view.addSubview(noteView)
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        let viewModel = NoteListCleanModel.FetchData.ViewModel(
+            title: noteView.titleField.text,
+            noteText: noteView.noteText.text,
+            date: noteView.dateField.text,
+            userShareIcon: nil,
+            selectionState: false
+        )
+        completion?(viewModel)
+    }
+
     override func viewWillLayoutSubviews() {
         noteView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
     }
@@ -55,6 +75,14 @@ final class NoteViewController: UIViewController, NoteDisplayLogic, UITextFieldD
     }
 
     @objc private func saveSelector() {
+        let viewModel = NoteListCleanModel.FetchData.ViewModel(
+            title: noteView.titleField.text,
+            noteText: noteView.noteText.text,
+            date: noteView.dateField.text,
+            userShareIcon: nil,
+            selectionState: false
+        )
+        completion?(viewModel)
     }
     // MARK: - CounterDisplayLogic
 

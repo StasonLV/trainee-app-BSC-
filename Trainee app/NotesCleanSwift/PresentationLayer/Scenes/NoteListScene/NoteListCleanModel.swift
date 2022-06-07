@@ -14,6 +14,15 @@ enum NoteListCleanModel {
         struct ViewModel {}
     }
 
+    enum DeleteData {
+        struct Request {
+        }
+        struct Response {
+        }
+        struct ViewModel {
+        }
+    }
+
     enum FetchData {
         struct Request {}
 
@@ -24,12 +33,15 @@ enum NoteListCleanModel {
             var userShareIcon: String?
         }
 
-        struct ViewModel {
+        struct ViewModel: Codable {
             var title: String?
             var noteText: String?
             var date: String?
             var userShareIcon: String?
             var selectionState: Bool = false
+            var isEmpty: Bool {
+                title!.isEmpty && noteText!.isEmpty
+            }
         }
     }
 }

@@ -30,7 +30,6 @@
 		84C7CF5828491F140050DE4C /* NoteListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF5728491F140050DE4C /* NoteListRouter.swift */; };
 		84C7CF5A28491F860050DE4C /* NoteListWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF5928491F850050DE4C /* NoteListWorker.swift */; };
 		84C7CF5C284924270050DE4C /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF5B284924270050DE4C /* NoteCellView.swift */; };
-		84C7CF5E284925C60050DE4C /* NoteListAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF5D284925C60050DE4C /* NoteListAnimations.swift */; };
 		84F0815A284E78F800388684 /* ImageViewExstension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F08159284E78F800388684 /* ImageViewExstension.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,12 +37,10 @@
 		84362D6727EEFD98007D2234 /* Trainee app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Trainee app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84362D6A27EEFD98007D2234 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84362D6C27EEFD98007D2234 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		84362D6E27EEFD98007D2234 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		84362D7427EEFD98007D2234 /* Trainee_app.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Trainee_app.xcdatamodel; sourceTree = "<group>"; };
 		84362D7627EEFDB3007D2234 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84362D7927EEFDB3007D2234 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84362D7B27EEFDB3007D2234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		843DA06C27F979DE0057F8CC /* NoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
 		844519FB284BBFF200AE345D /* NoteAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAssembly.swift; sourceTree = "<group>"; };
 		844519FD284BC02A00AE345D /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		844519FF284BC06E00AE345D /* NoteInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInteractor.swift; sourceTree = "<group>"; };
@@ -53,10 +50,6 @@
 		84451A07284BC2FA00AE345D /* NoteCleanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCleanModel.swift; sourceTree = "<group>"; };
 		84451A09284BC40100AE345D /* NoteWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteWorker.swift; sourceTree = "<group>"; };
 		84451A0B284BC59400AE345D /* NoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
-		845FF54F283D6040005F0F7F /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
-		8491CA9B2832C7090086D709 /* Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Worker.swift; sourceTree = "<group>"; };
-		84B059BF280C03B30065D27A /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
-		84B059C1280C04460065D27A /* NotePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotePreviewCell.swift; sourceTree = "<group>"; };
 		84C7CF4B28491ED30050DE4C /* NoteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewController.swift; sourceTree = "<group>"; };
 		84C7CF4D28491EE30050DE4C /* NoteListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListAssembly.swift; sourceTree = "<group>"; };
 		84C7CF4F28491EEE0050DE4C /* NoteListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListInteractor.swift; sourceTree = "<group>"; };
@@ -66,8 +59,6 @@
 		84C7CF5728491F140050DE4C /* NoteListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListRouter.swift; sourceTree = "<group>"; };
 		84C7CF5928491F850050DE4C /* NoteListWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListWorker.swift; sourceTree = "<group>"; };
 		84C7CF5B284924270050DE4C /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
-		84C7CF5D284925C60050DE4C /* NoteListAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListAnimations.swift; sourceTree = "<group>"; };
-		84D42E8727F6224C00ED7405 /* NoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
 		84F08159284E78F800388684 /* ImageViewExstension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExstension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,7 +92,6 @@
 		84362D6927EEFD98007D2234 /* Trainee app */ = {
 			isa = PBXGroup;
 			children = (
-				84C7CF5F28494DAF0050DE4C /* Source Project */,
 				846F3C9928468225005217BB /* NotesCleanSwift */,
 				84D42E8527F6213E00ED7405 /* Delegates */,
 				84D42E8427F6210800ED7405 /* BoardsAndAssets */,
@@ -190,29 +180,8 @@
 				84C7CF5728491F140050DE4C /* NoteListRouter.swift */,
 				84C7CF5928491F850050DE4C /* NoteListWorker.swift */,
 				84C7CF5B284924270050DE4C /* NoteCellView.swift */,
-				84C7CF5D284925C60050DE4C /* NoteListAnimations.swift */,
 			);
 			path = NoteListScene;
-			sourceTree = "<group>";
-		};
-		84B059BE280C03620065D27A /* NoteSelectionScreen */ = {
-			isa = PBXGroup;
-			children = (
-				845FF54F283D6040005F0F7F /* LoadingViewController.swift */,
-				84B059BF280C03B30065D27A /* ListViewController.swift */,
-				84B059C1280C04460065D27A /* NotePreviewCell.swift */,
-				8491CA9B2832C7090086D709 /* Worker.swift */,
-			);
-			path = NoteSelectionScreen;
-			sourceTree = "<group>";
-		};
-		84C7CF5F28494DAF0050DE4C /* Source Project */ = {
-			isa = PBXGroup;
-			children = (
-				84B059BE280C03620065D27A /* NoteSelectionScreen */,
-				84D42E8627F6222400ED7405 /* BasicNoteScreen */,
-			);
-			path = "Source Project";
 			sourceTree = "<group>";
 		};
 		84D42E8427F6210800ED7405 /* BoardsAndAssets */ = {
@@ -230,16 +199,6 @@
 				84362D6A27EEFD98007D2234 /* AppDelegate.swift */,
 			);
 			path = Delegates;
-			sourceTree = "<group>";
-		};
-		84D42E8627F6222400ED7405 /* BasicNoteScreen */ = {
-			isa = PBXGroup;
-			children = (
-				84362D6E27EEFD98007D2234 /* NoteViewController.swift */,
-				84D42E8727F6224C00ED7405 /* NoteModel.swift */,
-				843DA06C27F979DE0057F8CC /* NoteView.swift */,
-			);
-			path = BasicNoteScreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -351,7 +310,6 @@
 				84451A02284BC08100AE345D /* NotePresenter.swift in Sources */,
 				844519FC284BBFF200AE345D /* NoteAssembly.swift in Sources */,
 				84362D6D27EEFD98007D2234 /* SceneDelegate.swift in Sources */,
-				84C7CF5E284925C60050DE4C /* NoteListAnimations.swift in Sources */,
 				84F0815A284E78F800388684 /* ImageViewExstension.swift in Sources */,
 				84C7CF5C284924270050DE4C /* NoteCellView.swift in Sources */,
 				84451A08284BC2FA00AE345D /* NoteCleanModel.swift in Sources */,

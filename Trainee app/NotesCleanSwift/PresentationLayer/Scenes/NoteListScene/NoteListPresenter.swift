@@ -9,7 +9,7 @@ import UIKit
 
 final class NoteListPresenter: NoteListPresentationLogic {
     weak var view: NoteListDisplayLogic?
-    
+
     func presentFetchedNotes(_ response: [NoteListCleanModel.FetchData.Response]) {
         let viewModel = response.map {
             NoteListCleanModel.FetchData.ViewModel(

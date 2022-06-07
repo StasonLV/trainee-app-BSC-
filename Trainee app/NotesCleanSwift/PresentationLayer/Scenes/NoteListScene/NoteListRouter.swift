@@ -16,23 +16,28 @@ final class NoteListRouter: NoteListRoutingLogic, NoteListDataPassing {
     }
 
     func createNewNote() {
-        let noteVC = NoteAssembly.build()
+        guard let noteVC = NoteAssembly.build() as? NoteViewController else { return }
+        noteVC.completion = { [weak self] viewModel in
+            DispatchQueue.main.async {
+                guard let viewModel = viewModel else { return }
+                self?.viewController?.notes.append(viewModel)
+                self?.viewController?.notesTable.reloadData()
+            }
+        }
         viewController?.navigationController?.pushViewController(noteVC, animated: true)
     }
 
     func showNote(for id: Int) {
-        let noteVC = NoteAssembly.build()
+        dataStore?.note = viewController?.notes[id]
+        viewController?.notes.remove(at: id)
+        guard let noteVC = NoteAssembly.build(viewModel: dataStore?.note) as? NoteViewController else { return }
+        noteVC.completion = { [weak self] viewModel in
+            DispatchQueue.main.async {
+                guard let viewModel = viewModel else { return }
+                self?.viewController?.notes.insert(viewModel, at: id)
+                self?.viewController?.notesTable.reloadData()
+            }
+        }
         viewController?.navigationController?.pushViewController(noteVC, animated: true)
-    }
-}
-
-private extension NoteListRouter {
-    func passDataToNoteDetail(source: NoteListDataStore, destination: inout NoteDataStore) {
-        let selectedRow = viewController?.notesTable.indexPathForSelectedRow?.row
-        let selectedNote = source.notes?[selectedRow!]
-        destination.note = selectedNote
-    }
-
-    func routeToNoteDetail() {
     }
 }
