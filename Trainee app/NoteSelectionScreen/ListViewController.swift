@@ -38,6 +38,7 @@ final class ListViewController: UIViewController {
     private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     var notes = [NoteModel]()
     let worker: WorkerType = Worker()
+    let loading = LoadingViewController()
 
     lazy var alert: UIAlertController = {
         let alert = UIAlertController(
@@ -75,6 +76,11 @@ final class ListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         buttonAppearAnimation()
+        addIndicator()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            self.removeIndicator()
+            self.loadArrrayOfNotes()
+        }
     }
 
     override func viewDidLoad() {
@@ -111,6 +117,21 @@ final class ListViewController: UIViewController {
             plusButton.heightAnchor.constraint(equalTo: plusButton.widthAnchor)
         ])
         notesTable.register(NotePreviewCell.self, forCellReuseIdentifier: "cell")
+    }
+
+    // MARK: - методы для работы лоадинг индикатора
+    private func addIndicator() {
+        loading.modalPresentationStyle = .overCurrentContext
+        loading.modalTransitionStyle = .crossDissolve
+        self.present(loading, animated: true)
+    }
+
+    private func removeIndicator() {
+        loading.dismiss(animated: true)
+    }
+
+    deinit {
+        print("ListVC deinited")
     }
 
     // MARK: - метод для кнопки "плюс" + кложур для новых заметок
@@ -221,6 +242,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePr
         ) as? NotePreviewCell else {
             return UITableViewCell()
         }
+        cell.userShareIcon.downloadImageFrom(urlString: notes[indexPath.row].userShareIcon ?? "")
         cell.delegate = self
         cell.checkButton.isSelected = notes[indexPath.row].selectionState
         cell.setupCellData(with: notes[indexPath.row])
@@ -277,7 +299,23 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate, NotePr
     }
 }
 
+// MARK: - экстеншн для обработки УРЛ изображения
+private extension UIImageView {
+    func downloadImageFrom(urlString: String) {
+        DispatchQueue.global().async { [weak self] in
+            guard let url = URL(string: urlString) else { return }
+            guard let data = try? Data(contentsOf: url),
+                  let image = UIImage(data: data)
+            else { return }
+            DispatchQueue.main.async {
+                self?.image = image
+            }
+        }
+    }
+}
+
 // MARK: - анимации
+// в анимациях можно пользоваться "сильным" захватом, т.к. селф в замыкании не приводит к утечке
 extension ListViewController {
     private func buttonAppearAnimation() {
         UIView.animate(

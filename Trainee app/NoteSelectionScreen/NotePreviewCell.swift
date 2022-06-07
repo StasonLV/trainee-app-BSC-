@@ -39,7 +39,7 @@ final class NotePreviewCell: UITableViewCell {
             )
         }
     }
-
+    // Ссылка опциональна
     weak var delegate: NotePreviewCellDelegate?
 
     // MARK: - модель
@@ -93,6 +93,12 @@ final class NotePreviewCell: UITableViewCell {
         return label
     }()
 
+    lazy var userShareIcon: UIImageView = {
+        let img = UIImageView()
+        img.translatesAutoresizingMaskIntoConstraints = false
+        return img
+    }()
+
     // MARK: - инициализаторы
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -101,6 +107,12 @@ final class NotePreviewCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.note = nil
+        self.userShareIcon = .init(image: UIImage.add)
     }
 
     // MARK: - настройка ячейки
@@ -115,6 +127,7 @@ final class NotePreviewCell: UITableViewCell {
         contentView.addSubview(noteTextLabel)
         contentView.addSubview(noteDateLabel)
         contentView.addSubview(checkButton)
+        contentView.addSubview(userShareIcon)
 
         NSLayoutConstraint.activate([
             checkButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -124,7 +137,11 @@ final class NotePreviewCell: UITableViewCell {
             noteTextLabel.topAnchor.constraint(equalTo: noteNameField.bottomAnchor, constant: 4),
             noteTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             noteDateLabel.topAnchor.constraint(equalTo: noteTextLabel.bottomAnchor, constant: 24),
-            noteDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
+            noteDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            userShareIcon.heightAnchor.constraint(equalToConstant: 24),
+            userShareIcon.widthAnchor.constraint(equalToConstant: 24),
+            userShareIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            userShareIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
     }
 

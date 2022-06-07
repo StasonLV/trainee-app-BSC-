@@ -21,7 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let rootVC = ListViewController()
         let navVC = UINavigationController(rootViewController: rootVC)
         navVC.navigationBar.barStyle = .black
-        rootVC.loadArrrayOfNotes()
         window?.rootViewController = navVC
         window?.makeKeyAndVisible()
     }

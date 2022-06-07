@@ -42,6 +42,10 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
+    deinit {
+        print("NoteVC deinited")
+    }
+
     // MARK: - метод обработки нажатия вне вью
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
