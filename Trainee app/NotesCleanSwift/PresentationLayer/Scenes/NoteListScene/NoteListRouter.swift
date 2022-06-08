@@ -15,7 +15,7 @@ final class NoteListRouter: NoteListRoutingLogic, NoteListDataPassing {
         self.dataStore = dataStore
     }
 
-    func createNewNote() {
+    func createNewNote() {           
         guard let noteVC = NoteAssembly.build() as? NoteViewController else { return }
         noteVC.completion = { [weak self] viewModel in
             DispatchQueue.main.async {

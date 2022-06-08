@@ -16,7 +16,7 @@ protocol NoteListDataStore {
 }
 
 protocol NoteListBusinessLogic: AnyObject {
-    func requestDeletion(_ request: [NoteListCleanModel.DeleteData.Request])
+    func requestDeletion(_ request: NoteListCleanModel.DeleteData.Request)
     func requestInitForm(_ request: NoteListCleanModel.InitForm.Request)
 }
 
@@ -25,10 +25,12 @@ protocol NoteListWorkerLogic {
 }
 
 protocol NoteListPresentationLogic {
+    func presentDeletedNotes(_ response: NoteListCleanModel.DeleteData.Response)
     func presentFetchedNotes(_ response: [NoteListCleanModel.FetchData.Response])
 }
 
 protocol NoteListDisplayLogic: AnyObject {
+    func presentDeletedNotes(_ response: [NoteListCleanModel.FetchData.ViewModel])
     func displayInitForm(_ viewModel: [NoteListCleanModel.FetchData.ViewModel])
 }
 

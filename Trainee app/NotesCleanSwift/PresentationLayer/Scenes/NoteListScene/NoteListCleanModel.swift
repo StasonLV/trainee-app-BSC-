@@ -16,10 +16,13 @@ enum NoteListCleanModel {
 
     enum DeleteData {
         struct Request {
+            var notesToDelete: [NoteListCleanModel.FetchData.ViewModel]
         }
         struct Response {
+            var notesAfterDeletion: [NoteListCleanModel.FetchData.ViewModel]
         }
         struct ViewModel {
+            var notesToPresent: [NoteListCleanModel.FetchData.ViewModel]
         }
     }
 

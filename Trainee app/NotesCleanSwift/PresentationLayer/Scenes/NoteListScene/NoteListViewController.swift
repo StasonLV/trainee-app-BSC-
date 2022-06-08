@@ -108,22 +108,7 @@ final class NoteListViewController: UIViewController {
     }
 
     private func removeNotes() {
-        interactor.requestDeletion([NoteListCleanModel.DeleteData.Request()])
-        if selected.isEmpty {
-            self.present(alert, animated: true, completion: nil)
-        } else {
-            for indexPath in selected {
-                notes.remove(at: indexPath.row)
-                notesTable.beginUpdates()
-                notesTable.deleteRows(
-                    at: [IndexPath(row: indexPath.row, section: 0)],
-                    with: .top
-                )
-                notesTable.endUpdates()
-            }
-            notesTable.setEditing(false, animated: true)
-            selected.removeAll()
-        }
+        interactor.requestDeletion(NoteListCleanModel.DeleteData.Request.init(notesToDelete: notes))
     }
 
     // MARK: - оверрайд метода эдита
@@ -312,10 +297,16 @@ extension NoteListViewController {
 }
 
 extension NoteListViewController: NoteListDisplayLogic {
+    func presentDeletedNotes(_ response: [NoteListCleanModel.FetchData.ViewModel]) {
+        DispatchQueue.main.async {
+            self.notes = response
+            self.notesTable.reloadData()
+        }
+    }
+
     func displayInitForm(_ viewModel: [NoteListCleanModel.FetchData.ViewModel]) {
         DispatchQueue.main.async {
             self.notes.append(contentsOf: viewModel)
-            print(self.notes)
             self.notesTable.reloadData()
         }
     }

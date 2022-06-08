@@ -23,7 +23,10 @@ final class NoteListInteractor: NoteListBusinessLogic, NoteListDataStore {
         self.worker = worker
     }
 
-    func requestDeletion(_ request: [NoteListCleanModel.DeleteData.Request]) {
+    func requestDeletion(_ request: NoteListCleanModel.DeleteData.Request) {
+        var notesToDelete = request.notesToDelete
+        notesToDelete.removeAll { $0.selectionState == true }
+        presenter.presentDeletedNotes(NoteListCleanModel.DeleteData.Response.init(notesAfterDeletion: notesToDelete))
     }
 
     func requestInitForm(_ request: NoteListCleanModel.InitForm.Request) {
