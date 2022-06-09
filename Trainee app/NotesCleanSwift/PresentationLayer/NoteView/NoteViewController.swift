@@ -7,38 +7,17 @@
 
 import UIKit
 
-final class NoteViewController: UIViewController, NoteDisplayLogic, UITextFieldDelegate {
+final class NoteViewController: UIViewController, UITextFieldDelegate {
     // MARK: - константы
     let noteView = NoteView(frame: .zero)
     var completion: ((NoteListCleanModel.FetchData.ViewModel?) -> Void)?
-    private struct ViewModel {
-        var title: String?
-        var noteText: String?
-        var date: String?
-        var userShareIcon: String?
-        var selectionState: Bool = false
-    }
     private enum NavBarConstants {
         static let title = "Заметка"
         static let navBarButtonTitle = "Готово"
     }
-    private let interactor: NoteBusinessLogic
-    let router: NoteRoutingLogic
-
-    init(interactor: NoteBusinessLogic, router: NoteRoutingLogic) {
-        self.interactor = interactor
-        self.router = router
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        initForm()
         noteView.titleField.delegate = self
         noteView.noteText.becomeFirstResponder()
         setupNavBar()
@@ -83,15 +62,6 @@ final class NoteViewController: UIViewController, NoteDisplayLogic, UITextFieldD
             selectionState: false
         )
         completion?(viewModel)
-    }
-    // MARK: - CounterDisplayLogic
-
-    func displayInitForm(_ viewModel: NoteCleanModel.InitForm.ViewModel) {}
-
-    // MARK: - Private
-
-    private func initForm() {
-        interactor.requestInitForm(NoteCleanModel.InitForm.Request())
     }
 }
 
@@ -149,5 +119,11 @@ extension NoteViewController {
             touches,
             with: event
         )
+    }
+
+    func noteViewWithCellData(with model: NoteListCleanModel.FetchData.ViewModel) {
+        self.noteView.titleField.text = model.title
+        self.noteView.noteText.text = model.noteText
+        self.noteView.dateField.text = model.date
     }
 }

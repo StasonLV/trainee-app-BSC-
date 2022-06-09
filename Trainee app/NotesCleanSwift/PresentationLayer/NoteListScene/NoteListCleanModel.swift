@@ -36,7 +36,7 @@ enum NoteListCleanModel {
             var userShareIcon: String?
         }
 
-        struct ViewModel: Codable {
+        struct ViewModel {
             var title: String?
             var noteText: String?
             var date: String?

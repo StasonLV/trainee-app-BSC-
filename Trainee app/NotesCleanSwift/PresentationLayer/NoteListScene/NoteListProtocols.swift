@@ -35,6 +35,5 @@ protocol NoteListDisplayLogic: AnyObject {
 }
 
 protocol NoteListRoutingLogic {
-    func createNewNote()
-    func showNote(for id: Int)
+    func editOrCreate(for id: Int?)
 }

@@ -154,10 +154,7 @@ final class NoteListViewController: UIViewController {
 
     // MARK: - Private
     private func initForm() {
-        DispatchQueue.main.async {
             self.interactor.requestInitForm(NoteListCleanModel.InitForm.Request())
-            print(self.notes)
-        }
     }
 }
 
@@ -192,7 +189,7 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate, No
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        router.showNote(for: indexPath.row)
+        router.editOrCreate(for: indexPath.row)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -201,19 +198,6 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate, No
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
-    }
-
-    func tableView(
-        _ tableView: UITableView,
-        commit editingStyle: UITableViewCell.EditingStyle,
-        forRowAt indexPath: IndexPath
-    ) {
-        if editingStyle == .delete {
-            notesTable.beginUpdates()
-            notes.remove(at: indexPath.row)
-            notesTable.deleteRows(at: [indexPath], with: .left)
-            notesTable.endUpdates()
-        }
     }
 
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
@@ -267,7 +251,7 @@ extension NoteListViewController {
                 )
             },
             completion: { _ in
-                self.router.createNewNote()
+                self.router.editOrCreate(for: nil)
                 self.plusButton.center.y -= 100.0
             }
         )
