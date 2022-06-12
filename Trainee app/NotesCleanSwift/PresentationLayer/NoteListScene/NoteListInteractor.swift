@@ -30,10 +30,27 @@ final class NoteListInteractor: NoteListBusinessLogic, NoteListDataStore {
     }
 
     func requestInitForm(_ request: NoteListCleanModel.InitForm.Request) {
-        worker.fetch { response in
-            DispatchQueue.main.async {
-                self.presenter.presentFetchedNotes(response)
+        worker.fetch { [weak self] response in
+            switch response {
+            case .success(let response):
+                DispatchQueue.main.async {
+                    self?.presenter.presentFetchedNotes(response)
+                }
+            case .failure(.connectionError):
+                print("error")
+            case .failure(.decodeError):
+                print("decError")
             }
         }
     }
+
+    func downloadImage(url: String, handler: @escaping((_ image: UIImage) -> Void)) {
+            guard let url = URL(string: url) else { return }
+        DispatchQueue.global().async {
+            guard let data = try? Data(contentsOf: url),
+                  let image = UIImage(data: data)
+            else { return }
+                handler(image)
+            }
+        }
 }

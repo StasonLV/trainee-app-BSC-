@@ -30,7 +30,6 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         let viewModel = NoteListCleanModel.FetchData.ViewModel(
             title: noteView.titleField.text,
             noteText: noteView.noteText.text,
-            date: noteView.dateField.text,
             userShareIcon: nil,
             selectionState: false
         )
@@ -57,7 +56,6 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
         let viewModel = NoteListCleanModel.FetchData.ViewModel(
             title: noteView.titleField.text,
             noteText: noteView.noteText.text,
-            date: noteView.dateField.text,
             userShareIcon: nil,
             selectionState: false
         )
@@ -124,6 +122,6 @@ extension NoteViewController {
     func noteViewWithCellData(with model: NoteListCleanModel.FetchData.ViewModel) {
         self.noteView.titleField.text = model.title
         self.noteView.noteText.text = model.noteText
-        self.noteView.dateField.text = model.date
+        self.noteView.dateField.text = model.dateToStr
     }
 }

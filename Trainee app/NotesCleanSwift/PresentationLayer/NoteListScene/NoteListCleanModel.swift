@@ -4,7 +4,6 @@
 //
 //  Created by Stanislav Lezovsky on 02.06.2022.
 //
-import Foundation
 import UIKit
 
 enum NoteListCleanModel {
@@ -31,7 +30,7 @@ enum NoteListCleanModel {
 
         struct Response: Codable {
             var header: String?
-            var text: String?
+            var text: String?	
             var date: Date?
             var userShareIcon: String?
         }
@@ -39,8 +38,15 @@ enum NoteListCleanModel {
         struct ViewModel {
             var title: String?
             var noteText: String?
-            var date: String?
-            var userShareIcon: String?
+            var date: Date?
+            var dateToStr: String? {
+                let format = "dd.MM.yyyy"
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = format
+                dateFormatter.locale = Locale(identifier: "ru")
+                return dateFormatter.string(from: date ?? .now)
+            }
+            var userShareIcon: UIImage?
             var selectionState: Bool = false
             var isEmpty: Bool {
                 title!.isEmpty && noteText!.isEmpty

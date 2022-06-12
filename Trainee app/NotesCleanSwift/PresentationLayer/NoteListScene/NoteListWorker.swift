@@ -7,6 +7,11 @@
 import Foundation
 import UIKit
 
+enum InternalError: Error {
+    case connectionError
+    case decodeError
+}
+
 final class NoteListWorker: NoteListWorkerLogic {
     let session: URLSession
     init (session: URLSession = URLSession(configuration: .default)) {
@@ -14,18 +19,20 @@ final class NoteListWorker: NoteListWorkerLogic {
     }
 
     // MARK: - метод для получения и обработки данных по url
-    func fetch(completion: @escaping([NoteListCleanModel.FetchData.Response]) -> Void) {
+    func fetch(completion: @escaping(Result<[NoteListCleanModel.FetchData.Response], InternalError>) -> Void) {
         guard let url = createURLComponents() else { return }
         let task = session.dataTask(with: url) { data, _, error in
             if error != nil {
-                print("\(String(describing: error?.localizedDescription))")
+                completion(.failure(.connectionError))
+                return
             }
             guard let data = data,
                   let notes = try? JSONDecoder().decode([NoteListCleanModel.FetchData.Response].self, from: data)
             else {
+                completion(.failure(.decodeError))
                 return
             }
-            completion(notes)
+            completion(.success(notes))
         }
         task.resume()
     }

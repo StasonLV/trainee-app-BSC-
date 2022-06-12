@@ -36,7 +36,6 @@ final class NoteListViewController: UIViewController {
             static let alertMessage = "Не выбрано ни одной заметки для удаления"
         }
     }
-    var selected = [IndexPath]()
     private var notesForDeletion = [NoteListCleanModel.DeleteData.Request]()
     let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     private let interactor: NoteListBusinessLogic
@@ -92,7 +91,7 @@ final class NoteListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNotesTable()
+        setupUI()
         initForm()
         navigationItem.rightBarButtonItem = editButtonItem
         editButtonItem.title = "Выбрать"
@@ -125,7 +124,7 @@ final class NoteListViewController: UIViewController {
     }
 
     // MARK: - сетап таблицы
-    private func setupNotesTable() {
+    private func setupUI() {
         title = "Заметки"
         self.notesTable.separatorStyle = .none
         notesTable.dataSource = self
@@ -151,11 +150,6 @@ final class NoteListViewController: UIViewController {
         ])
         notesTable.register(NoteCellView.self, forCellReuseIdentifier: "cell")
     }
-
-    // MARK: - Private
-    private func initForm() {
-            self.interactor.requestInitForm(NoteListCleanModel.InitForm.Request())
-    }
 }
 
 // MARK: - экстеншн для функционала тэйблвью
@@ -179,7 +173,7 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate, No
             return UITableViewCell()
         }
         cell.delegate = self
-        cell.userShareIcon.downloadImageFrom(urlString: notes[indexPath.row].userShareIcon ?? "")
+//        cell.userShareIcon.downloadImageFrom(urlString: notes[indexPath.row].userShareIcon ?? "")
         cell.checkButton.isSelected = notes[indexPath.row].selectionState
         cell.setupCellData(with: notes[indexPath.row])
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: notesTable.bounds.width)
@@ -280,6 +274,7 @@ extension NoteListViewController {
     }
 }
 
+// MARK: - Display Logic
 extension NoteListViewController: NoteListDisplayLogic {
     func presentDeletedNotes(_ response: [NoteListCleanModel.FetchData.ViewModel]) {
         DispatchQueue.main.async {
@@ -293,5 +288,9 @@ extension NoteListViewController: NoteListDisplayLogic {
             self.notes.append(contentsOf: viewModel)
             self.notesTable.reloadData()
         }
+    }
+
+    private func initForm() {
+        self.interactor.requestInitForm(NoteListCleanModel.InitForm.Request())
     }
 }

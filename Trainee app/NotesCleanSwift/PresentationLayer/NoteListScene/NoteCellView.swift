@@ -45,7 +45,8 @@ protocol NotePreviewCellDelegate: AnyObject {
         didSet {
             noteNameField.text = note?.title
             noteTextLabel.text = note?.noteText
-            noteDateLabel.text = note?.date
+            noteDateLabel.text = note?.dateToStr
+            userShareIcon.image = note?.userShareIcon
         }
     }
 
@@ -142,7 +143,7 @@ protocol NotePreviewCellDelegate: AnyObject {
          self.note = model
          noteNameField.text = model.title
          noteTextLabel.text = model.noteText
-         noteDateLabel.text = model.date
+         noteDateLabel.text = model.dateToStr
      }
 
      override func setEditing(_ editing: Bool, animated: Bool) {

@@ -5,7 +5,7 @@
 //  Created by Stanislav Lezovsky on 02.06.2022.
 //
 
-import UIKit
+import Foundation
 
 protocol NoteListDataPassing {
     var dataStore: NoteListDataStore? { get }
@@ -21,7 +21,7 @@ protocol NoteListBusinessLogic: AnyObject {
 }
 
 protocol NoteListWorkerLogic {
-    func fetch(completion: @escaping ([NoteListCleanModel.FetchData.Response]) -> Void)
+    func fetch(completion: @escaping (Result<[NoteListCleanModel.FetchData.Response], InternalError>) -> Void)
 }
 
 protocol NoteListPresentationLogic {
