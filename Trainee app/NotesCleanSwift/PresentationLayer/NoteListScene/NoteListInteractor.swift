@@ -5,7 +5,6 @@
 //  Created by Stanislav Lezovsky on 02.06.2022.
 //
 
-import Foundation
 import UIKit
 
 final class NoteListInteractor: NoteListBusinessLogic, NoteListDataStore {
@@ -45,12 +44,12 @@ final class NoteListInteractor: NoteListBusinessLogic, NoteListDataStore {
     }
 
     func downloadImage(url: String, handler: @escaping((_ image: UIImage) -> Void)) {
-            guard let url = URL(string: url) else { return }
+        guard let url = URL(string: url) else { return }
         DispatchQueue.global().async {
             guard let data = try? Data(contentsOf: url),
                   let image = UIImage(data: data)
             else { return }
-                handler(image)
-            }
+            handler(image)
         }
+    }
 }

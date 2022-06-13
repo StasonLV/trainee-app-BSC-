@@ -5,7 +5,7 @@
 //  Created by Stanislav Lezovsky on 02.06.2022.
 //
 
-import Foundation
+import UIKit
 
 protocol NoteListDataPassing {
     var dataStore: NoteListDataStore? { get }
@@ -22,6 +22,7 @@ protocol NoteListBusinessLogic: AnyObject {
 
 protocol NoteListWorkerLogic {
     func fetch(completion: @escaping (Result<[NoteListCleanModel.FetchData.Response], InternalError>) -> Void)
+    func fetchImage(with url: String?, completion: @escaping (_ image: UIImage?) -> Void)
 }
 
 protocol NoteListPresentationLogic {
@@ -35,5 +36,9 @@ protocol NoteListDisplayLogic: AnyObject {
 }
 
 protocol NoteListRoutingLogic {
-    func editOrCreate(for id: Int?)
+    func editOrCreate(
+        id: Int?,
+        note: NoteListCleanModel.FetchData.ViewModel,
+        completion: @escaping (NoteListCleanModel.FetchData.ViewModel) -> Void
+    )
 }

@@ -4,7 +4,6 @@
 //
 //  Created by Stanislav Lezovsky on 02.06.2022.
 //
-import Foundation
 import UIKit
 
 final class NoteListPresenter: NoteListPresentationLogic {
@@ -29,14 +28,13 @@ final class NoteListPresenter: NoteListPresentationLogic {
                 title: $0.header,
                 noteText: $0.text,
                 date: $0.date,
-                userShareIcon: UIImage(),
+                userShareIcon: $0.userShareIcon,
                 selectionState: false
             )
         }
         view?.displayInitForm(viewModel)
     }
-
-//    func downloadImageFrom(urlString: String, completion: @escaping ((UIImage) -> Void)) {
+//    func downloadImageFrom(urlString: String, completion: @escaping ((UIImage) -> Void)) -> UIImage {
 //       DispatchQueue.global().async { [weak self] in
 //           guard let url = URL(string: urlString) else { return }
 //           guard let data = try? Data(contentsOf: url),

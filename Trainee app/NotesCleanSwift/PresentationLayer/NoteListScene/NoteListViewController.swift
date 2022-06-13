@@ -9,7 +9,7 @@ import UIKit
 
 final class NoteListViewController: UIViewController {
     // MARK: - константы
-    var notes = [NoteListCleanModel.FetchData.ViewModel]()
+    private var notes = [NoteListCleanModel.FetchData.ViewModel]()
     private enum Constants {
         enum ColorConstants {
             static let viewBackColor = UIColor(
@@ -37,7 +37,7 @@ final class NoteListViewController: UIViewController {
         }
     }
     private var notesForDeletion = [NoteListCleanModel.DeleteData.Request]()
-    let notesTable = UITableView(frame: .zero, style: .insetGrouped)
+    private let notesTable = UITableView(frame: .zero, style: .insetGrouped)
     private let interactor: NoteListBusinessLogic
     private let router: NoteListRoutingLogic
 
@@ -173,7 +173,7 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate, No
             return UITableViewCell()
         }
         cell.delegate = self
-//        cell.userShareIcon.downloadImageFrom(urlString: notes[indexPath.row].userShareIcon ?? "")
+        cell.userShareIcon.downloadImageFrom(urlString: notes[indexPath.row].userShareIcon ?? "")
         cell.checkButton.isSelected = notes[indexPath.row].selectionState
         cell.setupCellData(with: notes[indexPath.row])
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: notesTable.bounds.width)
@@ -183,7 +183,13 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate, No
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        router.editOrCreate(for: indexPath.row)
+        router.editOrCreate(id: indexPath.row, note: self.notes[indexPath.row]) { viewModel in
+            DispatchQueue.main.async {
+                self.notes.insert(viewModel, at: indexPath.row)
+                self.notesTable.reloadData()
+            }
+        }
+        notes.remove(at: indexPath.row)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -245,7 +251,12 @@ extension NoteListViewController {
                 )
             },
             completion: { _ in
-                self.router.editOrCreate(for: nil)
+                self.router.editOrCreate(id: nil, note: NoteListCleanModel.FetchData.ViewModel()) { viewModel in
+                    DispatchQueue.main.async {
+                        self.notes.append(viewModel)
+                        self.notesTable.reloadData()
+                    }
+                }
                 self.plusButton.center.y -= 100.0
             }
         )

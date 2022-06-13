@@ -8,32 +8,31 @@
 import UIKit
 
 final class NoteListRouter: NoteListRoutingLogic, NoteListDataPassing {
-    weak var viewController: NoteListViewController?
+    weak var viewController: UIViewController?
     var dataStore: NoteListDataStore?
 
     init(dataStore: NoteListDataStore) {
         self.dataStore = dataStore
     }
 
-    func editOrCreate(for id: Int?) {
+    func editOrCreate(
+        id: Int?,
+        note: NoteListCleanModel.FetchData.ViewModel,
+        completion: @escaping (NoteListCleanModel.FetchData.ViewModel) -> Void
+    ) {
         lazy var noteVC = NoteViewController()
-        if let id = id {
-            dataStore?.note = viewController?.notes[id]
-            viewController?.notes.remove(at: id)
+        if id != nil {
+            dataStore?.note = note
             noteVC.noteViewWithCellData(with: dataStore?.note ?? NoteListCleanModel.FetchData.ViewModel())
-            noteVC.completion = { [weak self] viewModel in
-                DispatchQueue.main.async {
-                    guard let viewModel = viewModel else { return }
-                    self?.viewController?.notes.insert(viewModel, at: id)
-                    self?.viewController?.notesTable.reloadData()
-                }
+            noteVC.completion = { viewModel in
+                guard let viewModel = viewModel else { return }
+                completion(viewModel)
             }
         } else {
-            noteVC.completion = { [weak self] viewModel in
+            noteVC.completion = { viewModel in
                 DispatchQueue.main.async {
                     guard let viewModel = viewModel else { return }
-                    self?.viewController?.notes.append(viewModel)
-                    self?.viewController?.notesTable.reloadData()
+                    completion(viewModel)
                 }
             }
         }

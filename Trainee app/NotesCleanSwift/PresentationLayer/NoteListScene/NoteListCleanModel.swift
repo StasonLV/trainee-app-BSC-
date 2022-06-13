@@ -30,7 +30,7 @@ enum NoteListCleanModel {
 
         struct Response: Codable {
             var header: String?
-            var text: String?	
+            var text: String?
             var date: Date?
             var userShareIcon: String?
         }
@@ -46,7 +46,8 @@ enum NoteListCleanModel {
                 dateFormatter.locale = Locale(identifier: "ru")
                 return dateFormatter.string(from: date ?? .now)
             }
-            var userShareIcon: UIImage?
+            var userShareIcon: String?
+            var userImage: UIImageView?
             var selectionState: Bool = false
             var isEmpty: Bool {
                 title!.isEmpty && noteText!.isEmpty

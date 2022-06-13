@@ -46,7 +46,7 @@ protocol NotePreviewCellDelegate: AnyObject {
             noteNameField.text = note?.title
             noteTextLabel.text = note?.noteText
             noteDateLabel.text = note?.dateToStr
-            userShareIcon.image = note?.userShareIcon
+            userShareIcon.image = note?.userImage?.image
         }
     }
 
