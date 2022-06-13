@@ -47,7 +47,7 @@ enum NoteListCleanModel {
                 return dateFormatter.string(from: date ?? .now)
             }
             var userShareIcon: String?
-            var userImage: UIImageView?
+            var userImage: UIImage?
             var selectionState: Bool = false
             var isEmpty: Bool {
                 title!.isEmpty && noteText!.isEmpty

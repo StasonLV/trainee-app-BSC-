@@ -22,7 +22,7 @@ protocol NoteListBusinessLogic: AnyObject {
 
 protocol NoteListWorkerLogic {
     func fetch(completion: @escaping (Result<[NoteListCleanModel.FetchData.Response], InternalError>) -> Void)
-    func fetchImage(with url: String?, completion: @escaping (_ image: UIImage?) -> Void)
+    func fetchImage(with url: String?, completion: @escaping (_ image: Data?) -> Void)
 }
 
 protocol NoteListPresentationLogic {

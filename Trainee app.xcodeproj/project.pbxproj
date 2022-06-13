@@ -14,6 +14,12 @@
 		84362D7A27EEFDB3007D2234 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84362D7827EEFDB3007D2234 /* LaunchScreen.storyboard */; };
 		844519FE284BC02A00AE345D /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844519FD284BC02A00AE345D /* NoteViewController.swift */; };
 		84451A0C284BC59400AE345D /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84451A0B284BC59400AE345D /* NoteView.swift */; };
+		846353CF2857ADB100DCD9B6 /* TraineeAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846353CE2857ADB100DCD9B6 /* TraineeAppTests.swift */; };
+		846353DF2857BADE00DCD9B6 /* NoteListInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846353DB2857BA8500DCD9B6 /* NoteListInteractorTests.swift */; };
+		846353E02857BAE100DCD9B6 /* NoteListPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846353DD2857BA9400DCD9B6 /* NoteListPresenterTests.swift */; };
+		846353E12857BAE900DCD9B6 /* NoteListPresenterMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846353D62857AF8D00DCD9B6 /* NoteListPresenterMock.swift */; };
+		846353E22857BAEB00DCD9B6 /* NoteListWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846353D82857AF9F00DCD9B6 /* NoteListWorkerMock.swift */; };
+		846353E72857CA1300DCD9B6 /* NoteListDisplayMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846353E42857C9F300DCD9B6 /* NoteListDisplayMock.swift */; };
 		84C7CF4C28491ED30050DE4C /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF4B28491ED30050DE4C /* NoteListViewController.swift */; };
 		84C7CF4E28491EE30050DE4C /* NoteListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF4D28491EE30050DE4C /* NoteListAssembly.swift */; };
 		84C7CF5028491EEE0050DE4C /* NoteListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF4F28491EEE0050DE4C /* NoteListInteractor.swift */; };
@@ -26,6 +32,16 @@
 		84F0815A284E78F800388684 /* ImageViewExstension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F08159284E78F800388684 /* ImageViewExstension.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		846353D02857ADB100DCD9B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84362D5F27EEFD97007D2234 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84362D6627EEFD98007D2234;
+			remoteInfo = "Trainee app";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		84362D6727EEFD98007D2234 /* Trainee app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Trainee app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84362D6A27EEFD98007D2234 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -36,6 +52,13 @@
 		84362D7B27EEFDB3007D2234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		844519FD284BC02A00AE345D /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		84451A0B284BC59400AE345D /* NoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
+		846353CC2857ADB000DCD9B6 /* Trainee appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Trainee appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		846353CE2857ADB100DCD9B6 /* TraineeAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraineeAppTests.swift; sourceTree = "<group>"; };
+		846353D62857AF8D00DCD9B6 /* NoteListPresenterMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListPresenterMock.swift; sourceTree = "<group>"; };
+		846353D82857AF9F00DCD9B6 /* NoteListWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListWorkerMock.swift; sourceTree = "<group>"; };
+		846353DB2857BA8500DCD9B6 /* NoteListInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListInteractorTests.swift; sourceTree = "<group>"; };
+		846353DD2857BA9400DCD9B6 /* NoteListPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListPresenterTests.swift; sourceTree = "<group>"; };
+		846353E42857C9F300DCD9B6 /* NoteListDisplayMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListDisplayMock.swift; sourceTree = "<group>"; };
 		84C7CF4B28491ED30050DE4C /* NoteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewController.swift; sourceTree = "<group>"; };
 		84C7CF4D28491EE30050DE4C /* NoteListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListAssembly.swift; sourceTree = "<group>"; };
 		84C7CF4F28491EEE0050DE4C /* NoteListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListInteractor.swift; sourceTree = "<group>"; };
@@ -56,6 +79,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		846353C92857ADB000DCD9B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -63,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				84362D6927EEFD98007D2234 /* Trainee app */,
+				846353CD2857ADB000DCD9B6 /* TraineeAppTests */,
 				84362D6827EEFD98007D2234 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				84362D6727EEFD98007D2234 /* Trainee app.app */,
+				846353CC2857ADB000DCD9B6 /* Trainee appTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -101,6 +133,35 @@
 				84F08159284E78F800388684 /* ImageViewExstension.swift */,
 			);
 			path = BuisnessLogicLayer;
+			sourceTree = "<group>";
+		};
+		846353CD2857ADB000DCD9B6 /* TraineeAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				846353DA2857BA5800DCD9B6 /* NoteListSceneTests */,
+				846353D52857AF6300DCD9B6 /* Mock */,
+				846353CE2857ADB100DCD9B6 /* TraineeAppTests.swift */,
+			);
+			path = TraineeAppTests;
+			sourceTree = "<group>";
+		};
+		846353D52857AF6300DCD9B6 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				846353D82857AF9F00DCD9B6 /* NoteListWorkerMock.swift */,
+				846353D62857AF8D00DCD9B6 /* NoteListPresenterMock.swift */,
+				846353E42857C9F300DCD9B6 /* NoteListDisplayMock.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
+		846353DA2857BA5800DCD9B6 /* NoteListSceneTests */ = {
+			isa = PBXGroup;
+			children = (
+				846353DB2857BA8500DCD9B6 /* NoteListInteractorTests.swift */,
+				846353DD2857BA9400DCD9B6 /* NoteListPresenterTests.swift */,
+			);
+			path = NoteListSceneTests;
 			sourceTree = "<group>";
 		};
 		846F3C9928468225005217BB /* NotesCleanSwift */ = {
@@ -185,6 +246,24 @@
 			productReference = 84362D6727EEFD98007D2234 /* Trainee app.app */;
 			productType = "com.apple.product-type.application";
 		};
+		846353CB2857ADB000DCD9B6 /* Trainee appTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 846353D42857ADB100DCD9B6 /* Build configuration list for PBXNativeTarget "Trainee appTests" */;
+			buildPhases = (
+				846353C82857ADB000DCD9B6 /* Sources */,
+				846353C92857ADB000DCD9B6 /* Frameworks */,
+				846353CA2857ADB000DCD9B6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				846353D12857ADB100DCD9B6 /* PBXTargetDependency */,
+			);
+			name = "Trainee appTests";
+			productName = "Trainee appTests";
+			productReference = 846353CC2857ADB000DCD9B6 /* Trainee appTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -197,6 +276,10 @@
 				TargetAttributes = {
 					84362D6627EEFD98007D2234 = {
 						CreatedOnToolsVersion = 13.3;
+					};
+					846353CB2857ADB000DCD9B6 = {
+						CreatedOnToolsVersion = 13.3.1;
+						TestTargetID = 84362D6627EEFD98007D2234;
 					};
 				};
 			};
@@ -214,6 +297,7 @@
 			projectRoot = "";
 			targets = (
 				84362D6627EEFD98007D2234 /* Trainee app */,
+				846353CB2857ADB000DCD9B6 /* Trainee appTests */,
 			);
 		};
 /* End PBXProject section */
@@ -225,6 +309,13 @@
 			files = (
 				84362D7A27EEFDB3007D2234 /* LaunchScreen.storyboard in Resources */,
 				84362D7727EEFDB3007D2234 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		846353CA2857ADB000DCD9B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,7 +365,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		846353C82857ADB000DCD9B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				846353E02857BAE100DCD9B6 /* NoteListPresenterTests.swift in Sources */,
+				846353E72857CA1300DCD9B6 /* NoteListDisplayMock.swift in Sources */,
+				846353DF2857BADE00DCD9B6 /* NoteListInteractorTests.swift in Sources */,
+				846353E12857BAE900DCD9B6 /* NoteListPresenterMock.swift in Sources */,
+				846353E22857BAEB00DCD9B6 /* NoteListWorkerMock.swift in Sources */,
+				846353CF2857ADB100DCD9B6 /* TraineeAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		846353D12857ADB100DCD9B6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84362D6627EEFD98007D2234 /* Trainee app */;
+			targetProxy = 846353D02857ADB100DCD9B6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		84362D7827EEFDB3007D2234 /* LaunchScreen.storyboard */ = {
@@ -458,6 +570,42 @@
 			};
 			name = Release;
 		};
+		846353D22857ADB100DCD9B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9AA2WVYD3W;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "-112.Trainee-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trainee app.app/Trainee app";
+			};
+			name = Debug;
+		};
+		846353D32857ADB100DCD9B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9AA2WVYD3W;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "-112.Trainee-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trainee app.app/Trainee app";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -475,6 +623,15 @@
 			buildConfigurations = (
 				84362D7F27EEFDB3007D2234 /* Debug */,
 				84362D8027EEFDB3007D2234 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		846353D42857ADB100DCD9B6 /* Build configuration list for PBXNativeTarget "Trainee appTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				846353D22857ADB100DCD9B6 /* Debug */,
+				846353D32857ADB100DCD9B6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
