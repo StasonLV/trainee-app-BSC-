@@ -37,18 +37,6 @@ final class NoteListWorker: NoteListWorkerLogic {
         task.resume()
     }
 
-    func fetchImage(with url: String?, completion: @escaping (_ image: UIImage?) -> Void) {
-        guard let string = url,
-              let url = URL(string: string) else { return }
-        session.dataTask(with: url) { data, _, _ in
-            guard let data = data,
-                  let image = UIImage(data: data)
-            else { return }
-            completion(image)
-        }
-        .resume()
-    }
-
     // MARK: - метод для удобной работы с url
     private func createURLComponents () -> URL? {
         var url = URLComponents()

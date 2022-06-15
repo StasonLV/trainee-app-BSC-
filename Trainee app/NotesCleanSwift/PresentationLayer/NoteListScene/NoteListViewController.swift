@@ -173,7 +173,6 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate, No
             return UITableViewCell()
         }
         cell.delegate = self
-        cell.userShareIcon.downloadImageFrom(urlString: notes[indexPath.row].userShareIcon ?? "")
         cell.checkButton.isSelected = notes[indexPath.row].selectionState
         cell.setupCellData(with: notes[indexPath.row])
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: notesTable.bounds.width)

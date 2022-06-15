@@ -33,6 +33,14 @@ enum NoteListCleanModel {
             var text: String?
             var date: Date?
             var userShareIcon: String?
+            var userImage: Data?
+            var userImage1: Data {
+                guard let string = userShareIcon,
+                      let url = URL(string: string),
+                      let data = try? Data(contentsOf: url)
+                else { return Data() }
+                return data
+            }
         }
 
         struct ViewModel {
@@ -47,7 +55,7 @@ enum NoteListCleanModel {
                 return dateFormatter.string(from: date ?? .now)
             }
             var userShareIcon: String?
-            var userImage: UIImageView?
+            var userImage: UIImage?
             var selectionState: Bool = false
             var isEmpty: Bool {
                 title!.isEmpty && noteText!.isEmpty
