@@ -1,8 +1,8 @@
 //
-//  ViewController.swift
+//  NoteViewController.swift
 //  Trainee app
 //
-//  Created by Stanislav Lezovsky on 26.03.2022.
+//  Created by Stanislav Lezovsky on 04.06.2022.
 //
 
 import UIKit
@@ -10,13 +10,12 @@ import UIKit
 final class NoteViewController: UIViewController, UITextFieldDelegate {
     // MARK: - константы
     let noteView = NoteView(frame: .zero)
-    var completion: ((NoteModel) -> Void)?
+    var completion: ((NoteListCleanModel.FetchData.ViewModel?) -> Void)?
     private enum NavBarConstants {
         static let title = "Заметка"
         static let navBarButtonTitle = "Готово"
     }
 
-    // MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         noteView.titleField.delegate = self
@@ -28,37 +27,43 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if self.isMovingFromParent {
-            let model = NoteModel(
-                title: noteView.titleField.text,
-                noteText: noteView.noteText.text,
-                date: noteView.dateField.text
-            )
-            if model.isEmpty == true {
-                model.saveNoteOrAlert(model: model, rootVC: self)
-            } else {
-                completion?(model)
-            }
-        }
-    }
-
-    deinit {
-        print("NoteVC deinited")
-    }
-
-    // MARK: - метод обработки нажатия вне вью
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-        super.touchesBegan(
-            touches,
-            with: event
+        let viewModel = NoteListCleanModel.FetchData.ViewModel(
+            title: noteView.titleField.text,
+            noteText: noteView.noteText.text,
+            userShareIcon: nil,
+            selectionState: false
         )
+        completion?(viewModel)
     }
 
     override func viewWillLayoutSubviews() {
         noteView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
     }
 
+    // MARK: - настройка навигейшн бара
+    private func setupNavBar() {
+        let saveButton = UIBarButtonItem(
+            title: NavBarConstants.navBarButtonTitle,
+            style: .done,
+            target: self,
+            action: #selector(saveSelector)
+        )
+        navigationItem.rightBarButtonItem = saveButton
+        title = NavBarConstants.title
+    }
+
+    @objc private func saveSelector() {
+        let viewModel = NoteListCleanModel.FetchData.ViewModel(
+            title: noteView.titleField.text,
+            noteText: noteView.noteText.text,
+            userShareIcon: nil,
+            selectionState: false
+        )
+        completion?(viewModel)
+    }
+}
+
+extension NoteViewController {
     // MARK: - обсерверы для клавиаутуры
     private func setupNotificationsKeyboard() {
             let notificationCenter = NotificationCenter.default
@@ -75,40 +80,6 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
                 object: nil
             )
         }
-
-    // MARK: - метод для сохранения
-    @objc func saveViewData() {
-        noteView.resignResponders()
-            let model = NoteModel(
-            title: noteView.titleField.text,
-            noteText: noteView.noteText.text,
-            date: noteView.dateField.text
-        )
-        if model.isEmpty == true {
-        model.saveNoteOrAlert(model: model, rootVC: self)
-        } else {
-            completion?(model)
-        }
-    }
-
-    // MARK: - настройка навигейшн бара
-    private func setupNavBar() {
-        let saveButton = UIBarButtonItem(
-            title: NavBarConstants.navBarButtonTitle,
-            style: .done,
-            target: self,
-            action: #selector(saveViewData)
-        )
-        navigationItem.rightBarButtonItem = saveButton
-        title = NavBarConstants.title
-    }
-
-    // MARK: - настройка заметки с переданной моделью
-    func noteViewWithCellData(with model: NoteModel) {
-        self.noteView.titleField.text = model.title
-        self.noteView.noteText.text = model.noteText
-        self.noteView.dateField.text = model.date
-    }
 
     // MARK: - методы для инсета контента при открытии клавиатуры
     @objc func keyboardWasShown(notification: NSNotification) {
@@ -137,5 +108,20 @@ final class NoteViewController: UIViewController, UITextFieldDelegate {
             right: 0
         )
         noteView.noteText.scrollIndicatorInsets = noteView.noteText.contentInset
+    }
+
+    // MARK: - метод обработки нажатия вне вью
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+        super.touchesBegan(
+            touches,
+            with: event
+        )
+    }
+
+    func noteViewWithCellData(with model: NoteListCleanModel.FetchData.ViewModel) {
+        self.noteView.titleField.text = model.title
+        self.noteView.noteText.text = model.noteText
+        self.noteView.dateField.text = model.dateToStr
     }
 }

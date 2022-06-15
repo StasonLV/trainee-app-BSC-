@@ -2,7 +2,7 @@
 //  NoteView.swift
 //  Trainee app
 //
-//  Created by Stanislav Lezovsky on 03.04.2022.
+//  Created by Stanislav Lezovsky on 04.06.2022.
 //
 
 import UIKit
@@ -138,19 +138,19 @@ final class NoteView: UIView {
     }
 }
 
-// MARK: - расширения для даты и текствью
-extension Date {
+// MARK: - расширение для текствью
+extension NoteView: UITextViewDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        titleField.resignFirstResponder()
+        return true
+    }
+}
+
+private extension Date {
     func toString(format: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
         dateFormatter.locale = Locale(identifier: "ru")
         return dateFormatter.string(from: self)
-    }
-}
-
-extension NoteView: UITextViewDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        titleField.resignFirstResponder()
-        return true
     }
 }

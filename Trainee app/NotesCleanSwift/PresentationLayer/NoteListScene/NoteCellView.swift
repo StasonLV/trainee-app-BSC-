@@ -1,17 +1,16 @@
 //
-//  NotePreviewCell.swift
+//  NoteCellView.swift
 //  Trainee app
 //
-//  Created by Stanislav Lezovsky on 17.04.2022.
+//  Created by Stanislav Lezovsky on 02.06.2022.
 //
 
 import UIKit
-
 protocol NotePreviewCellDelegate: AnyObject {
-    func checkboxToggle(sender: NotePreviewCell)
+   func checkboxToggle(sender: NoteCellView)
 }
 
-final class NotePreviewCell: UITableViewCell {
+ final class NoteCellView: UITableViewCell {
     // MARK: - константы
     private enum Constants {
         enum FontConstants {
@@ -39,15 +38,15 @@ final class NotePreviewCell: UITableViewCell {
             )
         }
     }
-    // Ссылка опциональна
-    weak var delegate: NotePreviewCellDelegate?
+     weak var delegate: NotePreviewCellDelegate?
 
     // MARK: - модель
-    var note: NoteModel? {
+     var note: NoteListCleanModel.FetchData.ViewModel? {
         didSet {
             noteNameField.text = note?.title
             noteTextLabel.text = note?.noteText
-            noteDateLabel.text = note?.date
+            noteDateLabel.text = note?.dateToStr
+            userShareIcon.image = note?.userImage
         }
     }
 
@@ -88,7 +87,7 @@ final class NotePreviewCell: UITableViewCell {
         label.font = Constants.FontConstants.noteDateFont
         label.textColor = .black
         label.isUserInteractionEnabled = false
-        label.text = Date().toString(format: "dd.MM.yyyy")
+        label.text = ""
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -107,12 +106,6 @@ final class NotePreviewCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        self.note = nil
-        self.userShareIcon = .init(image: UIImage.add)
     }
 
     // MARK: - настройка ячейки
@@ -145,31 +138,31 @@ final class NotePreviewCell: UITableViewCell {
         ])
     }
 
-    // MARK: - метод для тапа по чекбоксу
-    @objc func cellSelected(sender: UIButton) {
-        delegate?.checkboxToggle(sender: self)
-    }
+     // MARK: - настройка данных ячейки
+     func setupCellData(with model: NoteListCleanModel.FetchData.ViewModel) {
+         self.note = model
+         noteNameField.text = model.title
+         noteTextLabel.text = model.noteText
+         noteDateLabel.text = model.dateToStr
+     }
 
-    // MARK: - настройка данных ячейки
-    func setupCellData(with model: NoteModel) {
-        self.note = model
-        noteNameField.text = model.title
-        noteTextLabel.text = model.noteText
-        noteDateLabel.text = model.date
-    }
+     override func setEditing(_ editing: Bool, animated: Bool) {
+         super.setEditing(editing, animated: animated)
+         if isEditing {
+             contentAnimationForStartEditing()
+         } else {
+             contentAnimationForEndEditing()
+         }
+     }
 
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        if isEditing {
-            contentAnimationForStartEditing()
-        } else {
-            contentAnimationForEndEditing()
-        }
-    }
-}
+     // MARK: - метод для тапа по чекбоксу
+     @objc func cellSelected(sender: UIButton) {
+         delegate?.checkboxToggle(sender: self)
+     }
+ }
 
 // MARK: - анимации
-extension NotePreviewCell {
+extension NoteCellView {
     private func contentAnimationForStartEditing() {
         UIView.animate(
             withDuration: 1.0,

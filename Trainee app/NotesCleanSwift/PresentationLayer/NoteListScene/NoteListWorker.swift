@@ -1,57 +1,38 @@
 //
-//  Worker.swift
+//  NoteListWorker.swift
 //  Trainee app
 //
-//  Created by Stanislav Lezovsky on 16.05.2022.
+//  Created by Stanislav Lezovsky on 02.06.2022.
 //
-
 import Foundation
-
-protocol WorkerType {
-    var session: URLSession { get }
-    func fetch(completion: @escaping (Result<[NoteModel], InternalError>) -> Void)
-}
-
-// MARK: - Структура для полученных заметок
-struct DecodedNote: Codable {
-    var header: String?
-    var text: String?
-    var date: Date?
-    var userShareIcon: String?
-}
+import UIKit
 
 enum InternalError: Error {
-    case URLError
     case connectionError
     case decodeError
 }
 
-final class Worker: WorkerType {
+final class NoteListWorker: NoteListWorkerLogic {
     let session: URLSession
-
     init (session: URLSession = URLSession(configuration: .default)) {
         self.session = session
     }
 
     // MARK: - метод для получения и обработки данных по url
-    func fetch(completion: @escaping (Result<[NoteModel], InternalError>) -> Void) {
-        guard let url = createURLComponents() else {
-            completion(.failure(.URLError))
-            return
-        }
+    func fetch(completion: @escaping(Result<[NoteListCleanModel.FetchData.Response], InternalError>) -> Void) {
+        guard let url = createURLComponents() else { return }
         let task = session.dataTask(with: url) { data, _, error in
             if error != nil {
                 completion(.failure(.connectionError))
                 return
             }
             guard let data = data,
-                  let notes = try? JSONDecoder().decode([DecodedNote].self, from: data)
+                  let notes = try? JSONDecoder().decode([NoteListCleanModel.FetchData.Response].self, from: data)
             else {
                 completion(.failure(.decodeError))
                 return
             }
-            let decodedNotes = notes.map { NoteModel(with: $0) }
-            completion(.success(decodedNotes))
+            completion(.success(notes))
         }
         task.resume()
     }
@@ -67,17 +48,5 @@ final class Worker: WorkerType {
             URLQueryItem(name: "token", value: "215055df-172d-4b98-95a0-b353caca1424")
         ]
         return url.url
-    }
-}
-
-private extension NoteModel {
-    init(with decodedNote: DecodedNote) {
-        self.init(
-            title: decodedNote.header,
-            noteText: decodedNote.text,
-            date: decodedNote.date?.toString(format: "dd.MM.yyyy"),
-            userShareIcon: decodedNote.userShareIcon,
-            selectionState: false
-        )
     }
 }
