@@ -30,7 +30,4 @@ final class NoteListWorkingMock: NoteListWorkerLogic {
         isCalledFetchFunc = true
         completion(.success(testResponse))
     }
-
-    func fetchImage(with url: String?, completion: @escaping (Data?) -> Void) {
-    }
 }

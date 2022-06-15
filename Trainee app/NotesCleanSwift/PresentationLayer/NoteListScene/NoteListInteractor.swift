@@ -36,9 +36,9 @@ final class NoteListInteractor: NoteListBusinessLogic, NoteListDataStore {
                     self?.presenter.presentFetchedNotes(response)
                 }
             case .failure(.connectionError):
-                print("error")
+                self?.presenter.presentConnectAlert()
             case .failure(.decodeError):
-                print("decError")
+                self?.presenter.presentDecodeAlert()
             }
         }
     }

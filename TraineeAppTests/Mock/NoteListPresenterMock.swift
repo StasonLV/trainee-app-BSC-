@@ -25,4 +25,12 @@ final class NoteListPresentationLogicMock: NoteListPresentationLogic {
         responseMock = response
         fetchResponse?()
     }
+
+    func presentDecodeAlert() {
+        <#code#>
+    }
+    
+    func presentConnectAlert() {
+        <#code#>
+    }
 }

@@ -22,17 +22,20 @@ protocol NoteListBusinessLogic: AnyObject {
 
 protocol NoteListWorkerLogic {
     func fetch(completion: @escaping (Result<[NoteListCleanModel.FetchData.Response], InternalError>) -> Void)
-    func fetchImage(with url: String?, completion: @escaping (_ image: Data?) -> Void)
 }
 
 protocol NoteListPresentationLogic {
     func presentDeletedNotes(_ response: NoteListCleanModel.DeleteData.Response)
     func presentFetchedNotes(_ response: [NoteListCleanModel.FetchData.Response])
+    func presentDecodeAlert()
+    func presentConnectAlert()
 }
 
 protocol NoteListDisplayLogic: AnyObject {
     func presentDeletedNotes(_ response: [NoteListCleanModel.FetchData.ViewModel])
     func displayInitForm(_ viewModel: [NoteListCleanModel.FetchData.ViewModel])
+    func presentConnectionAlert()
+    func presentDecodeAlert()
 }
 
 protocol NoteListRoutingLogic {

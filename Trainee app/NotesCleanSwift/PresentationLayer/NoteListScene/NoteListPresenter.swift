@@ -28,77 +28,18 @@ final class NoteListPresenter: NoteListPresentationLogic {
                 title: $0.header,
                 noteText: $0.text,
                 date: $0.date,
-//                userShareIcon: $0.userShareIcon,
                 userImage: UIImage(data: $0.userImage),
                 selectionState: false
             )
         }
         view?.displayInitForm(viewModel)
     }
-//    func downloadImageFrom(urlString: String, completion: @escaping ((UIImage) -> Void)) -> UIImage {
-//       DispatchQueue.global().async { [weak self] in
-//           guard let url = URL(string: urlString) else { return }
-//           guard let data = try? Data(contentsOf: url),
-//                 let image = UIImage(data: data)
-//           else { return }
-//           DispatchQueue.main.async {
-//               completion(image)
-//           }
-//       }
-//   }
-//    func downloadImage(with url: String, completion: @escaping (UIImage?) -> Void) {
-//        DispatchQueue.global().async { [weak self] in
-//            guard let url = URL(string: url) else { return }
-//            guard let data = try? Data(contentsOf: url),
-//                  let image = UIImage(data: data)
-//            else { return }
-//        resultHandler:{ image in
-//            DispatchQueue.main.async {
-//                completion(image)
-//            }
-//            }
-//        }
-//    }
-//    func downloadImage(url: String, handler: @escaping((_ image: UIImage) -> Void)) {
-//            guard let url = URL(string: url) else { return }
-//        DispatchQueue.global().async {
-//            guard let data = try? Data(contentsOf: url),
-//                  let image = UIImage(data: data)
-//            else { return }
-//                handler(image)
-//            }
-//        }
-}
 
-extension UIImage {
-//    func downloadImage1(urlString: String) -> UIImage {
-//        var image1: UIImage
-//       DispatchQueue.global().async { [weak self] in
-//           guard let url = URL(string: urlString) else { return }
-//           guard let data = try? Data(contentsOf: url),
-//                 let image = UIImage(data: data)
-//           else { return }
-//           image1 = image
-//
-//           DispatchQueue.main.async {
-//               return image1
-//           }
-//       }
-//   }
-// }
+    func presentDecodeAlert() {
+        view?.presentDecodeAlert()
+    }
 
-// extension UIImageView {
-//    func loadFrom(URLAddress: String) {
-//        guard let url = URL(string: URLAddress) else {
-//            return
-//        }
-//        DispatchQueue.main.async { [weak self] in
-//            if let imageData = try? Data(contentsOf: url) {
-//                if let loadedImage = UIImage(data: imageData) {
-//                        self?.image = loadedImage
-//                }
-//            }
-//        }
-//    }
-// }
+    func presentConnectAlert() {
+        view?.presentConnectionAlert()
+    }
 }
