@@ -40,7 +40,7 @@ final class NoteListPresenterTests: XCTestCase {
     override func tearDown() {
         sut = nil
         viewController = nil
-        
+
         super.tearDown()
     }
 

@@ -14,7 +14,7 @@ final class NoteListPresentationLogicMock: NoteListPresentationLogic {
     var responseMock: [NoteListCleanModel.FetchData.Response]?
     var responseDeletionMock: NoteListCleanModel.DeleteData.Response?
     var fetchResponse: (() -> Void)?
-    
+
     func presentDeletedNotes(_ response: NoteListCleanModel.DeleteData.Response) {
         isCalledPresentDeletedNotes = true
         responseDeletionMock = response
