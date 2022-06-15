@@ -9,7 +9,7 @@ import UIKit
 
 final class NoteListRouter: NoteListRoutingLogic, NoteListDataPassing {
     weak var viewController: UIViewController?
-    var dataStore: NoteListDataStore?
+    private(set) var dataStore: NoteListDataStore?
 
     init(dataStore: NoteListDataStore) {
         self.dataStore = dataStore

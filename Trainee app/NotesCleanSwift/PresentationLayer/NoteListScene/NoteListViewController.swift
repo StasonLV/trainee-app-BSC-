@@ -107,7 +107,7 @@ final class NoteListViewController: UIViewController {
     }
 
     private func removeNotes() {
-        interactor.requestDeletion(NoteListCleanModel.DeleteData.Request.init(notesToDelete: notes))
+        interactor.requestDeletion(NoteListCleanModel.DeleteData.Request(notesToDelete: notes))
     }
 
     // MARK: - оверрайд метода эдита

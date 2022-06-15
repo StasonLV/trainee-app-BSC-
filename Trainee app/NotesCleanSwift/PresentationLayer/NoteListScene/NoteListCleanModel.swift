@@ -33,6 +33,13 @@ enum NoteListCleanModel {
             var text: String?
             var date: Date?
             var userShareIcon: String?
+            var userImage: Data {
+                guard let string = userShareIcon,
+                      let url = URL(string: string),
+                      let data = try? Data(contentsOf: url)
+                else { return Data() }
+                return data
+            }
         }
 
         struct ViewModel {
