@@ -15,7 +15,7 @@ final class NoteListPresenter: NoteListPresentationLogic {
                 title: $0.title,
                 noteText: $0.noteText,
                 date: $0.date,
-                userShareIcon: $0.userShareIcon,
+                userImage: $0.userImage,
                 selectionState: false
             )
         }
@@ -28,8 +28,8 @@ final class NoteListPresenter: NoteListPresentationLogic {
                 title: $0.header,
                 noteText: $0.text,
                 date: $0.date,
-                userShareIcon: $0.userShareIcon,
-                userImage: UIImage(data: $0.userImage1),
+//                userShareIcon: $0.userShareIcon,
+                userImage: UIImage(data: $0.userImage),
                 selectionState: false
             )
         }
