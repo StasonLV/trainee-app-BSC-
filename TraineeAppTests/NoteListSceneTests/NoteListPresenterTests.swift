@@ -25,7 +25,9 @@ final class NoteListPresenterTests: XCTestCase {
             userShareIcon: "testString"
         )
     ]
-    let mockResponseDelete: NoteListCleanModel.DeleteData.Response = NoteListCleanModel.DeleteData.Response(notesAfterDeletion: [])
+    let mockResponseDelete: NoteListCleanModel.DeleteData.Response = NoteListCleanModel.DeleteData.Response(
+        notesAfterDeletion: []
+    )
 
     override func setUp() {
         super.setUp()

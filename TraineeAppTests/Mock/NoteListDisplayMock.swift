@@ -9,8 +9,6 @@ import Foundation
 @testable import Trainee_app
 
 final class NoteListDisplayLogicMock: NoteListDisplayLogic {
-
-    
     private(set) var isCalledDisplayFetchedNotes = false
     private(set) var isCalledDisplayDeletedNotes = false
     private(set) var isCalledDisplayConnectionAler = false

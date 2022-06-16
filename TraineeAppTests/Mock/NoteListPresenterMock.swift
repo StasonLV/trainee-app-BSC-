@@ -11,6 +11,8 @@ import Foundation
 final class NoteListPresentationLogicMock: NoteListPresentationLogic {
     private(set) var isCalledPresentNotes = false
     private(set) var isCalledPresentDeletedNotes = false
+    private(set) var isCalledDecodeAlert = false
+    private(set) var isCalledNetworkAlert = false
     var responseMock: [NoteListCleanModel.FetchData.Response]?
     var responseDeletionMock: NoteListCleanModel.DeleteData.Response?
     var fetchResponse: (() -> Void)?
@@ -27,10 +29,10 @@ final class NoteListPresentationLogicMock: NoteListPresentationLogic {
     }
 
     func presentDecodeAlert() {
-        <#code#>
+        isCalledDecodeAlert = true
     }
-    
+
     func presentConnectAlert() {
-        <#code#>
+        isCalledNetworkAlert = true
     }
 }

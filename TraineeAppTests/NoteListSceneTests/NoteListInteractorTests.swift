@@ -49,6 +49,55 @@ final class HomeInteractorTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
 
+    func testNormalResponse(_ request: NoteListCleanModel.InitForm.Request) {
+        let request = NoteListCleanModel.InitForm.Request()
+        worker.result = .success(worker.testResponse)
+        let expectation = XCTestExpectation(description: "ждем заметки")
+        sut.requestInitForm(request)
+        DispatchQueue.main.async {
+            XCTAssertTrue(
+                self.worker.isCalledFetchFunc,
+                "Метод получения погоды должен быть вызыван, ждем флаг true"
+            )
+            XCTAssertTrue(
+                self.presenter.isCalledPresentNotes,
+                "Получили город. Ждем флаг true"
+            )
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+
+    func testDecodeErrorResponse(_ request: NoteListCleanModel.InitForm.Request) {
+        let request = NoteListCleanModel.InitForm.Request()
+        worker.result = .failure(.connectionError)
+        let expectation = XCTestExpectation(description: "ждем заметки")
+        sut.requestInitForm(request)
+        DispatchQueue.main.async {
+            XCTAssertTrue(
+                self.presenter.isCalledNetworkAlert,
+                "ошибка в соединении с сетью -> презентим алерт коннекта"
+            )
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+
+    func testNetworkErrorResponse(_ request: NoteListCleanModel.InitForm.Request) {
+        let request = NoteListCleanModel.InitForm.Request()
+        worker.result = .failure(.decodeError)
+        let expectation = XCTestExpectation(description: "ждем заметки")
+        sut.requestInitForm(request)
+        DispatchQueue.main.async {
+            XCTAssertTrue(
+                self.presenter.isCalledDecodeAlert,
+                "ошибка в декоде -> презентим алерт декода"
+            )
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+
     func testRequestDeletion() {
         let request = NoteListCleanModel.DeleteData.Request(notesToDelete: [NoteListCleanModel.FetchData.ViewModel]())
         sut.requestDeletion(request)

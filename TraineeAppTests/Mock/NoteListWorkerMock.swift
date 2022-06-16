@@ -9,7 +9,7 @@ import Foundation
 @testable import Trainee_app
 
 final class NoteListWorkingMock: NoteListWorkerLogic {
-
+    var result: Result<[NoteListCleanModel.FetchData.Response], InternalError>?
     private(set) var isCalledFetchFunc = false
     let testResponse: [NoteListCleanModel.FetchData.Response] = [
         NoteListCleanModel.FetchData.Response(
