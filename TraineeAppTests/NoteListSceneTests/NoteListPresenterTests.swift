@@ -52,6 +52,18 @@ final class NoteListPresenterTests: XCTestCase {
             viewController.isCalledDisplayFetchedNotes,
             "должен вызваться метод дисплей лоджик для скачанных заметок"
         )
+        XCTAssertTrue(
+            viewController.viewModelOnScreen.first?.title == mockResponseFetch.first?.header,
+            "заголовок присваивается в нужное поле"
+        )
+        XCTAssertTrue(
+            viewController.viewModelOnScreen.first?.noteText == mockResponseFetch.first?.text,
+            "текст присваивается в нужное поле"
+        )
+        XCTAssertTrue(
+            viewController.viewModelOnScreen.first?.date == mockResponseFetch.first?.date,
+            "дата присваивается в нужное поле"
+        )
     }
 
     func testPresentDeletedNotes() {

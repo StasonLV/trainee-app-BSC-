@@ -13,9 +13,11 @@ final class NoteListDisplayLogicMock: NoteListDisplayLogic {
     private(set) var isCalledDisplayDeletedNotes = false
     private(set) var isCalledDisplayConnectionAler = false
     private(set) var isCalledDisplayDecodeAlert = false
+    private(set) var viewModelOnScreen = [NoteListCleanModel.FetchData.ViewModel]()
 
     func displayInitForm(_ viewModel: [NoteListCleanModel.FetchData.ViewModel]) {
         isCalledDisplayFetchedNotes = true
+        viewModelOnScreen = viewModel
     }
 
     func presentDeletedNotes(_ response: [NoteListCleanModel.FetchData.ViewModel]) {
