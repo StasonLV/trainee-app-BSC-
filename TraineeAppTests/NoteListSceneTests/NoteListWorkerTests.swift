@@ -105,9 +105,7 @@ final class NoteListWorkerTests: XCTestCase {
         }
         var completionHandler:(
             (Data?, URLResponse?, Error?) -> Void)!
-        init(
-            data: Data?, response: URLResponse?, error: Error?
-        ) {
+        init(data: Data?, response: URLResponse?, error: Error?) {
             self.data = data
             self.urlResponse = response
             self._error = error
