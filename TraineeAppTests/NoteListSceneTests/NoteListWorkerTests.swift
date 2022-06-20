@@ -19,7 +19,7 @@ final class NoteListWorkerTests: XCTestCase {
         super.setUp()
         let noteListWorker = NoteListWorker()
         let noteListInteractor = NoteListInteractorMock()
-        
+
         sut = noteListWorker
         interactor = noteListInteractor
     }
@@ -32,10 +32,10 @@ final class NoteListWorkerTests: XCTestCase {
 
     func testIsDecodeFailure() {
         let sessionMock = URLSessionMock(data: nil, response: nil, error: nil)
-        let worker = NoteListWorker(session: sessionMock)
+        let sut = NoteListWorker(session: sessionMock)
         sessionMock.data = jsonMock.failure
         let expeсtationFailureDecoding = expectation(description: "ошибка декода")
-        worker.fetch(completion: { result in
+        sut.fetch(completion: { result in
             switch result {
             case .success(let success):
                 XCTFail("Замтеки задекодировались(ошибка) \(success)")
@@ -49,9 +49,9 @@ final class NoteListWorkerTests: XCTestCase {
 
     func testSuccess() {
         let sessionMock = URLSessionMock(data: jsonMock.success, response: nil, error: nil)
-        let worker = NoteListWorker(session: sessionMock)
+        let sut = NoteListWorker(session: sessionMock)
         let expeсtationSuccess = expectation(description: "отдана правильная заметка")
-        worker.fetch { result in
+        sut.fetch { result in
             switch result {
             case .success(let success):
                 XCTAssert(success[0].header == "Вторая заметка", "Значение должно быть - Вторая заметка")
@@ -65,9 +65,9 @@ final class NoteListWorkerTests: XCTestCase {
 
     func testNetworkFailure() {
         let sessionMock = URLSessionMock(data: nil, response: nil, error: .some(InternalError.connectionError))
-        let worker = NoteListWorker(session: sessionMock)
+        let sut = NoteListWorker(session: sessionMock)
         let expeсtationSuccess = expectation(description: "ошибка сети")
-        worker.fetch { result in
+        sut.fetch { result in
             switch result {
             case .success(let success):
                 XCTFail("Замтеки задекодировались(ошибка) \(success)")
