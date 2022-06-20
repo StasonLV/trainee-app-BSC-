@@ -15,7 +15,6 @@
 		8438BC18285CC6220001346D /* NoteListInteractorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8438BC17285CC6220001346D /* NoteListInteractorMock.swift */; };
 		844519FE284BC02A00AE345D /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844519FD284BC02A00AE345D /* NoteViewController.swift */; };
 		84451A0C284BC59400AE345D /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84451A0B284BC59400AE345D /* NoteView.swift */; };
-		844FAD21285BA44400C791C0 /* NoteListWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FAD20285BA44200C791C0 /* NoteListWorkerTests.swift */; };
 		846353CF2857ADB100DCD9B6 /* TraineeAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846353CE2857ADB100DCD9B6 /* TraineeAppTests.swift */; };
 		846353DF2857BADE00DCD9B6 /* NoteListInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846353DB2857BA8500DCD9B6 /* NoteListInteractorTests.swift */; };
 		846353E02857BAE100DCD9B6 /* NoteListPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846353DD2857BA9400DCD9B6 /* NoteListPresenterTests.swift */; };
@@ -32,6 +31,7 @@
 		84C7CF5828491F140050DE4C /* NoteListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF5728491F140050DE4C /* NoteListRouter.swift */; };
 		84C7CF5A28491F860050DE4C /* NoteListWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF5928491F850050DE4C /* NoteListWorker.swift */; };
 		84C7CF5C284924270050DE4C /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C7CF5B284924270050DE4C /* NoteCellView.swift */; };
+		84CC59042860BAA90086475A /* NoteListWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC59032860BAA90086475A /* NoteListWorkerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +55,6 @@
 		8438BC17285CC6220001346D /* NoteListInteractorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListInteractorMock.swift; sourceTree = "<group>"; };
 		844519FD284BC02A00AE345D /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		84451A0B284BC59400AE345D /* NoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
-		844FAD20285BA44200C791C0 /* NoteListWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListWorkerTests.swift; sourceTree = "<group>"; };
 		846353CC2857ADB000DCD9B6 /* Trainee appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Trainee appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		846353CE2857ADB100DCD9B6 /* TraineeAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraineeAppTests.swift; sourceTree = "<group>"; };
 		846353D62857AF8D00DCD9B6 /* NoteListPresenterMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListPresenterMock.swift; sourceTree = "<group>"; };
@@ -73,6 +72,7 @@
 		84C7CF5728491F140050DE4C /* NoteListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListRouter.swift; sourceTree = "<group>"; };
 		84C7CF5928491F850050DE4C /* NoteListWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListWorker.swift; sourceTree = "<group>"; };
 		84C7CF5B284924270050DE4C /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
+		84CC59032860BAA90086475A /* NoteListWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListWorkerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,7 +165,7 @@
 			children = (
 				846353DB2857BA8500DCD9B6 /* NoteListInteractorTests.swift */,
 				846353DD2857BA9400DCD9B6 /* NoteListPresenterTests.swift */,
-				844FAD20285BA44200C791C0 /* NoteListWorkerTests.swift */,
+				84CC59032860BAA90086475A /* NoteListWorkerTests.swift */,
 			);
 			path = NoteListSceneTests;
 			sourceTree = "<group>";
@@ -379,10 +379,10 @@
 				846353E72857CA1300DCD9B6 /* NoteListDisplayMock.swift in Sources */,
 				846353DF2857BADE00DCD9B6 /* NoteListInteractorTests.swift in Sources */,
 				846353E12857BAE900DCD9B6 /* NoteListPresenterMock.swift in Sources */,
-				844FAD21285BA44400C791C0 /* NoteListWorkerTests.swift in Sources */,
 				846353E22857BAEB00DCD9B6 /* NoteListWorkerMock.swift in Sources */,
 				8438BC18285CC6220001346D /* NoteListInteractorMock.swift in Sources */,
 				846353CF2857ADB100DCD9B6 /* TraineeAppTests.swift in Sources */,
+				84CC59042860BAA90086475A /* NoteListWorkerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -46,6 +46,7 @@ final class HomeInteractorTests: XCTestCase {
             expectation.fulfill()
         }
         sut.requestInitForm(request)
+        XCTAssertTrue(presenter.responseMock == worker.testResponse, "Массив должен быть одинаковым в случае саксесс")
         wait(for: [expectation], timeout: 1.0)
     }
 
@@ -57,11 +58,11 @@ final class HomeInteractorTests: XCTestCase {
         DispatchQueue.main.async {
             XCTAssertTrue(
                 self.worker.isCalledFetchFunc,
-                "Метод получения погоды должен быть вызыван, ждем флаг true"
+                "Метод воркера должен быть вызван"
             )
             XCTAssertTrue(
                 self.presenter.isCalledPresentNotes,
-                "Получили город. Ждем флаг true"
+                "Получили заметки -> отдали в презентер"
             )
             expectation.fulfill()
         }

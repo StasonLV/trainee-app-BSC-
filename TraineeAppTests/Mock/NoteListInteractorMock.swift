@@ -11,6 +11,10 @@ import Foundation
 final class NoteListInteractorMock: NoteListBusinessLogic {
     private(set) var didRequestInitFormCalled = false
     private(set) var didRequestDeletionCalled = false
+    private(set) var didNormalResponseCalled = false
+    private(set) var didNetworkErrorCalled = false
+    private(set) var didDecodeErrorCalled = false
+
     var fetchResponse: (() -> Void)?
     let testResponse: [NoteListCleanModel.FetchData.Response] = [
         NoteListCleanModel.FetchData.Response(
@@ -32,5 +36,15 @@ final class NoteListInteractorMock: NoteListBusinessLogic {
 
     func requestInitForm(_ request: NoteListCleanModel.InitForm.Request) {
         didRequestInitFormCalled = true
+    }
+    
+    func normalResponse(_ response: [NoteListCleanModel.FetchData.Response]) {
+        didNormalResponseCalled = true
+    }
+    func decodeErrorResponse() {
+        didDecodeErrorCalled = true
+    }
+    func networkErrorResponse() {
+        didNetworkErrorCalled = true
     }
 }

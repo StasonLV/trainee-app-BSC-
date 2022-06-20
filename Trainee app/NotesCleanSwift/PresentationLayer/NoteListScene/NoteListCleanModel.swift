@@ -28,7 +28,7 @@ enum NoteListCleanModel {
     enum FetchData {
         struct Request {}
 
-        struct Response: Codable {
+        struct Response: Codable, Equatable {
             var header: String?
             var text: String?
             var date: Date?

@@ -13,7 +13,7 @@ final class NoteListPresentationLogicMock: NoteListPresentationLogic {
     private(set) var isCalledPresentDeletedNotes = false
     private(set) var isCalledDecodeAlert = false
     private(set) var isCalledNetworkAlert = false
-    var responseMock: [NoteListCleanModel.FetchData.Response]?
+    var responseMock = [NoteListCleanModel.FetchData.Response]()
     var responseDeletionMock: NoteListCleanModel.DeleteData.Response?
     var fetchResponse: (() -> Void)?
 
