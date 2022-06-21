@@ -28,11 +28,18 @@ final class NoteListPresenter: NoteListPresentationLogic {
                 title: $0.header,
                 noteText: $0.text,
                 date: $0.date,
-//                userShareIcon: $0.userShareIcon,
                 userImage: UIImage(data: $0.userImage),
                 selectionState: false
             )
         }
         view?.displayInitForm(viewModel)
+    }
+
+    func presentDecodeAlert() {
+        view?.presentDecodeAlert()
+    }
+
+    func presentConnectAlert() {
+        view?.presentConnectionAlert()
     }
 }

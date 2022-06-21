@@ -27,11 +27,15 @@ protocol NoteListWorkerLogic {
 protocol NoteListPresentationLogic {
     func presentDeletedNotes(_ response: NoteListCleanModel.DeleteData.Response)
     func presentFetchedNotes(_ response: [NoteListCleanModel.FetchData.Response])
+    func presentDecodeAlert()
+    func presentConnectAlert()
 }
 
 protocol NoteListDisplayLogic: AnyObject {
     func presentDeletedNotes(_ response: [NoteListCleanModel.FetchData.ViewModel])
     func displayInitForm(_ viewModel: [NoteListCleanModel.FetchData.ViewModel])
+    func presentConnectionAlert()
+    func presentDecodeAlert()
 }
 
 protocol NoteListRoutingLogic {

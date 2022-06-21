@@ -303,4 +303,12 @@ extension NoteListViewController: NoteListDisplayLogic {
     private func initForm() {
         self.interactor.requestInitForm(NoteListCleanModel.InitForm.Request())
     }
+
+    func presentConnectionAlert() {
+        self.present(InteractorAlerts.connectionAlert, animated: true)
+    }
+
+    func presentDecodeAlert() {
+        self.present(InteractorAlerts.decodingAlert, animated: true)
+    }
 }
