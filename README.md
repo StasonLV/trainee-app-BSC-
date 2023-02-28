@@ -1,4 +1,4 @@
-https://img.shields.io/badge/<Language>-<Swift>-<9cf>
+https://img.shields.io/badge/Language-Swift-9cf
 # Приложение "Заметка"
 
 Приложение для сохранения и ведения заметок.
