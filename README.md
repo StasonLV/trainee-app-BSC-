@@ -5,6 +5,8 @@
 ![Storage UserDefaults](https://user-images.githubusercontent.com/98527464/221847501-30732878-53e5-403a-a987-2b441ae9f5db.svg)
 ![Tests Passed](https://user-images.githubusercontent.com/98527464/221847489-8a197db3-31f0-4368-8404-9b89004b3e39.svg)
 
+[![2023-03-30-131716.png](https://i.postimg.cc/fRFbvJsK/2023-03-30-131716.png)](https://postimg.cc/rD1cVyK0)
+
 # Приложение "Заметка"
 
 Приложение для сохранения и ведения заметок.
